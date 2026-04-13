@@ -422,7 +422,16 @@ function col(l){
   if(!isNaN(l))return parseInt(l)-1;
   let n=0;for(let c of l)n=n*26+c.charCodeAt(0)-64;return n-1;
 }
-function parseNum(s){if(!s&&s!==0)return 0;return parseFloat(s.toString().replace(/[^\d,.-]/g,'').replace(',','.'))||0;}
+function parseNum(s){
+  if(!s&&s!==0)return 0;
+  s=s.toString().trim();
+  if(!s)return 0;
+  // Formato BR: 1.234.567,89 → remove pontos, troca vírgula por ponto
+  if(s.indexOf(',')>-1){
+    s=s.replace(/\./g,'').replace(',','.');
+  }
+  return parseFloat(s.replace(/[^\d.-]/g,''))||0;
+}
 function parseDate(s){
   if(!s)return null;s=s.toString().trim();
   let m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);
