@@ -1,423 +1,1078 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-    <title>Minimal NPS — Moon Ventures</title>
-    
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-    
-    <style>
-        [data-theme="dark"]{--bg:#080e1a;--bg2:#0f1826;--bg3:#162033;--border:#1a2d45;--border2:#203550;--text:#eef2ff;--muted:#3a4f6e;--muted2:#5a7a9e;--card:#0f1826;--hdr:rgba(8,14,26,.96)}
-        [data-theme="light"]{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef5;--border:#d0dbe8;--border2:#b8ccde;--text:#0f1826;--muted:#8aa4bf;--muted2:#6a8aaa;--card:#ffffff;--hdr:rgba(255,255,255,.96)}
-        :root{--green:#00e084;--blue:#3d9eff;--red:#ff4060;--warn:#ffb820;--font:'Plus Jakarta Sans',sans-serif}
-        
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden}
-        
-        /* Login */
-        #login-screen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;text-align:center}
-        .lbtn{background:#fff;color:#111;border:none;border-radius:12px;padding:15px 30px;font-weight:700;cursor:pointer;font-size:16px}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Minimal NPS — Dashboard</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+[data-theme="dark"]{--bg:#080e1a;--bg2:#0f1826;--bg3:#162033;--border:#1a2d45;--border2:#203550;--text:#eef2ff;--muted:#3a4f6e;--muted2:#5a7a9e;--card:#0f1826;--hdr:rgba(8,14,26,.96)}
+[data-theme="light"]{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef5;--border:#d0dbe8;--border2:#b8ccde;--text:#0f1826;--muted:#8aa4bf;--muted2:#6a8aaa;--card:#ffffff;--hdr:rgba(255,255,255,.96)}
+:root{--green:#00e084;--gdim:rgba(0,224,132,.13);--blue:#3d9eff;--bdim:rgba(61,158,255,.12);--red:#ff4060;--rdim:rgba(255,64,96,.13);--warn:#ffb820;--wdim:rgba(255,184,32,.13);--font:'Plus Jakarta Sans',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;font-family:var(--font)}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .25s,color .15s}
 
-        /* Layout */
-        header{display:flex;align-items:center;justify-content:space-between;padding:15px 24px;background:var(--hdr);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-        .h-logo{display:flex;align-items:center;gap:12px}
-        .m-logo{width:32px;height:32px;background:#fff;color:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center}
+.lbox{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+.licon{width:68px;height:68px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#000;letter-spacing:-1px}
+.ltitle{font-size:36px;font-weight:800;letter-spacing:-.5px}
+.lsub{font-size:11px;color:var(--muted2);letter-spacing:.2em;text-transform:uppercase}
+.ldesc{font-size:14px;color:var(--muted2);line-height:1.6;max-width:300px}
+.lbtn{display:flex;align-items:center;gap:12px;background:#fff;color:#111;border:none;border-radius:14px;padding:14px 30px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,.25);transition:all .2s}
+.lbtn:hover{transform:translateY(-2px)}
 
-        /* Filtros de Data Precisos */
-        .filter-bar{display:flex;align-items:center;gap:12px;padding:12px 24px;background:var(--bg2);border-bottom:1px solid var(--border);flex-wrap:wrap}
-        .f-input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-family:var(--font);font-size:13px}
+/* LAYOUT */
+#app{display:none;flex-direction:column;height:100%}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--hdr);backdrop-filter:blur(16px);flex-shrink:0;gap:10px;flex-wrap:wrap}
+.hlogo{display:flex;align-items:center;gap:10px}
+.hico{width:34px;height:34px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;letter-spacing:-1px;flex-shrink:0}
+.htitle{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.hsub{font-size:9px;color:var(--muted2);letter-spacing:.16em;text-transform:uppercase}
+.hright{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ubadge{font-size:10px;font-weight:600;color:var(--muted2);background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+.ibtn{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.ibtn:hover{background:var(--border)}
+.upill{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer;font-size:12px;font-weight:600}
+.av{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;overflow:hidden;flex-shrink:0}
+.av img{width:100%;height:100%;object-fit:cover}
 
-        main{padding:24px}
-        
-        /* KPIs */
-        .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:24px}
-        .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative}
-        .kpi-card.highlight{border-color:var(--green);background:linear-gradient(145deg, rgba(0,224,132,0.05) 0%, var(--card) 100%)}
-        .kpi-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);margin-bottom:8px;font-weight:700}
-        .kpi-value{font-size:32px;font-weight:800}
-        .kpi-sub{font-size:12px;margin-top:8px;color:var(--muted2)}
-        .ytd-badge{display:inline-block;padding:2px 8px;background:var(--bg3);border-radius:6px;font-weight:700;color:var(--green)}
+/* FILTROS */
+.fbar{display:flex;align-items:center;gap:6px;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
+.flbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);white-space:nowrap}
+.fsep{width:1px;height:20px;background:var(--border);margin:0 2px}
+.fsel{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;font-family:var(--font);outline:none;cursor:pointer;transition:border-color .15s;max-width:150px}
+.fsel:focus{border-color:var(--green)}
+.fdate{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:5px 8px;font-size:12px;font-weight:600;font-family:var(--font);outline:none;cursor:pointer;transition:border-color .15s;width:130px}
+.fdate:focus{border-color:var(--green)}
+.fdate.active{border-color:var(--warn)!important;background:rgba(255,184,32,.08)}
+.fdate-label{font-size:10px;color:var(--muted2);font-weight:600}
+.freset{background:none;border:1px solid var(--border);color:var(--muted2);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.freset:hover{border-color:var(--green);color:var(--green)}
+.f-count{font-size:11px;color:var(--muted2)}
 
-        /* Segmentos Varejo/Assinatura */
-        .analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
-        .seg-card{background:var(--bg3);padding:16px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
-        
-        /* Gráficos */
-        .chart-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:24px}
-        .chart-header{margin-bottom:16px}
-        .chart-title{font-size:15px;font-weight:800}
+main{flex:1;overflow-y:auto;padding:20px 24px}
 
-        /* Tabela Resposta + Tag */
-        .table-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-        table{width:100%;border-collapse:collapse}
-        th{background:var(--bg3);padding:12px 16px;text-align:left;font-size:11px;text-transform:uppercase;color:var(--muted2)}
-        td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--border)}
-        .tag-pill{background:var(--border);padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap}
-        .resp-text{color:var(--text);line-height:1.4}
+/* KPIs */
+.krow{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}
+.kcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;transition:border-color .2s}
+.kcard.acc{border-color:rgba(0,224,132,.35);background:linear-gradient(135deg,rgba(0,224,132,.07),var(--card) 70%)}
+.kcard.acc2{border-color:rgba(255,184,32,.3);background:linear-gradient(135deg,rgba(255,184,32,.06),var(--card) 70%)}
+.klbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.klbl-sub{font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+.kval{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1}
+.kval.g{color:var(--green)}.kval.b{color:var(--blue)}.kval.r{color:var(--red)}.kval.w{color:var(--warn)}
+.ksub{font-size:11px;color:var(--muted2);margin-top:5px;font-weight:500}
+.nps-big{font-size:40px;font-weight:800;letter-spacing:-2px;line-height:1}
+.nzone{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-top:6px}
+.zc{background:rgba(255,64,96,.15);color:var(--red)}.zi{background:rgba(255,184,32,.15);color:var(--warn)}
+.zg{background:rgba(61,158,255,.15);color:var(--blue)}.zo{background:rgba(0,224,132,.15);color:var(--green)}.ze{background:rgba(167,139,250,.15);color:#a78bfa}
 
-        #overlay{position:fixed;inset:0;background:rgba(8,14,26,0.9);display:none;align-items:center;justify-content:center;z-index:2000;flex-direction:column;gap:15px}
-        .spinner{width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
-    </style>
+/* PANELS */
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+.ptitle{font-size:13px;font-weight:800;letter-spacing:-.2px;margin-bottom:3px}
+.psub{font-size:11px;color:var(--muted2);margin-bottom:14px;font-weight:500}
+.cwrap{position:relative}
+
+/* DONUT */
+.donut-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.donut-center{position:absolute;text-align:center}
+.dbig{font-size:28px;font-weight:800;letter-spacing:-1px}
+.dlbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-top:2px}
+.legend{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.legr{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.legl{display:flex;align-items:center;gap:7px}
+.legdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.legname{font-size:12px;font-weight:600}
+.legpct{font-size:12px;font-weight:700;color:var(--muted2);white-space:nowrap}
+.legbw{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;min-width:40px}
+.legb{height:100%;border-radius:2px;transition:width 1.2s ease}
+
+/* TYPE ANALYSIS CARDS */
+.type-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+.type-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.type-nps{font-size:46px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:4px}
+.type-total{font-size:12px;color:var(--muted2);margin-bottom:14px;font-weight:500}
+.type-bars{display:flex;flex-direction:column;gap:8px}
+.type-bar-row{display:flex;align-items:center;gap:8px}
+.type-bar-lbl{font-size:11px;font-weight:600;width:74px;flex-shrink:0}
+.type-bar-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+.type-bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.type-bar-val{font-size:11px;font-weight:700;color:var(--muted2);width:70px;text-align:right;flex-shrink:0;white-space:nowrap}
+
+/* TAG CHART PANELS */
+.tag-chart-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.tag-chart-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tag-chart-title{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.tag-chart-title.p{color:var(--green)}.tag-chart-title.n{color:var(--blue)}.tag-chart-title.d{color:var(--red)}
+.tag-chart-cnt{font-size:18px;font-weight:800}
+.tag-chart-body{padding:12px 16px 16px}
+.tag-chart-hint{font-size:10px;color:var(--muted);text-align:right;margin-bottom:4px;font-style:italic}
+
+/* TAG RESPONSE MODAL */
+#tag-modal-bg{position:fixed;inset:0;background:rgba(8,14,26,.87);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.tag-modal-box{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:28px;max-width:640px;width:95%;max-height:82vh;display:flex;flex-direction:column;position:relative}
+.tag-modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:1px solid var(--border);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--muted2);transition:color .15s;flex-shrink:0}
+.tag-modal-close:hover{color:var(--text)}
+.tag-modal-title{font-size:17px;font-weight:800;margin-bottom:3px;padding-right:36px}
+.tag-modal-sub{font-size:12px;color:var(--muted2);margin-bottom:16px;font-weight:500}
+.tag-resp-list{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px}
+.tag-resp-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.tag-resp-meta{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.tag-resp-sent{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.tag-resp-sent.p{background:var(--gdim);color:var(--green)}.tag-resp-sent.n{background:var(--bdim);color:var(--blue)}.tag-resp-sent.d{background:var(--rdim);color:var(--red)}
+.tag-resp-nota{font-size:12px;font-weight:700}
+.tag-resp-date{font-size:10px;color:var(--muted2)}
+.tag-resp-text{font-size:13px;line-height:1.65;color:var(--text)}
+.tag-resp-empty{text-align:center;padding:32px;color:var(--muted2);font-size:13px}
+
+/* COMMENTS */
+.comm-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.comm-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.comm-title{font-size:14px;font-weight:800}
+.comm-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cbtn{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);color:var(--muted2);transition:all .15s}
+.cbtn:hover{border-color:var(--border2);color:var(--text)}
+.cbtn.active{border-color:var(--green);color:var(--green);background:rgba(0,224,132,.08)}
+.cbtn.active-p{border-color:var(--green);color:var(--green);background:rgba(0,224,132,.08)}
+.cbtn.active-n{border-color:var(--blue);color:var(--blue);background:rgba(61,158,255,.08)}
+.cbtn.active-d{border-color:var(--red);color:var(--red);background:rgba(255,64,96,.08)}
+.comm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:14px;max-height:380px;overflow-y:auto}
+.comm-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.comm-card:hover{border-color:var(--border2)}
+.comm-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:6px}
+.comm-sent{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.comm-sent.p{background:var(--gdim);color:var(--green)}.comm-sent.n{background:var(--bdim);color:var(--blue)}.comm-sent.d{background:var(--rdim);color:var(--red)}
+.comm-nota{font-size:13px;font-weight:800}
+.comm-nota.g{color:var(--green)}.comm-nota.b{color:var(--blue)}.comm-nota.r{color:var(--red)}
+.comm-tag{font-size:10px;color:var(--muted2);font-weight:600;margin-bottom:6px}
+.comm-text{font-size:12px;line-height:1.6;color:var(--text)}
+.comm-date{font-size:10px;color:var(--muted2);margin-top:6px}
+.comm-empty{padding:32px;text-align:center;color:var(--muted2);font-size:13px}
+
+/* MAIN TABLE */
+.tcard{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.thead-r{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap}
+.ttitle{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.tsearch{background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:6px 12px;color:var(--text);font-family:var(--font);font-size:12px;outline:none;width:200px;transition:border-color .2s}
+.tsearch:focus{border-color:var(--green)}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);background:var(--bg3);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(26,45,69,.35);transition:background .12s}
+[data-theme="light"] tbody tr{border-bottom:1px solid rgba(0,0,0,.05)}
+tbody tr:last-child{border-bottom:none}tbody tr:hover{background:var(--bg3)}
+tbody td{padding:10px 16px;font-size:12px;font-weight:500}
+.tdm{color:var(--muted2)}
+.pill{display:inline-flex;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.pp{background:var(--gdim);color:var(--green)}.pd{background:var(--rdim);color:var(--red)}.pn{background:var(--bdim);color:var(--blue)}.pz{background:var(--bg3);color:var(--muted2)}
+.td-comm{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:var(--muted2)}
+.td-comm:hover{color:var(--text)}
+
+/* MODAL COMENTÁRIO */
+#modal-bg{position:fixed;inset:0;background:rgba(8,14,26,.85);z-index:400;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.modal-box{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:28px;max-width:500px;width:90%;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:1px solid var(--border);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--muted2)}
+.modal-close:hover{color:var(--text)}
+.modal-sent{display:inline-flex;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:14px}
+.modal-nota{font-size:42px;font-weight:800;margin-bottom:4px}
+.modal-tag{font-size:13px;color:var(--muted2);margin-bottom:16px}
+.modal-text{font-size:15px;line-height:1.7;color:var(--text);padding:16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border)}
+.modal-meta{display:flex;gap:16px;margin-top:14px;font-size:11px;color:var(--muted2);flex-wrap:wrap}
+
+/* OVERLAY */
+#overlay{position:fixed;inset:0;background:rgba(8,14,26,.8);z-index:100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);flex-direction:column;gap:14px}
+.spin{width:44px;height:44px;border:3px solid var(--border2);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+.ovtxt{font-size:13px;font-weight:600;color:var(--muted2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;font-weight:600;z-index:600;opacity:0;transform:translateY(8px);transition:all .25s;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateY(0)}.toast.ok{border-color:var(--green);color:var(--green)}.toast.err{border-color:var(--red);color:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:1300px){.krow{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1100px){.g21{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.krow{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:14px 16px}header,.fbar{padding:8px 16px}}
+</style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="login-screen">
-    <div>
-        <div class="m-logo" style="margin:0 auto 20px; width:60px; height:60px; font-size:30px">M.</div>
-        <h1 style="margin-bottom:20px">Minimal NPS</h1>
-        <button class="lbtn" onclick="handleAuthClick()">Entrar com Google Workspace</button>
-    </div>
+  <div class="lbox">
+    <div class="licon">M.</div>
+    <div><div class="ltitle">Minimal NPS</div><div class="lsub">Dashboard de Satisfação</div></div>
+    <div class="ldesc">Faça login com sua conta Google para acessar os dados de NPS.</div>
+    <button class="lbtn" onclick="doAuth()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Entrar com Google
+    </button>
+  </div>
 </div>
 
-<div id="overlay"><div class="spinner"></div><p id="loading-msg">Sincronizando dados...</p></div>
+<!-- OVERLAY -->
+<div id="overlay"><div class="spin"></div><div class="ovtxt" id="ovtxt">Carregando dados...</div></div>
 
-<div id="app" style="display:none">
-    <header>
-        <div class="h-logo">
-            <div class="m-logo">M.</div>
-            <div>
-                <div style="font-weight:800; font-size:18px">Minimal NPS</div>
-                <div id="sync-status" style="font-size:10px; color:var(--muted2)">Atualizado agora</div>
-            </div>
-        </div>
-        <div style="display:flex; gap:10px">
-            <button class="f-input" onclick="toggleTheme()">🌓 Modo</button>
-            <button class="f-input" style="background:var(--green); color:#000; font-weight:700" onclick="refreshData()">↻ Atualizar Planilha</button>
-        </div>
-    </header>
+<!-- MODAL COMENTÁRIO -->
+<div id="modal-bg" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-close" onclick="document.getElementById('modal-bg').style.display='none'">✕</div>
+    <div class="modal-sent" id="m-sent"></div>
+    <div class="modal-nota" id="m-nota"></div>
+    <div class="modal-tag" id="m-tag"></div>
+    <div class="modal-text" id="m-text">—</div>
+    <div class="modal-meta" id="m-meta"></div>
+  </div>
+</div>
 
-    <div class="filter-bar">
-        <div>
-            <span class="kpi-label" style="margin-right:8px">Período:</span>
-            <input type="date" id="date-start" class="f-input" onchange="applyFilters()">
-            <input type="date" id="date-end" class="f-input" onchange="applyFilters()">
-        </div>
-        <select id="filter-tipo" class="f-input" onchange="applyFilters()">
-            <option value="">Todos os Tipos</option>
-        </select>
-        <select id="filter-prod" class="f-input" onchange="applyFilters()">
-            <option value="">Todos os Produtos</option>
-        </select>
-        <button onclick="resetFilters()" style="background:none; border:none; color:var(--red); font-size:12px; cursor:pointer">Limpar Filtros</button>
+<!-- MODAL TAG → RESPOSTAS -->
+<div id="tag-modal-bg" onclick="closeTagModal(event)">
+  <div class="tag-modal-box">
+    <div class="tag-modal-close" onclick="document.getElementById('tag-modal-bg').style.display='none'">✕</div>
+    <div class="tag-modal-title" id="tm-title"></div>
+    <div class="tag-modal-sub" id="tm-sub"></div>
+    <div class="tag-resp-list" id="tm-list"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;flex-direction:column;height:100%">
+  <header>
+    <div class="hlogo">
+      <div class="hico">M.</div>
+      <div><div class="htitle">Minimal NPS</div><div class="hsub">Moon Ventures · Dashboard de Satisfação</div></div>
+      <div class="ubadge" id="ubadge">—</div>
+    </div>
+    <div class="hright">
+      <button class="ibtn" onclick="refreshAll()">↻ Atualizar</button>
+      <button class="ibtn" onclick="toggleTheme()" id="theme-btn">🌙</button>
+      <button class="ibtn" onclick="exportCSV()">⬇ CSV</button>
+      <div class="upill" onclick="logout()"><div class="av" id="av">?</div><span id="uname">Usuário</span></div>
+    </div>
+  </header>
+
+  <!-- FILTROS -->
+  <div class="fbar">
+    <span class="flbl">Período</span>
+    <select class="fsel" id="f-ano" onchange="onAnoMesChange()"><option value="">Todos os anos</option></select>
+    <select class="fsel" id="f-mes" onchange="onAnoMesChange()">
+      <option value="">Todos os meses</option>
+      <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+      <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+      <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+      <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+    </select>
+    <div class="fsep"></div>
+    <span class="flbl" style="color:var(--warn)">ou período</span>
+    <span class="fdate-label">De</span>
+    <input type="date" class="fdate" id="f-de" onchange="onDateRangeChange()"/>
+    <span class="fdate-label">Até</span>
+    <input type="date" class="fdate" id="f-ate" onchange="onDateRangeChange()"/>
+    <div class="fsep"></div>
+    <span class="flbl">Filtros</span>
+    <select class="fsel" id="f-tipo" onchange="applyFilters()"><option value="">Todos os tipos</option></select>
+    <select class="fsel" id="f-sent" onchange="applyFilters()">
+      <option value="">Todos sentimentos</option>
+      <option value="Promotor">Promotores</option>
+      <option value="Passivo">Passivos</option>
+      <option value="Detrator">Detratores</option>
+    </select>
+    <select class="fsel" id="f-prod" onchange="applyFilters()"><option value="">Todos os produtos</option></select>
+    <select class="fsel" id="f-nota" onchange="applyFilters()">
+      <option value="">Todas as notas</option>
+      <option value="0">Nota 0</option><option value="1">Nota 1</option><option value="2">Nota 2</option>
+      <option value="3">Nota 3</option><option value="4">Nota 4</option><option value="5">Nota 5</option>
+      <option value="6">Nota 6</option><option value="7">Nota 7</option><option value="8">Nota 8</option>
+      <option value="9">Nota 9</option><option value="10">Nota 10</option>
+    </select>
+    <div class="fsep"></div>
+    <button class="freset" onclick="resetFilters()">✕ Limpar</button>
+    <span class="f-count" id="f-count"></span>
+  </div>
+
+  <main>
+    <!-- KPIs -->
+    <div class="krow">
+      <div class="kcard acc">
+        <div class="klbl">NPS Score</div>
+        <div class="nps-big g" id="k-nps">—</div>
+        <div id="k-zone" style="margin-top:6px"></div>
+      </div>
+      <div class="kcard acc2">
+        <div class="klbl">NPS do Ano <span class="klbl-sub" id="k-ano-lbl"></span></div>
+        <div class="nps-big w" id="k-nps-ano">—</div>
+        <div class="ksub" id="k-ano-sub">acumulado do ano</div>
+      </div>
+      <div class="kcard"><div class="klbl">Total Respostas</div><div class="kval b" id="k-tot">—</div><div class="ksub">avaliações no período</div></div>
+      <div class="kcard"><div class="klbl">Promotores</div><div class="kval g" id="k-prom">—</div><div class="ksub" id="k-prom-s">—</div></div>
+      <div class="kcard"><div class="klbl">Passivos</div><div class="kval b" id="k-pass">—</div><div class="ksub" id="k-pass-s">—</div></div>
+      <div class="kcard"><div class="klbl">Detratores</div><div class="kval r" id="k-detr">—</div><div class="ksub" id="k-detr-s">—</div></div>
     </div>
 
-    <main>
-        <div class="kpi-grid">
-            <div class="kpi-card highlight">
-                <div class="kpi-label">NPS do Período</div>
-                <div class="kpi-value" id="val-nps">--</div>
-                <div class="kpi-sub">Acumulado 2026: <span class="ytd-badge" id="val-ytd">--</span></div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Total Respostas</div>
-                <div class="kpi-value" id="val-total">--</div>
-                <div class="kpi-sub" id="val-periodo">Respostas filtradas</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Promotores</div>
-                <div class="kpi-value" style="color:var(--green)" id="val-prom">--</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">Detratores</div>
-                <div class="kpi-value" style="color:var(--red)" id="val-detr">--</div>
-            </div>
-        </div>
+    <!-- ANÁLISE POR TIPO DE CLIENTE -->
+    <div class="g2" id="type-analysis-section"></div>
 
-        <div class="analysis-grid">
-            <div class="seg-card">
-                <div>
-                    <div class="kpi-label">Segmento Varejo</div>
-                    <div class="kpi-value" id="nps-varejo">--</div>
-                </div>
-                <div style="text-align:right">
-                    <div id="vol-varejo" style="font-weight:700">0</div>
-                    <div class="kpi-sub">respostas</div>
-                </div>
-            </div>
-            <div class="seg-card">
-                <div>
-                    <div class="kpi-label">Segmento Assinatura</div>
-                    <div class="kpi-value" id="nps-assinatura">--</div>
-                </div>
-                <div style="text-align:right">
-                    <div id="vol-assinatura" style="font-weight:700">0</div>
-                    <div class="kpi-sub">respostas</div>
-                </div>
-            </div>
+    <!-- EVOLUÇÃO + DONUT -->
+    <div class="g21">
+      <div class="panel">
+        <div class="ptitle">Evolução do NPS</div>
+        <div class="psub">Score mensal — NPS = % Promotores − % Detratores × 100</div>
+        <div class="cwrap" style="height:240px"><canvas id="c-line"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="ptitle">Distribuição</div>
+        <div class="psub">% no período selecionado</div>
+        <div class="donut-wrap" style="height:170px">
+          <canvas id="c-donut"></canvas>
+          <div class="donut-center"><div class="dbig" id="d-nps">—</div><div class="dlbl">NPS</div></div>
         </div>
+        <div class="legend" id="d-leg"></div>
+      </div>
+    </div>
 
-        <div class="chart-panel">
-            <div class="chart-header">
-                <div class="chart-title">Volume de Respostas por Dia</div>
-            </div>
-            <div style="height:250px"><canvas id="chart-volume"></canvas></div>
-        </div>
+    <!-- VOLUME POR DIA -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="ptitle">Volume de Respostas por Dia</div>
+      <div class="psub">Promotores · Passivos · Detratores — total exibido sobre cada barra</div>
+      <div class="cwrap" style="height:210px"><canvas id="c-bar"></canvas></div>
+    </div>
 
-        <div class="chart-panel">
-            <div class="chart-header">
-                <div class="chart-title">Análise de Motivos (Tags)</div>
-            </div>
-            <div style="height:350px"><canvas id="chart-tags"></canvas></div>
+    <!-- TAG BAR CHARTS -->
+    <div class="g3">
+      <div class="tag-chart-panel">
+        <div class="tag-chart-header">
+          <div class="tag-chart-title p">😊 Promotores</div>
+          <div class="tag-chart-cnt" id="tg-cnt-p" style="color:var(--green)">—</div>
         </div>
+        <div class="tag-chart-body">
+          <div class="tag-chart-hint">↖ clique para ver respostas</div>
+          <div class="cwrap" id="wrap-tag-prom" style="height:260px"><canvas id="c-tag-prom"></canvas></div>
+        </div>
+      </div>
+      <div class="tag-chart-panel">
+        <div class="tag-chart-header">
+          <div class="tag-chart-title n">😐 Passivos</div>
+          <div class="tag-chart-cnt" id="tg-cnt-n" style="color:var(--blue)">—</div>
+        </div>
+        <div class="tag-chart-body">
+          <div class="tag-chart-hint">↖ clique para ver respostas</div>
+          <div class="cwrap" id="wrap-tag-pass" style="height:260px"><canvas id="c-tag-pass"></canvas></div>
+        </div>
+      </div>
+      <div class="tag-chart-panel">
+        <div class="tag-chart-header">
+          <div class="tag-chart-title d">😞 Detratores</div>
+          <div class="tag-chart-cnt" id="tg-cnt-d" style="color:var(--red)">—</div>
+        </div>
+        <div class="tag-chart-body">
+          <div class="tag-chart-hint">↖ clique para ver respostas</div>
+          <div class="cwrap" id="wrap-tag-detr" style="height:260px"><canvas id="c-tag-detr"></canvas></div>
+        </div>
+      </div>
+    </div>
 
-        <div class="table-wrap">
-            <div style="padding:16px; font-weight:800; border-bottom:1px solid var(--border)">Feedbacks Detalhados</div>
-            <div style="max-height:500px; overflow-y:auto">
-                <table id="main-table">
-                    <thead>
-                        <tr>
-                            <th style="width:100px">Data</th>
-                            <th style="width:60px">Nota</th>
-                            <th style="width:150px">Tag / Motivo</th>
-                            <th>Resposta do Cliente</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body"></tbody>
-                </table>
-            </div>
+    <!-- DISTRIBUIÇÃO DE NOTAS -->
+    <div class="panel" style="margin-bottom:16px">
+      <div class="ptitle">Distribuição de Notas</div>
+      <div class="psub">Quantidade por nota 0–10</div>
+      <div class="cwrap" style="height:200px"><canvas id="c-notas"></canvas></div>
+    </div>
+
+    <!-- COMENTÁRIOS -->
+    <div class="comm-panel">
+      <div class="comm-header">
+        <div class="comm-title">Comentários</div>
+        <div class="comm-filters">
+          <button class="cbtn active" id="cf-all" onclick="filterComm('all')">Todos</button>
+          <button class="cbtn" id="cf-p" onclick="filterComm('Promotor')">Promotores</button>
+          <button class="cbtn" id="cf-n" onclick="filterComm('Passivo')">Passivos</button>
+          <button class="cbtn" id="cf-d" onclick="filterComm('Detrator')">Detratores</button>
+          <input class="tsearch" id="comm-search" placeholder="Buscar comentário..." oninput="filterComm(currentCommFilter)" style="width:180px;margin-left:4px"/>
         </div>
-    </main>
+      </div>
+      <div class="comm-grid" id="comm-grid"></div>
+    </div>
+
+    <!-- TABELA RESPOSTAS -->
+    <div class="tcard">
+      <div class="thead-r">
+        <div class="ttitle">Todas as Respostas</div>
+        <input class="tsearch" id="t-search" placeholder="Buscar cliente, tag, comentário..." oninput="filterTable()"/>
+      </div>
+      <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+        <table>
+          <thead><tr><th>Data</th><th>Sentimento</th><th>Nota</th><th>Tipo</th><th>Tag</th><th>Produto</th><th>Comentário</th></tr></thead>
+          <tbody id="t-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
-const CONFIG = {
-    sheetId: '1KTRpPC2kFtlVmS_hTudXSZPTYd5REd2CyTs6Kzv1Hs0',
-    clientId: '733299240630-jkfu1m1relndv46vig1q94hmb6a3l33j.apps.googleusercontent.com',
-    range: 'Base Minimal NPS!A:V'
+const CFG={
+  clientId:'733299240630-jkfu1m1relndv46vig1q94hmb6a3l33j.apps.googleusercontent.com',
+  sheetId:'1KTRpPC2kFtlVmS_hTudXSZPTYd5REd2CyTs6Kzv1Hs0',
+  tab:'Base Minimal NPS'
 };
 
-let RAW_DATA = [];
-let FILTERED_DATA = [];
-let CHARTS = {};
-let tokenClient;
-let accessToken = null;
+let TOKEN=null, RAW=[], FILTERED=[], YEAR_FILTERED=[], CHARTS={};
+let currentCommFilter='all';
+let _useDateRange=false;
+const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-// Registro do Plugin de Labels (Números nas barras)
-Chart.register(ChartDataLabels);
-
-function handleAuthClick() {
-    tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CONFIG.clientId,
-        scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
-        callback: (resp) => {
-            accessToken = resp.access_token;
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('app').style.display = 'block';
-            refreshData();
-        },
-    });
-    tokenClient.requestAccessToken();
-}
-
-async function refreshData() {
-    showLoading(true);
-    try {
-        const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.sheetId}/values/${encodeURIComponent(CONFIG.range)}`, {
-            headers: { Authorization: `Bearer ${accessToken}` }
-        });
-        const data = await response.json();
-        RAW_DATA = parseSheetData(data.values);
-        populateSelectors();
-        applyFilters();
-        document.getElementById('sync-status').textContent = 'Sincronizado: ' + new Date().toLocaleTimeString();
-    } catch (err) {
-        console.error("Erro ao buscar dados:", err);
+// ── AUTH ──────────────────────────────────────────────────────────
+function doAuth(){
+  google.accounts.oauth2.initTokenClient({
+    client_id:CFG.clientId,
+    scope:'https://www.googleapis.com/auth/spreadsheets.readonly',
+    callback:async r=>{
+      if(r.error)return toast('Erro OAuth: '+r.error,'err');
+      TOKEN=r.access_token;
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('app').style.display='flex';
+      await loadUser();
+      await refreshAll();
     }
-    showLoading(false);
+  }).requestAccessToken();
 }
 
-function parseSheetData(values) {
-    if (!values) return [];
-    const headers = values[0];
-    return values.slice(1).map(row => {
-        // Parse de Data Preciso: DD/MM/YYYY
-        const dateStr = row[0] ? row[0].split(' ')[0] : '';
-        const parts = dateStr.split('/');
-        const dateObj = parts.length === 3 ? new Date(parts[2], parts[1]-1, parts[0]) : null;
-
-        return {
-            date: dateObj,
-            dateStr: dateStr,
-            tipo: row[6] || 'N/A',
-            nota: parseInt(row[7]) || 0,
-            sentimento: row[9],
-            tag: row[10] || 'Sem Tag',
-            comentario: row[12] || '',
-            produto: row[21] || 'Outros'
-        };
-    }).filter(d => d.date !== null);
+function toggleTheme(){
+  const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('theme-btn').textContent=d?'☀️':'🌙';
+  if(FILTERED.length)renderAll();
 }
 
-function applyFilters() {
-    const start = document.getElementById('date-start').value;
-    const end = document.getElementById('date-end').value;
-    const tipo = document.getElementById('filter-tipo').value;
-    const prod = document.getElementById('filter-prod').value;
-
-    FILTERED_DATA = RAW_DATA.filter(d => {
-        const dIso = d.date.toISOString().split('T')[0];
-        const matchStart = !start || dIso >= start;
-        const matchEnd = !end || dIso <= end;
-        const matchTipo = !tipo || d.tipo === tipo;
-        const matchProd = !prod || d.produto === prod;
-        return matchStart && matchEnd && matchTipo && matchProd;
-    });
-
-    renderAll();
-}
-
-function renderAll() {
-    // 1. Cálculos de NPS
-    const calcNps = (arr) => {
-        if (!arr.length) return 0;
-        const p = arr.filter(d => d.nota >= 9).length;
-        const d = arr.filter(d => d.nota <= 6).length;
-        return Math.round(((p - d) / arr.length) * 100);
-    };
-
-    const npsPeriodo = calcNps(FILTERED_DATA);
-    
-    // YTD Fixo 2026 (Para comparação)
-    const ytdData = RAW_DATA.filter(d => d.date.getFullYear() === 2026);
-    const npsYtd = calcNps(ytdData);
-
-    document.getElementById('val-nps').textContent = npsPeriodo;
-    document.getElementById('val-ytd').textContent = npsYtd;
-    document.getElementById('val-total').textContent = FILTERED_DATA.length;
-    document.getElementById('val-prom').textContent = FILTERED_DATA.filter(d=>d.nota >= 9).length;
-    document.getElementById('val-detr').textContent = FILTERED_DATA.filter(d=>d.nota <= 6).length;
-
-    // 2. Varejo vs Assinatura (Precisão Imagem 1)
-    const varejoData = FILTERED_DATA.filter(d => d.tipo.toLowerCase().includes('varejo'));
-    const assinaData = FILTERED_DATA.filter(d => d.tipo.toLowerCase().includes('assinatura'));
-    
-    document.getElementById('nps-varejo').textContent = varejoData.length ? calcNps(varejoData) : '--';
-    document.getElementById('vol-varejo').textContent = varejoData.length;
-    document.getElementById('nps-assinatura').textContent = assinaData.length ? calcNps(assinaData) : '--';
-    document.getElementById('vol-assinatura').textContent = assinaData.length;
-
-    renderVolumeChart();
-    renderTagChart();
-    renderTable();
-}
-
-function renderVolumeChart() {
-    if (CHARTS.vol) CHARTS.vol.destroy();
-    
-    const counts = {};
-    // Agrupar por data e mostrar os últimos 15 dias com dados
-    FILTERED_DATA.slice(0, 100).forEach(d => {
-        counts[d.dateStr] = (counts[d.dateStr] || 0) + 1;
-    });
-
-    const labels = Object.keys(counts).reverse().slice(-15);
-    const data = labels.map(l => counts[l]);
-
-    CHARTS.vol = new Chart(document.getElementById('chart-volume'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [{
-                data,
-                backgroundColor: '#3d9eff',
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                datalabels: { // Imagem 2: Mostrar número sem clicar
-                    anchor: 'end',
-                    align: 'top',
-                    color: isDark() ? '#fff' : '#000',
-                    font: { weight: 'bold', size: 12 }
-                }
-            },
-            scales: {
-                y: { display: false, grid: { display: false } },
-                x: { grid: { display: false } }
-            }
-        }
-    });
-}
-
-function renderTagChart() {
-    if (CHARTS.tags) CHARTS.tags.destroy();
-    
-    const tags = {};
-    FILTERED_DATA.forEach(d => {
-        if(d.tag) tags[d.tag] = (tags[d.tag] || 0) + 1;
-    });
-
-    const sortedTags = Object.entries(tags).sort((a,b) => b[1] - a[1]).slice(0, 10);
-
-    CHARTS.tags = new Chart(document.getElementById('chart-tags'), {
-        type: 'bar',
-        data: {
-            labels: sortedTags.map(t => t[0]),
-            datasets: [{
-                data: sortedTags.map(t => t[1]),
-                backgroundColor: '#00e084',
-                borderRadius: 4
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                datalabels: { color: '#000', anchor: 'end', align: 'left', font: { weight: 'bold' } }
-            }
-        }
-    });
-}
-
-function renderTable() {
-    const tbody = document.getElementById('table-body');
-    // Mostrar os últimos 50 feedbacks (Imagem 4)
-    tbody.innerHTML = FILTERED_DATA.slice(0, 50).map(d => `
-        <tr>
-            <td style="color:var(--muted2); font-size:11px">${d.dateStr}</td>
-            <td style="font-weight:800; color:${d.nota >= 9 ? 'var(--green)' : d.nota <= 6 ? 'var(--red)' : 'var(--blue)'}">${d.nota}</td>
-            <td><span class="tag-pill">${d.tag}</span></td>
-            <td class="resp-text">${d.comentario || '<em style="opacity:0.3">Sem comentário registrado</em>'}</td>
-        </tr>
-    `).join('');
-}
-
-function populateSelectors() {
-    const tipos = [...new Set(RAW_DATA.map(d => d.tipo))];
-    const prods = [...new Set(RAW_DATA.map(d => d.produto))];
-    
-    const sTipo = document.getElementById('filter-tipo');
-    const sProd = document.getElementById('filter-prod');
-    
-    sTipo.innerHTML = '<option value="">Todos os Tipos</option>' + tipos.map(t => `<option value="${t}">${t}</option>`).join('');
-    sProd.innerHTML = '<option value="">Todos os Produtos</option>' + prods.map(p => `<option value="${p}">${p}</option>`).join('');
-}
-
-function resetFilters() {
-    document.querySelectorAll('.f-input').forEach(i => i.value = '');
+// ── DATA ──────────────────────────────────────────────────────────
+async function refreshAll(){
+  showOv(true,'Carregando dados...');
+  try{
+    const range=encodeURIComponent(`${CFG.tab}!A:V`);
+    const res=await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${CFG.sheetId}/values/${range}`,
+      {headers:{Authorization:'Bearer '+TOKEN}});
+    if(!res.ok)throw new Error('Sheets '+res.status);
+    const vals=(await res.json()).values||[];
+    RAW=parseData(vals);
+    populateFilters();
     applyFilters();
+    document.getElementById('ubadge').textContent='Atualizado: '+new Date().toLocaleTimeString('pt-BR');
+    toast(RAW.length+' respostas carregadas','ok');
+  }catch(e){toast('Erro: '+e.message,'err');console.error(e);}
+  showOv(false);
 }
 
-function showLoading(v) { document.getElementById('overlay').style.display = v ? 'flex' : 'none'; }
-function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
-function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-    applyFilters();
+function parseData(vals){
+  if(!vals||vals.length<2)return[];
+  const rows=[];
+  for(let i=1;i<vals.length;i++){
+    const r=vals[i];
+    const dt=pD(r[0]);
+    if(!dt)continue;
+    const sent=(r[9]||'').trim();
+    if(!sent)continue;
+    const av=pN(r[7]);
+    rows.push({
+      date:dt,
+      dateStr:r[0]||'',
+      nome:r[2]||'',
+      email:r[4]||'',
+      tipo:r[6]||'',
+      avaliacao:av,
+      sentimento:sent,
+      tag:r[10]||'',
+      tagMicro:r[11]||'',
+      comentario:r[12]||'',
+      ano:String(dt.getFullYear()),
+      mesNum:dt.getMonth()+1,
+      mes:MESES[dt.getMonth()],
+      produto:r[21]||''
+    });
+  }
+  return rows.sort((a,b)=>a.date-b.date);
 }
 
+function populateFilters(){
+  const anos=[...new Set(RAW.map(r=>r.ano))].filter(Boolean).sort();
+  const tipos=[...new Set(RAW.map(r=>r.tipo))].filter(Boolean).sort();
+  const prods=[...new Set(RAW.map(r=>r.produto))].filter(Boolean).sort();
+  fillSel('f-ano',anos);
+  fillSel('f-tipo',tipos);
+  fillSel('f-prod',prods);
+}
+function fillSel(id,opts){
+  const el=document.getElementById(id),cur=el.value,first=el.options[0];
+  el.innerHTML='';el.appendChild(first);
+  opts.forEach(o=>{const op=document.createElement('option');op.value=o;op.textContent=o;el.appendChild(op);});
+  if([...el.options].some(o=>o.value===cur))el.value=cur;
+}
+
+// ── FILTERS ──────────────────────────────────────────────────────
+function onAnoMesChange(){
+  _useDateRange=false;
+  document.getElementById('f-de').value='';
+  document.getElementById('f-ate').value='';
+  document.getElementById('f-de').classList.remove('active');
+  document.getElementById('f-ate').classList.remove('active');
+  applyFilters();
+}
+function onDateRangeChange(){
+  const de=document.getElementById('f-de').value;
+  const ate=document.getElementById('f-ate').value;
+  if(de||ate){
+    _useDateRange=true;
+    document.getElementById('f-ano').value='';
+    document.getElementById('f-mes').value='';
+    document.getElementById('f-de').classList.toggle('active',!!de);
+    document.getElementById('f-ate').classList.toggle('active',!!ate);
+  }else{
+    _useDateRange=false;
+    document.getElementById('f-de').classList.remove('active');
+    document.getElementById('f-ate').classList.remove('active');
+  }
+  applyFilters();
+}
+
+function applyFilters(){
+  const ano=document.getElementById('f-ano').value;
+  const mes=document.getElementById('f-mes').value;
+  const de=document.getElementById('f-de').value;
+  const ate=document.getElementById('f-ate').value;
+  const tipo=document.getElementById('f-tipo').value;
+  const sent=document.getElementById('f-sent').value;
+  const prod=document.getElementById('f-prod').value;
+  const nota=document.getElementById('f-nota').value;
+
+  function matchesDatePeriod(r, ignoreMes){
+    if(_useDateRange){
+      if(de){const d=new Date(de);if(r.date<d)return false;}
+      if(ate){const d=new Date(ate);d.setHours(23,59,59,999);if(r.date>d)return false;}
+    }else{
+      if(ano&&r.ano!==ano)return false;
+      if(!ignoreMes&&mes&&String(r.mesNum)!==mes)return false;
+    }
+    return true;
+  }
+  function matchesOtherFilters(r){
+    if(tipo&&r.tipo!==tipo)return false;
+    if(sent&&r.sentimento!==sent)return false;
+    if(prod&&r.produto!==prod)return false;
+    if(nota!==''&&String(r.avaliacao)!==nota)return false;
+    return true;
+  }
+
+  FILTERED=RAW.filter(r=>matchesDatePeriod(r,false)&&matchesOtherFilters(r));
+  // Year filtered = same but without month constraint (for year NPS card & line chart)
+  YEAR_FILTERED=RAW.filter(r=>matchesDatePeriod(r,true)&&matchesOtherFilters(r));
+
+  document.getElementById('f-count').textContent=FILTERED.length+' registros';
+  renderAll();
+}
+
+function resetFilters(){
+  ['f-ano','f-mes','f-tipo','f-sent','f-prod','f-nota'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-de').value='';
+  document.getElementById('f-ate').value='';
+  document.getElementById('f-de').classList.remove('active');
+  document.getElementById('f-ate').classList.remove('active');
+  _useDateRange=false;
+  applyFilters();
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderAll(){
+  const prom=FILTERED.filter(r=>r.sentimento==='Promotor').length;
+  const pass=FILTERED.filter(r=>r.sentimento==='Passivo').length;
+  const detr=FILTERED.filter(r=>r.sentimento==='Detrator').length;
+  const tot=FILTERED.length;
+  const nps=tot>0?Math.round((prom/tot-detr/tot)*100):0;
+
+  // Year NPS (ignores month filter)
+  const yp=YEAR_FILTERED.filter(r=>r.sentimento==='Promotor').length;
+  const yd=YEAR_FILTERED.filter(r=>r.sentimento==='Detrator').length;
+  const yt=YEAR_FILTERED.length;
+  const yNps=yt>0?Math.round((yp/yt-yd/yt)*100):0;
+
+  animNum('k-nps',nps);
+  animNum('k-nps-ano',yNps);
+  animNum('k-tot',tot);
+  animNum('k-prom',prom);
+  animNum('k-pass',pass);
+  animNum('k-detr',detr);
+
+  document.getElementById('k-prom-s').textContent=pct(prom,tot)+'% do total';
+  document.getElementById('k-pass-s').textContent=pct(pass,tot)+'% do total';
+  document.getElementById('k-detr-s').textContent=pct(detr,tot)+'% do total';
+
+  const z=npsZone(nps);
+  document.getElementById('k-zone').innerHTML=`<span class="nzone ${z.c}">${z.l}</span>`;
+
+  const fAno=document.getElementById('f-ano').value;
+  const fMes=document.getElementById('f-mes').value;
+  document.getElementById('k-ano-lbl').textContent=fAno?fAno:'';
+  const yz=npsZone(yNps);
+  const mesLabel=fMes&&!_useDateRange?` · sem filtro de mês`:'';
+  document.getElementById('k-ano-sub').innerHTML=`${yt.toLocaleString('pt-BR')} respostas${mesLabel}`;
+
+  const dn=document.getElementById('d-nps');
+  dn.textContent=nps;
+  dn.style.color=nps>=50?'var(--green)':nps>=0?'var(--warn)':'var(--red)';
+
+  renderDonut(prom,pass,detr,tot);
+  renderLegend(prom,pass,detr,tot);
+  renderLine();
+  renderBar();
+  renderTagCharts(prom,pass,detr);
+  renderTypeCards();
+  renderNotas();
+  renderComments(currentCommFilter);
+  renderTable();
+}
+
+// ── DONUT ─────────────────────────────────────────────────────────
+function renderDonut(prom,pass,detr,tot){
+  if(CHARTS.donut)CHARTS.donut.destroy();
+  CHARTS.donut=new Chart(document.getElementById('c-donut').getContext('2d'),{
+    type:'doughnut',
+    data:{datasets:[{data:[prom,pass,detr],backgroundColor:['#00e084','#3d9eff','#ff4060'],borderWidth:0,hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:true,cutout:'72%',
+      plugins:{legend:{display:false},tooltip:{...ttOpts(),callbacks:{label:ctx=>{
+        const l=['Promotores','Passivos','Detratores'];
+        return` ${l[ctx.dataIndex]}: ${ctx.raw} (${pct(ctx.raw,tot)}%)`;
+      }}}}}
+  });
+}
+function renderLegend(prom,pass,detr,tot){
+  document.getElementById('d-leg').innerHTML=[
+    {l:'Promotores',v:prom,c:'#00e084'},
+    {l:'Passivos',v:pass,c:'#3d9eff'},
+    {l:'Detratores',v:detr,c:'#ff4060'}
+  ].map(x=>`<div class="legr"><div class="legl"><div class="legdot" style="background:${x.c}"></div><span class="legname">${x.l}</span></div><div class="legbw"><div class="legb" style="width:${pct(x.v,tot)}%;background:${x.c}"></div></div><span class="legpct">${x.v} · ${pct(x.v,tot)}%</span></div>`).join('');
+}
+
+// ── LINE ──────────────────────────────────────────────────────────
+function renderLine(){
+  if(CHARTS.line)CHARTS.line.destroy();
+  const bm={};
+  YEAR_FILTERED.forEach(r=>{
+    const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');
+    if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};
+    if(r.sentimento==='Promotor')bm[k].prom++;
+    else if(r.sentimento==='Passivo')bm[k].pass++;
+    else bm[k].detr++;
+  });
+  const keys=Object.keys(bm).sort();
+  const labels=keys.map(k=>bm[k].lbl);
+  const npss=keys.map(k=>{const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):0;});
+  const ctx=document.getElementById('c-line').getContext('2d');
+  const g=ctx.createLinearGradient(0,0,0,240);
+  g.addColorStop(0,'rgba(0,224,132,.2)');g.addColorStop(1,'rgba(0,224,132,0)');
+  CHARTS.line=new Chart(ctx,{type:'line',data:{labels,datasets:[{
+    label:'NPS',data:npss,borderColor:'#00e084',backgroundColor:g,
+    borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#00e084',fill:true,tension:.35
+  }]},options:{...cOpts(false),scales:{
+    x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},
+    y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}
+  }}});
+}
+
+// ── STACKED TOTAL LABELS PLUGIN ───────────────────────────────────
+const stackedTotalPlugin={
+  id:'stackedTotal',
+  afterDatasetsDraw(chart){
+    if(!chart.config.options._showTotals)return;
+    const{ctx,data}=chart;
+    const lastMeta=chart.getDatasetMeta(data.datasets.length-1);
+    ctx.save();
+    ctx.font=`bold 9px 'Plus Jakarta Sans',sans-serif`;
+    ctx.fillStyle=isDk()?'rgba(238,242,255,.8)':'rgba(15,24,38,.75)';
+    ctx.textAlign='center';
+    ctx.textBaseline='bottom';
+    lastMeta.data.forEach((bar,i)=>{
+      const total=data.datasets.reduce((s,ds)=>s+(Number(ds.data[i])||0),0);
+      if(total>0)ctx.fillText(total,bar.x,bar.y-3);
+    });
+    ctx.restore();
+  }
+};
+Chart.register(stackedTotalPlugin);
+
+// ── BAR (daily volume) ────────────────────────────────────────────
+function renderBar(){
+  if(CHARTS.bar)CHARTS.bar.destroy();
+  const bd={};
+  FILTERED.forEach(r=>{
+    const key=getDateKey(r.dateStr);
+    if(!bd[key])bd[key]={prom:0,pass:0,detr:0};
+    if(r.sentimento==='Promotor')bd[key].prom++;
+    else if(r.sentimento==='Passivo')bd[key].pass++;
+    else bd[key].detr++;
+  });
+  // Sort keys chronologically
+  const keys=Object.keys(bd).sort((a,b)=>dateKeyToMs(a)-dateKeyToMs(b));
+  const show=keys.length>60?keys.slice(-60):keys;
+  CHARTS.bar=new Chart(document.getElementById('c-bar').getContext('2d'),{
+    type:'bar',
+    data:{labels:show.map(fmtDs),datasets:[
+      {label:'Promotores',data:show.map(k=>bd[k].prom),backgroundColor:'rgba(0,224,132,.75)',borderRadius:3,borderSkipped:false},
+      {label:'Passivos',data:show.map(k=>bd[k].pass),backgroundColor:'rgba(61,158,255,.75)',borderRadius:3,borderSkipped:false},
+      {label:'Detratores',data:show.map(k=>bd[k].detr),backgroundColor:'rgba(255,64,96,.75)',borderRadius:3,borderSkipped:false},
+    ]},
+    options:{...cOpts(true),_showTotals:true,scales:{
+      x:{stacked:true,grid:{display:false},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},
+      y:{stacked:true,grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}
+    }}
+  });
+}
+
+// extract canonical date key "dd/mm/yyyy" from various dateStr formats
+function getDateKey(s){
+  if(!s)return'';
+  // take only date part (strip time)
+  const part=(s+'').trim().split(/[\sT]/)[0];
+  return part;
+}
+// convert date key to ms for sorting
+function dateKeyToMs(s){
+  const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m)return new Date(+m[3],+m[2]-1,+m[1]).getTime();
+  const m2=s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if(m2)return new Date(+m2[1],+m2[2]-1,+m2[3]).getTime();
+  return new Date(s).getTime()||0;
+}
+
+// ── TAG CHARTS ────────────────────────────────────────────────────
+function renderTagCharts(promTot,passTot,detrTot){
+  const pt={},nt={},dt={};
+  FILTERED.forEach(r=>{
+    const tag=(r.tag||'Não especificado').trim()||'Não especificado';
+    if(r.sentimento==='Promotor')pt[tag]=(pt[tag]||0)+1;
+    else if(r.sentimento==='Passivo')nt[tag]=(nt[tag]||0)+1;
+    else if(r.sentimento==='Detrator')dt[tag]=(dt[tag]||0)+1;
+  });
+  document.getElementById('tg-cnt-p').textContent=promTot.toLocaleString('pt-BR');
+  document.getElementById('tg-cnt-n').textContent=passTot.toLocaleString('pt-BR');
+  document.getElementById('tg-cnt-d').textContent=detrTot.toLocaleString('pt-BR');
+  makeTagChart('c-tag-prom','wrap-tag-prom',pt,'rgba(0,224,132,.75)','Promotor');
+  makeTagChart('c-tag-pass','wrap-tag-pass',nt,'rgba(61,158,255,.75)','Passivo');
+  makeTagChart('c-tag-detr','wrap-tag-detr',dt,'rgba(255,64,96,.75)','Detrator');
+}
+
+function makeTagChart(canvasId,wrapId,obj,color,sentiment){
+  if(CHARTS[canvasId])CHARTS[canvasId].destroy();
+  const sorted=Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  if(!sorted.length){
+    document.getElementById(wrapId).style.height='60px';
+    return;
+  }
+  const labels=sorted.map(([t])=>t);
+  const data=sorted.map(([,v])=>v);
+  const total=data.reduce((a,b)=>a+b,0);
+  // Adjust height based on count
+  const h=Math.max(180,sorted.length*28+30);
+  document.getElementById(wrapId).style.height=h+'px';
+
+  const chart=new Chart(document.getElementById(canvasId).getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[{
+      label:'Respostas',data,
+      backgroundColor:color,
+      borderRadius:4,borderSkipped:false,
+      hoverBackgroundColor:color.replace('.75)','.95)')
+    }]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      indexAxis:'y',
+      onClick:(evt,elements)=>{
+        if(elements.length)openTagModal(labels[elements[0].index],sentiment);
+      },
+      interaction:{mode:'nearest',intersect:true},
+      plugins:{
+        legend:{display:false},
+        tooltip:{...ttOpts(),callbacks:{
+          label:ctx=>`${ctx.raw} respostas (${pct(ctx.raw,total)}%)`
+        }}
+      },
+      scales:{
+        x:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true},
+        y:{grid:{display:false},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},crossAlign:'far'}}
+      }
+    }
+  });
+  CHARTS[canvasId]=chart;
+}
+
+// ── TAG RESPONSE MODAL ────────────────────────────────────────────
+function openTagModal(tag,sentiment){
+  const norm=t=>(t||'Não especificado').trim()||'Não especificado';
+  const rows=FILTERED.filter(r=>r.sentimento===sentiment&&norm(r.tag)===tag);
+  document.getElementById('tm-title').textContent=tag;
+  const lbl=sentiment==='Promotor'?'Promotores':sentiment==='Passivo'?'Passivos':'Detratores';
+  document.getElementById('tm-sub').textContent=`${rows.length} resposta${rows.length!==1?'s':''} · ${lbl}`;
+
+  const sc=r=>r.sentimento==='Promotor'?'p':r.sentimento==='Passivo'?'n':'d';
+  const nc=r=>r.avaliacao>=9?'var(--green)':r.avaliacao>=7?'var(--blue)':'var(--red)';
+
+  const list=document.getElementById('tm-list');
+  if(!rows.length){
+    list.innerHTML='<div class="tag-resp-empty">Nenhuma resposta encontrada</div>';
+  }else{
+    list.innerHTML=rows.slice(0,150).map(r=>`
+      <div class="tag-resp-item">
+        <div class="tag-resp-meta">
+          <span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span>
+          <span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span>
+          <span class="tag-resp-date">${fmtD(r.date)}</span>
+          ${r.tipo?`<span class="tag-resp-date">${r.tipo}</span>`:''}
+          ${r.produto?`<span class="tag-resp-date">${r.produto}</span>`:''}
+        </div>
+        <div class="tag-resp-text">${r.comentario||'<em style="color:var(--muted2)">Sem comentário</em>'}</div>
+      </div>`).join('');
+  }
+  document.getElementById('tag-modal-bg').style.display='flex';
+}
+function closeTagModal(e){
+  if(e.target===document.getElementById('tag-modal-bg'))
+    document.getElementById('tag-modal-bg').style.display='none';
+}
+
+// ── TYPE ANALYSIS CARDS ───────────────────────────────────────────
+function renderTypeCards(){
+  const tm={};
+  FILTERED.forEach(r=>{
+    const t=(r.tipo||'').trim();
+    if(!t)return;
+    if(!tm[t])tm[t]={prom:0,pass:0,detr:0};
+    if(r.sentimento==='Promotor')tm[t].prom++;
+    else if(r.sentimento==='Passivo')tm[t].pass++;
+    else tm[t].detr++;
+  });
+  const tipos=Object.keys(tm);
+  const sec=document.getElementById('type-analysis-section');
+  if(!tipos.length){sec.innerHTML='';return;}
+  sec.innerHTML=tipos.map(t=>{
+    const{prom,pass,detr}=tm[t];
+    const tot=prom+pass+detr;
+    const nps=tot>0?Math.round((prom-detr)/tot*100):0;
+    const nc=nps>=50?'var(--green)':nps>=0?'var(--warn)':'var(--red)';
+    const z=npsZone(nps);
+    return`<div class="type-card">
+      <div class="type-title">${t}</div>
+      <div class="type-nps" style="color:${nc}">${nps}</div>
+      <span class="nzone ${z.c}" style="margin-bottom:12px;display:inline-flex">${z.l}</span>
+      <div class="type-total">${tot.toLocaleString('pt-BR')} respostas no período</div>
+      <div class="type-bars">
+        <div class="type-bar-row">
+          <div class="type-bar-lbl" style="color:var(--green)">Promotores</div>
+          <div class="type-bar-track"><div class="type-bar-fill" style="width:${pct(prom,tot)}%;background:var(--green)"></div></div>
+          <div class="type-bar-val">${prom} · ${pct(prom,tot)}%</div>
+        </div>
+        <div class="type-bar-row">
+          <div class="type-bar-lbl" style="color:var(--blue)">Passivos</div>
+          <div class="type-bar-track"><div class="type-bar-fill" style="width:${pct(pass,tot)}%;background:var(--blue)"></div></div>
+          <div class="type-bar-val">${pass} · ${pct(pass,tot)}%</div>
+        </div>
+        <div class="type-bar-row">
+          <div class="type-bar-lbl" style="color:var(--red)">Detratores</div>
+          <div class="type-bar-track"><div class="type-bar-fill" style="width:${pct(detr,tot)}%;background:var(--red)"></div></div>
+          <div class="type-bar-val">${detr} · ${pct(detr,tot)}%</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── NOTAS ─────────────────────────────────────────────────────────
+function renderNotas(){
+  if(CHARTS.notas)CHARTS.notas.destroy();
+  const counts=Array(11).fill(0);
+  FILTERED.forEach(r=>{if(r.avaliacao>=0&&r.avaliacao<=10)counts[r.avaliacao]++;});
+  CHARTS.notas=new Chart(document.getElementById('c-notas').getContext('2d'),{
+    type:'bar',
+    data:{labels:['0','1','2','3','4','5','6','7','8','9','10'],datasets:[{
+      label:'Respostas',data:counts,borderRadius:5,borderSkipped:false,
+      backgroundColor:counts.map((_,i)=>i<=6?'rgba(255,64,96,.75)':i<=8?'rgba(61,158,255,.75)':'rgba(0,224,132,.75)')
+    }]},
+    options:{...cOpts(false),scales:{
+      x:{grid:{display:false},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"}}},
+      y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}
+    }}
+  });
+}
+
+// ── COMMENTS ──────────────────────────────────────────────────────
+function filterComm(type){
+  currentCommFilter=type;
+  ['all','p','n','d'].forEach(k=>{const el=document.getElementById('cf-'+k);if(el)el.className='cbtn';});
+  const map={all:'cf-all',Promotor:'cf-p',Passivo:'cf-n',Detrator:'cf-d'};
+  const cls={all:'cbtn active',Promotor:'cbtn active active-p',Passivo:'cbtn active active-n',Detrator:'cbtn active active-d'};
+  const el=document.getElementById(map[type]);
+  if(el)el.className=cls[type]||'cbtn active';
+  renderComments(type);
+}
+function renderComments(type){
+  const q=(document.getElementById('comm-search').value||'').toLowerCase();
+  let rows=FILTERED.filter(r=>r.comentario&&r.comentario.trim());
+  if(type&&type!=='all')rows=rows.filter(r=>r.sentimento===type);
+  if(q)rows=rows.filter(r=>r.comentario.toLowerCase().includes(q)||(r.tag||'').toLowerCase().includes(q));
+  rows=[...rows].reverse().slice(0,100);
+  const grid=document.getElementById('comm-grid');
+  if(!rows.length){grid.innerHTML='<div class="comm-empty">Nenhum comentário encontrado</div>';return;}
+  const sc=r=>r.sentimento==='Promotor'?'p':r.sentimento==='Passivo'?'n':'d';
+  const nc=r=>r.avaliacao>=9?'g':r.avaliacao>=7?'b':'r';
+  grid.innerHTML=rows.map(r=>`
+    <div class="comm-card" onclick="openModal(${RAW.indexOf(r)})">
+      <div class="comm-meta">
+        <span class="comm-sent ${sc(r)}">${r.sentimento}</span>
+        <span class="comm-nota ${nc(r)}">★ ${r.avaliacao}</span>
+      </div>
+      ${r.tag?`<div class="comm-tag">${r.tag}${r.tagMicro?' · '+r.tagMicro:''}</div>`:''}
+      <div class="comm-text">${r.comentario.length>160?r.comentario.slice(0,160)+'…':r.comentario}</div>
+      <div class="comm-date">${fmtD(r.date)}${r.tipo?' · '+r.tipo:''}${r.produto?' · '+r.produto:''}</div>
+    </div>`).join('');
+}
+function openModal(idx){
+  const r=RAW[idx];if(!r)return;
+  document.getElementById('modal-bg').style.display='flex';
+  const sc=r.sentimento==='Promotor'?'pp':r.sentimento==='Passivo'?'pn':'pd';
+  const nc=r.avaliacao>=9?'var(--green)':r.avaliacao>=7?'var(--blue)':'var(--red)';
+  document.getElementById('m-sent').className='modal-sent '+sc;
+  document.getElementById('m-sent').textContent=r.sentimento;
+  document.getElementById('m-nota').textContent='★ '+r.avaliacao;
+  document.getElementById('m-nota').style.color=nc;
+  document.getElementById('m-tag').textContent=[r.tag,r.tagMicro].filter(Boolean).join(' · ')||'Sem tag';
+  document.getElementById('m-text').textContent=r.comentario||'Sem comentário';
+  document.getElementById('m-meta').innerHTML=`
+    <span>${fmtD(r.date)}</span>
+    ${r.tipo?`<span>${r.tipo}</span>`:''}
+    ${r.produto?`<span>${r.produto}</span>`:''}
+    ${r.nome?`<span>${r.nome}</span>`:''}`;
+}
+function closeModal(e){if(e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').style.display='none';}
+
+// ── TABLE ─────────────────────────────────────────────────────────
+let TBL=[];
+function renderTable(){TBL=[...FILTERED].reverse().slice(0,500);buildTable(TBL);}
+function buildTable(rows){
+  const tb=document.getElementById('t-body');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted2)">Nenhum dado</td></tr>';return;}
+  tb.innerHTML=rows.slice(0,300).map(r=>{
+    const pc=r.sentimento==='Promotor'?'pp':r.sentimento==='Detrator'?'pd':r.sentimento==='Passivo'?'pn':'pz';
+    const nc=r.avaliacao<=6?'var(--red)':r.avaliacao<=8?'var(--blue)':'var(--green)';
+    const comm=r.comentario?r.comentario.slice(0,80)+(r.comentario.length>80?'…':''):'—';
+    return`<tr>
+      <td class="tdm">${fmtD(r.date)}</td>
+      <td><span class="pill ${pc}">${r.sentimento||'—'}</span></td>
+      <td style="font-weight:700;color:${nc}">${r.avaliacao!==''?r.avaliacao:'—'}</td>
+      <td class="tdm">${r.tipo||'—'}</td>
+      <td>${r.tag||'—'}</td>
+      <td class="tdm">${r.produto||'—'}</td>
+      <td class="td-comm" title="${(r.comentario||'').replace(/"/g,'&quot;')}" onclick="openModal(${RAW.indexOf(r)})">${comm}</td>
+    </tr>`;
+  }).join('');
+}
+function filterTable(){
+  const q=document.getElementById('t-search').value.toLowerCase();
+  buildTable(TBL.filter(r=>
+    (r.nome||'').toLowerCase().includes(q)||
+    (r.tag||'').toLowerCase().includes(q)||
+    (r.comentario||'').toLowerCase().includes(q)||
+    (r.tipo||'').toLowerCase().includes(q)||
+    (r.sentimento||'').toLowerCase().includes(q)
+  ));
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────
+function exportCSV(){
+  if(!FILTERED.length)return toast('Sem dados para exportar','err');
+  const h=['Data','Sentimento','Nota','Tipo','Tag','Tag Micro','Comentário','Produto','Mês','Ano'];
+  const rows=FILTERED.map(r=>[fmtD(r.date),r.sentimento,r.avaliacao,r.tipo,r.tag,r.tagMicro,'"'+(r.comentario||'').replace(/"/g,'""')+'"',r.produto,r.mes,r.ano].join(';'));
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+h.join(';')+'\n'+rows.join('\n')],{type:'text/csv;charset=utf-8;'}));
+  a.download=`NPS_Minimal_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  toast('CSV exportado!','ok');
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function npsZone(n){
+  if(n<0)return{c:'zc',l:'⚠️ Zona Crítica'};
+  if(n<25)return{c:'zi',l:'📈 Zona de Melhoria'};
+  if(n<50)return{c:'zg',l:'✅ Zona Boa'};
+  if(n<75)return{c:'zo',l:'🌟 Zona Ótima'};
+  return{c:'ze',l:'🏆 Excelência'};
+}
+function isDk(){return document.documentElement.getAttribute('data-theme')==='dark';}
+function gc(){return isDk()?'rgba(26,45,69,.5)':'rgba(0,0,0,.07)';}
+function tc(){return isDk()?'#3a4f6e':'#8aa4bf';}
+function ttOpts(){return{backgroundColor:isDk()?'#0f1826':'#fff',borderColor:isDk()?'#1a2d45':'#d0dbe8',borderWidth:1,titleColor:isDk()?'#eef2ff':'#0f1826',bodyColor:isDk()?'#eef2ff':'#0f1826',padding:10,bodyFont:{family:"'Plus Jakarta Sans',sans-serif"},titleFont:{family:"'Plus Jakarta Sans',sans-serif",weight:'700'}};}
+function cOpts(leg){return{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:leg?{labels:{color:tc(),font:{family:"'Plus Jakarta Sans',sans-serif",size:11},boxWidth:10,padding:12}}:{display:false},tooltip:ttOpts()}};}
+function pct(a,b){return b>0?(a/b*100).toFixed(1):'0.0';}
+function pN(s){if(!s&&s!==0)return 0;s=s.toString().trim();if(!s||s==='-')return 0;if(s.indexOf(',')>-1)s=s.replace(/\./g,'').replace(',','.');return parseFloat(s.replace(/[^\d.-]/g,''))||0;}
+
+// Fixed pD: handles "dd/mm/yyyy hh:mm:ss", "dd/mm/yyyy", "yyyy-mm-dd", ISO etc.
+function pD(s){
+  if(!s)return null;
+  s=s.toString().trim();
+  // Strip time component (handles "14/04/2026 10:30:00" or "2026-04-14T10:30:00")
+  const datePart=s.split(/[\sT]/)[0];
+  let m=datePart.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m)return new Date(+m[3],+m[2]-1,+m[1]);
+  m=datePart.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
+  const d=new Date(s);
+  return isNaN(d.getTime())?null:d;
+}
+
+function fmtD(d){return d instanceof Date?d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}):d;}
+function fmtDs(s){
+  // "dd/mm/yyyy" → "dd/mm"
+  const m1=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(m1)return m1[1]+'/'+m1[2];
+  // "dd-mm-yyyy" or "yyyy-mm-dd"
+  const pts=s.split('-');
+  if(pts.length===3){
+    if(pts[0].length===4)return pts[2]+'/'+pts[1];
+    return pts[0]+'/'+pts[1];
+  }
+  const d=pD(s);
+  return d?d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}):s;
+}
+
+function animNum(id,target){
+  const el=document.getElementById(id);if(!el)return;
+  const dur=700,st=performance.now();
+  (function step(now){
+    const pr=Math.min((now-st)/dur,1),e=1-Math.pow(1-pr,3);
+    el.textContent=Math.round(target*e);
+    if(pr<1)requestAnimationFrame(step);else el.textContent=target;
+  })(performance.now());
+}
+function showOv(v,msg){document.getElementById('overlay').style.display=v?'flex':'none';if(msg)document.getElementById('ovtxt').textContent=msg;}
+let _tt;
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast show '+type;
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3500);
+}
+async function loadUser(){
+  try{
+    const r=await fetch('https://www.googleapis.com/oauth2/v1/userinfo',{headers:{Authorization:'Bearer '+TOKEN}});
+    const u=await r.json();
+    document.getElementById('uname').textContent=u.given_name||'Usuário';
+    const av=document.getElementById('av');
+    if(u.picture)av.innerHTML=`<img src="${u.picture}">`;
+    else av.textContent=(u.given_name||'?')[0].toUpperCase();
+  }catch(e){}
+}
+function logout(){if(!confirm('Sair?'))return;location.reload();}
+
+setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
+window.addEventListener('load',()=>showOv(false));
 </script>
 </body>
 </html>
