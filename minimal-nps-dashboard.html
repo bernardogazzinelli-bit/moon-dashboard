@@ -10,7 +10,7 @@
 <style>
 [data-theme="dark"]{--bg:#080e1a;--bg2:#0f1826;--bg3:#162033;--border:#1a2d45;--border2:#203550;--text:#eef2ff;--muted:#3a4f6e;--muted2:#5a7a9e;--card:#0f1826;--hdr:rgba(8,14,26,.97);--minimal-text:#ffffff}
 [data-theme="light"]{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef5;--border:#d0dbe8;--border2:#b8ccde;--text:#0f1826;--muted:#8aa4bf;--muted2:#6a8aaa;--card:#ffffff;--hdr:rgba(255,255,255,.97);--minimal-text:#000000}
-:root{--green:#00e084;--gdim:rgba(0,224,132,.13);--blue:#3d9eff;--bdim:rgba(61,158,255,.12);--red:#ff4060;--rdim:rgba(255,64,96,.13);--warn:#ffb820;--wdim:rgba(255,184,32,.13);--purple:#a78bfa;--pdim:rgba(167,139,250,.13);--moon:#1a2e52;--font:'Plus Jakarta Sans',sans-serif}
+:root{--green:#00e084;--gdim:rgba(0,224,132,.13);--blue:#3d9eff;--bdim:rgba(61,158,255,.12);--red:#ff4060;--rdim:rgba(255,64,96,.13);--warn:#ffb820;--wdim:rgba(255,184,32,.13);--purple:#a78bfa;--pdim:rgba(167,139,250,.13);--moon:#1a2e52;--navy:#1b3a6b;--navybright:#2557aa;--navydim:rgba(27,58,107,.18);--navylight:rgba(37,87,170,.13);--font:'Plus Jakarta Sans',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;font-family:var(--font)}
 body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .25s,color .15s}
 
@@ -33,18 +33,18 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 .home-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
 .home-card.hc-minimal{border-color:rgba(200,200,200,.25)}
 .home-card.hc-minimal:hover{border-color:rgba(200,200,200,.55);background:linear-gradient(160deg,rgba(200,200,200,.06),var(--card) 60%)}
-.home-card.hc-hoomy{border-color:rgba(167,139,250,.25)}
-.home-card.hc-hoomy:hover{border-color:rgba(167,139,250,.55);background:linear-gradient(160deg,rgba(167,139,250,.06),var(--card) 60%)}
-.home-card.hc-comp{border-color:rgba(255,184,32,.25)}
-.home-card.hc-comp:hover{border-color:rgba(255,184,32,.55);background:linear-gradient(160deg,rgba(255,184,32,.06),var(--card) 60%)}
+.home-card.hc-hoomy{border-color:rgba(37,87,170,.3)}
+.home-card.hc-hoomy:hover{border-color:rgba(37,87,170,.55);background:linear-gradient(160deg,var(--navylight),var(--card) 60%)}
+.home-card.hc-comp{border-color:rgba(167,139,250,.3)}
+.home-card.hc-comp:hover{border-color:rgba(167,139,250,.55);background:linear-gradient(160deg,rgba(167,139,250,.08),var(--card) 60%)}
 .home-card-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
 .home-card-ico.m{background:rgba(200,200,200,.1);border:1px solid rgba(200,200,200,.25)}
-.home-card-ico.h{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25)}
-.home-card-ico.c{background:rgba(255,184,32,.12);border:1px solid rgba(255,184,32,.25)}
+.home-card-ico.h{background:var(--navylight);border:1px solid rgba(37,87,170,.3)}
+.home-card-ico.c{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3)}
 .home-card-name{font-size:15px;font-weight:800;letter-spacing:-.2px}
 /* Minimal: dynamic B&W */
 .home-card-name.m{color:var(--minimal-text)}
-.home-card-name.h{color:var(--purple)}.home-card-name.c{color:var(--warn)}
+.home-card-name.h{color:var(--navybright)}.home-card-name.c{color:var(--purple)}
 .home-card-sub{font-size:11px;color:var(--muted2);line-height:1.5}
 .home-brand-row{display:flex;align-items:center;gap:16px;opacity:.5;margin-top:8px}
 .home-brand-sep{width:1px;height:16px;background:var(--border)}
@@ -61,8 +61,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 .hnav-btn{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);color:var(--muted2);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .18s;white-space:nowrap;letter-spacing:-.1px}
 .hnav-btn:hover{border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
 .hnav-btn.active-minimal{border-color:rgba(200,200,200,.5);color:var(--minimal-text);background:rgba(200,200,200,.08)}
-.hnav-btn.active-hoomy{border-color:rgba(167,139,250,.5);color:var(--purple);background:rgba(167,139,250,.08)}
-.hnav-btn.active-comp{border-color:rgba(255,184,32,.5);color:var(--warn);background:rgba(255,184,32,.08)}
+.hnav-btn.active-hoomy{border-color:rgba(37,87,170,.5);color:var(--navybright);background:var(--navylight)}
+.hnav-btn.active-comp{border-color:rgba(167,139,250,.5);color:var(--purple);background:rgba(167,139,250,.08)}
 .hnav-dot{width:7px;height:7px;border-radius:50%}
 
 .hright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -78,11 +78,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 .brand-hero-inner{display:flex;flex-direction:column;align-items:center;gap:10px}
 .brand-hero-name{font-size:38px;font-weight:800;letter-spacing:-1px;line-height:1}
 .brand-hero-name.minimal{color:var(--minimal-text)}
-.brand-hero-name.hoomy{color:var(--purple)}
+.brand-hero-name.hoomy{color:var(--navybright)}
 .brand-hero-sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);font-weight:600}
 .brand-hero-line{width:60px;height:2px;border-radius:1px;margin-top:2px}
 .brand-hero-line.minimal{background:var(--minimal-text);opacity:.3}
-.brand-hero-line.hoomy{background:var(--purple);opacity:.4}
+.brand-hero-line.hoomy{background:var(--navybright);opacity:.4}
 
 /* ─── FILTROS ────────────────────────────────────────────────────── */
 .fbar{display:flex;align-items:center;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
@@ -103,7 +103,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 .tab-btn{background:none;border:1px solid transparent;color:var(--muted2);border-radius:8px;padding:5px 15px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap}
 .tab-btn:hover{color:var(--text);background:var(--bg3)}
 .tab-btn.active{background:var(--bg3);border-color:var(--green);color:var(--green)}
-.tab-btn.active-purple{background:var(--bg3);border-color:var(--purple);color:var(--purple)}
+.tab-btn.active-purple{background:var(--bg3);border-color:var(--navybright);color:var(--navybright)}
 
 main{flex:1;overflow-y:auto;padding:18px 20px}
 
@@ -114,12 +114,12 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .kcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;transition:border-color .2s}
 .kcard.acc{border-color:rgba(200,200,200,.3);background:linear-gradient(135deg,rgba(200,200,200,.05),var(--card) 70%)}
 .kcard.acc2{border-color:rgba(255,184,32,.3);background:linear-gradient(135deg,rgba(255,184,32,.06),var(--card) 70%)}
-.kcard.acc-purple{border-color:rgba(167,139,250,.35);background:linear-gradient(135deg,rgba(167,139,250,.07),var(--card) 70%)}
-.kcard.acc-purple2{border-color:rgba(167,139,250,.25);background:linear-gradient(135deg,rgba(167,139,250,.05),var(--card) 70%)}
+.kcard.acc-purple{border-color:rgba(37,87,170,.35);background:linear-gradient(135deg,var(--navylight),var(--card) 70%)}
+.kcard.acc-purple2{border-color:rgba(37,87,170,.22);background:linear-gradient(135deg,rgba(37,87,170,.06),var(--card) 70%)}
 .klbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:7px;display:flex;align-items:center;gap:5px}
 .klbl-sub{font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
 .kval{font-size:24px;font-weight:800;letter-spacing:-1px;line-height:1}
-.kval.g{color:var(--green)}.kval.b{color:var(--blue)}.kval.r{color:var(--red)}.kval.w{color:var(--warn)}.kval.p{color:var(--purple)}
+.kval.g{color:var(--green)}.kval.b{color:var(--blue)}.kval.r{color:var(--red)}.kval.w{color:var(--warn)}.kval.p{color:var(--navybright)}
 .ksub{font-size:11px;color:var(--muted2);margin-top:4px;font-weight:500}
 .nps-big{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1}
 /* Minimal NPS score: B&W dynamic */
@@ -190,6 +190,39 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .mt-bar-val{font-size:11px;font-weight:700;color:var(--muted2);white-space:nowrap;text-align:left}
 .mt-bar-val span{color:var(--text);font-weight:800}
 .mt-empty{padding:28px;text-align:center;color:var(--muted2);font-size:13px}
+
+
+/* ─── NPS REDE CARD ──────────────────────────────────────────────── */
+.rede-card{background:linear-gradient(135deg,rgba(37,87,170,.14),rgba(167,139,250,.08),var(--card) 65%);border:1px solid rgba(37,87,170,.45);border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+.rede-nps-num{font-size:60px;font-weight:800;letter-spacing:-3px;line-height:1;color:var(--purple)}
+.rede-mini-card{text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px 16px;min-width:80px}
+.rede-mini-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:5px}
+.rede-mini-val{font-size:20px;font-weight:800}
+.rede-mini-pct{font-size:10px;color:var(--muted2);margin-top:2px}
+
+/* ─── PRODUTO ANALYSIS (Hoomy) ───────────────────────────────────── */
+.prod-analysis-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.prod-analysis-header{padding:14px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.prod-toggle{display:flex;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:3px}
+.prod-toggle-btn{border:none;border-radius:7px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .18s;background:transparent;color:var(--muted2)}
+.prod-toggle-btn.active-d{background:var(--rdim);color:var(--red);border:1px solid rgba(255,64,96,.3)}
+.prod-toggle-btn.active-p{background:var(--gdim);color:var(--green);border:1px solid rgba(0,224,132,.3)}
+.prod-body{padding:16px 20px 20px}
+.prod-stats-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.prod-stat{font-size:11px;color:var(--muted2);font-weight:600}
+.prod-stat span{font-weight:800;color:var(--text)}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.prod-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .18s}
+.prod-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.prod-card-name{font-size:13px;font-weight:800;margin-bottom:10px;letter-spacing:-.2px}
+.prod-card-nps{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.prod-card-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.prod-card-bar-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.prod-card-meta{display:flex;gap:10px;flex-wrap:wrap}
+.prod-card-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.prod-card-chip.g{background:var(--gdim);color:var(--green)}
+.prod-card-chip.b{background:var(--bdim);color:var(--blue)}
+.prod-card-chip.r{background:var(--rdim);color:var(--red)}
 
 /* ─── TAG MODAL ──────────────────────────────────────────────────── */
 #tag-modal-bg{position:fixed;inset:0;background:rgba(8,14,26,.87);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
@@ -280,18 +313,18 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 .comp-vs-x{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--minimal-text),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .comp-co{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
 .comp-co.minimal{border-color:rgba(200,200,200,.3);background:linear-gradient(135deg,rgba(200,200,200,.05),var(--card) 70%)}
-.comp-co.hoomy{border-color:rgba(167,139,250,.3);background:linear-gradient(135deg,rgba(167,139,250,.06),var(--card) 70%)}
+.comp-co.hoomy{border-color:rgba(37,87,170,.35);background:linear-gradient(135deg,var(--navylight),var(--card) 70%)}
 .comp-co-name{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
-.comp-co-name.m{color:var(--minimal-text)}.comp-co-name.h{color:var(--purple)}
+.comp-co-name.m{color:var(--minimal-text)}.comp-co-name.h{color:var(--navybright)}
 .comp-nps{font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1}
-.comp-nps.m{color:var(--minimal-text)}.comp-nps.h{color:var(--purple)}
+.comp-nps.m{color:var(--minimal-text)}.comp-nps.h{color:var(--navybright)}
 .comp-detail{font-size:11px;color:var(--muted2);margin-top:5px}
 
 /* ─── COMP HERO WITH LOGOS ─────────────────────────────────────── */
 .comp-brand-hero{display:flex;align-items:center;justify-content:center;gap:20px;padding:20px 0 14px;flex-shrink:0;border-bottom:1px solid var(--border);margin-bottom:0}
 .comp-brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .comp-brand-name.m{color:var(--minimal-text)}
-.comp-brand-name.h{color:var(--purple)}
+.comp-brand-name.h{color:var(--navybright)}
 .comp-brand-x{font-size:18px;font-weight:900;color:var(--muted2);padding:0 4px}
 
 /* ─── RESPONSIVE ────────────────────────────────────────────────── */
@@ -345,7 +378,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       </div>
       <div class="home-card hc-hoomy" onclick="enterDashboard('hoomy')">
         <div class="home-card-ico h">
-          <svg width="26" height="20" viewBox="0 0 70 28" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="24" fill="#a78bfa">hoomy</text></svg>
+          <svg width="26" height="20" viewBox="0 0 70 28" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="24" fill="#2557aa">hoomy</text></svg>
         </div>
         <div>
           <div class="home-card-name h">Hoomy</div>
@@ -354,16 +387,14 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       </div>
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
         <div class="home-card-ico c">
-          <!-- Mini logos side by side -->
-          <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800">
-            <span style="color:var(--minimal-text);opacity:.9">M</span>
-            <span style="color:var(--muted2);font-size:9px">✕</span>
-            <span style="color:var(--purple)">H</span>
-          </div>
+          <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+            <circle cx="16" cy="24" r="12" fill="var(--purple)" opacity=".9"/>
+            <circle cx="21" cy="18" r="8" fill="#0f1826"/>
+          </svg>
         </div>
         <div>
-          <div class="home-card-name c">Moon × Hoomy</div>
-          <div class="home-card-sub" style="margin-top:5px">NPS lado a lado e evolução conjunta</div>
+          <div class="home-card-name c">MOON</div>
+          <div class="home-card-sub" style="margin-top:5px">NPS Rede unificado · Minimal + Hoomy</div>
         </div>
       </div>
     </div>
@@ -422,13 +453,12 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <span class="hnav-label" style="font-size:13px;font-weight:800;letter-spacing:.5px;color:inherit">MINIMAL</span>
         </button>
         <button class="hnav-btn" id="hnav-hoomy" onclick="enterDashboard('hoomy')">
-          <div class="hnav-dot" style="background:var(--purple)"></div>
+          <div class="hnav-dot" style="background:var(--navybright)"></div>
           <span class="hnav-label" style="font-size:13px;font-weight:800;font-style:italic;color:inherit">hoomy</span>
         </button>
         <button class="hnav-btn" id="hnav-comp" onclick="enterDashboard('comp')">
-          <span style="font-size:11px;font-weight:800;color:inherit;opacity:.8">MOON</span>
-          <span style="font-size:10px;color:var(--muted2);margin:0 1px">×</span>
-          <span style="font-size:11px;font-weight:800;font-style:italic;color:inherit;opacity:.8">hoomy</span>
+          <div class="hnav-dot" style="background:var(--purple)"></div>
+          <span style="font-size:13px;font-weight:800;letter-spacing:.5px;color:inherit">MOON</span>
         </button>
       </nav>
     </div>
@@ -519,14 +549,14 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="legend" id="md-leg-a" style="width:100%"></div>
         </div>
       </div>
-      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:230px"><canvas id="mc-line"></canvas></div></div>
-      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="mc-bar"></canvas></div></div>
       <div class="g3">
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title p">😊 Promotores</div><div class="tag-chart-cnt" id="mtg-cnt-p" style="color:var(--green)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-prom" style="height:250px"><canvas id="mc-tag-prom"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title n">😐 Passivos</div><div class="tag-chart-cnt" id="mtg-cnt-n" style="color:var(--blue)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-pass" style="height:250px"><canvas id="mc-tag-pass"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="mtg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-detr" style="height:250px"><canvas id="mc-tag-detr"></canvas></div></div></div>
       </div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="mc-notas"></canvas></div></div>
+      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:230px"><canvas id="mc-line"></canvas></div></div>
+      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="mc-bar"></canvas></div></div>
 
       <!-- ── MICRO-TEMAS MINIMAL ── -->
       <div class="microtemas-panel" id="mt-panel-minimal">
@@ -642,7 +672,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       </div>
       <div class="g2" style="margin-bottom:14px">
         <div class="panel" style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="ptitle">Distribuição Geral</div><span class="donut-type-label" style="background:rgba(167,139,250,.12);color:var(--purple)">Hoomy</span></div>
+          <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="ptitle">Distribuição Geral</div><span class="donut-type-label" style="background:var(--navylight);color:var(--navybright)">Hoomy</span></div>
           <div class="psub" style="width:100%;margin-bottom:6px">% no período selecionado</div>
           <div class="donut-total" id="hd-tot-g"></div>
           <div class="donut-wrap" style="height:148px;width:100%"><canvas id="hc-donut"></canvas><div class="donut-center"><div class="dbig" id="hd-nps">—</div><div class="dlbl">NPS</div></div></div>
@@ -650,13 +680,13 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         </div>
         <div class="panel"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:210px"><canvas id="hc-line"></canvas></div></div>
       </div>
-      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="hc-bar"></canvas></div></div>
       <div class="g3">
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title p">😊 Promotores</div><div class="tag-chart-cnt" id="htg-cnt-p" style="color:var(--green)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-prom" style="height:250px"><canvas id="hc-tag-prom"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title n">😐 Passivos</div><div class="tag-chart-cnt" id="htg-cnt-n" style="color:var(--blue)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-pass" style="height:250px"><canvas id="hc-tag-pass"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="htg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-detr" style="height:250px"><canvas id="hc-tag-detr"></canvas></div></div></div>
       </div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="hc-notas"></canvas></div></div>
+      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="hc-bar"></canvas></div></div>
 
       <!-- ── MICRO-TEMAS HOOMY ── -->
       <div class="microtemas-panel" id="mt-panel-hoomy">
@@ -676,6 +706,26 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         <div class="microtemas-body">
           <div class="microtemas-stats" id="hmt-stats"></div>
           <div class="mt-bar-list" id="hmt-bars"></div>
+        </div>
+      </div>
+
+
+      <!-- ── ANÁLISE DE PRODUTOS (Hoomy only) ── -->
+      <div class="prod-analysis-panel" id="prod-panel-hoomy">
+        <div class="prod-analysis-header">
+          <div>
+            <div style="font-size:14px;font-weight:800;letter-spacing:-.2px">📦 Análise por Produto</div>
+            <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">NPS por produto · compare detratores e promotores · clique no card para ver respostas</div>
+          </div>
+          <div class="prod-toggle">
+            <button class="prod-toggle-btn active-d" id="hprod-detr" onclick="switchProdToggle('Detrator')">😞 Detratores</button>
+            <button class="prod-toggle-btn" id="hprod-prom" onclick="switchProdToggle('Promotor')">😊 Promotores</button>
+            <button class="prod-toggle-btn" id="hprod-nps" onclick="switchProdToggle('NPS')">📊 NPS Score</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-stats-row" id="hprod-stats"></div>
+          <div class="prod-grid" id="hprod-grid"></div>
         </div>
       </div>
 
@@ -716,11 +766,15 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ COMPARATIVO SECTION ══════════════ -->
   <div id="section-comp" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- Comp brand hero with logos -->
-    <div class="comp-brand-hero" style="background:var(--bg2)">
-      <span class="comp-brand-name m">MINIMAL</span>
-      <span class="comp-brand-x">×</span>
-      <span class="comp-brand-name h" style="font-style:italic">hoomy</span>
+    <!-- MOON brand hero - SVG logo centered -->
+    <div style="background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:14px 0 10px;flex-shrink:0">
+      <svg width="170" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
+        <circle cx="34" cy="28" r="16" fill="#080e1a"/>
+        <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
+        <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
+        <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
+      </svg>
     </div>
     <!-- Comp date filter bar -->
     <div class="comp-fbar">
@@ -742,6 +796,39 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       <span class="f-count" id="cf-count"></span>
     </div>
     <main style="flex:1;overflow-y:auto;padding:18px 20px">
+      <!-- ══ NPS REDE ══ -->
+      <div class="rede-card">
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;display:flex;align-items:center;gap:8px">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="15" cy="24" r="11" fill="var(--purple)" opacity=".85"/><circle cx="20" cy="18" r="7" fill="#080e1a"/></svg>
+            NPS REDE · Minimal + Hoomy Unificado
+          </div>
+          <div class="rede-nps-num" id="rede-nps-big">—</div>
+          <div style="font-size:12px;color:var(--muted2);margin-top:8px;font-weight:500" id="rede-nps-sub">Calculando...</div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          <div class="rede-mini-card">
+            <div class="rede-mini-lbl">Promotores</div>
+            <div class="rede-mini-val" style="color:var(--green)" id="rede-prom">—</div>
+            <div class="rede-mini-pct" id="rede-prom-pct">—%</div>
+          </div>
+          <div class="rede-mini-card">
+            <div class="rede-mini-lbl">Passivos</div>
+            <div class="rede-mini-val" style="color:var(--blue)" id="rede-pass">—</div>
+            <div class="rede-mini-pct" id="rede-pass-pct">—%</div>
+          </div>
+          <div class="rede-mini-card">
+            <div class="rede-mini-lbl">Detratores</div>
+            <div class="rede-mini-val" style="color:var(--red)" id="rede-detr">—</div>
+            <div class="rede-mini-pct" id="rede-detr-pct">—%</div>
+          </div>
+          <div class="rede-mini-card">
+            <div class="rede-mini-lbl">Total</div>
+            <div class="rede-mini-val" style="color:var(--text)" id="rede-tot">—</div>
+            <div class="rede-mini-pct">respostas</div>
+          </div>
+        </div>
+      </div>
       <div class="comp-hero">
         <div class="comp-co minimal">
           <div class="comp-co-name m">Minimal Club</div>
@@ -919,6 +1006,7 @@ async function refreshAll() {
     setDefaultPeriod('hoomy');
     applyMFilters('minimal');
     applyMFilters('hoomy');
+    updateRedeCard(STATE.minimal.raw, STATE.hoomy.raw);
     document.getElementById('ubadge').textContent = 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
     toast('Minimal: ' + STATE.minimal.raw.length + ' | Hoomy: ' + STATE.hoomy.raw.length + ' respostas', 'ok');
   } catch(e) { toast('Erro: ' + e.message, 'err'); console.error(e); }
@@ -1217,6 +1305,7 @@ function renderAll(co) {
     renderComments(co);
     renderTable(co,filtered);
     renderMicroTemas('hoomy', filtered);
+    renderProdAnalysis(filtered);
   }
 
   if (mSubTab[co] === 'graficos') requestAnimationFrame(() => renderGraficosCharts(co));
@@ -1266,10 +1355,11 @@ function renderLine(co,canvasId,chartKey,data) {
   data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')bm[k].prom++;else if(r.sentimento==='Passivo')bm[k].pass++;else bm[k].detr++;});
   const keys=Object.keys(bm).sort(),labels=keys.map(k=>bm[k].lbl);
   const npss=keys.map(k=>{const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):0;});
-  const color=co==='hoomy'?'#a78bfa':'var(--minimal-text)';
-  const isDark=isDk();
-  const lineColor=co==='hoomy'?'#a78bfa':(isDark?'#ffffff':'#000000');
-  const gradColor=co==='hoomy'?'rgba(167,139,250,.22)':(isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)');
+  const isDark2=isDk();
+  const color=co==='hoomy'?'#2557aa':(isDk2?'#ffffff':'#000000');
+  const isDark=isDk2;
+  const lineColor=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
+  const gradColor=co==='hoomy'?'rgba(37,87,170,.25)':(isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)');
   const ctx=document.getElementById(canvasId).getContext('2d');
   const g=ctx.createLinearGradient(0,0,0,240);
   g.addColorStop(0,gradColor);g.addColorStop(1,'rgba(0,0,0,0)');
@@ -1403,8 +1493,8 @@ function filterMTable(co) {
 function renderGraficosCharts(co) {
   const {filtered}=STATE[co],p=co==='minimal'?'m':'h';
   const isDark=isDk();
-  const color=co==='hoomy'?'#a78bfa':(isDark?'#ffffff':'#000000');
-  const rgb=co==='hoomy'?'167,139,250':(isDark?'255,255,255':'0,0,0');
+  const color=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
+  const rgb=co==='hoomy'?'37,87,170':(isDark?'255,255,255':'0,0,0');
   renderLineMonthlyG(p+'c-line-m','line-'+p+'-m',filtered,color,rgb);
   renderLineDailyNPS(p+'c-line-d','line-'+p+'-d',filtered,color,rgb);
   renderLineDailyVolume(p+'c-line-vol','line-'+p+'-vol',filtered);
@@ -1460,6 +1550,7 @@ function renderLineDailyCumulative(canvasId,chartKey,data) {
 function renderComp(mData, hData) {
   mData = mData !== undefined ? mData : STATE.minimal.raw;
   hData = hData !== undefined ? hData : STATE.hoomy.raw;
+  updateRedeCard(mData, hData);
   const calcNPS=data=>{const p=data.filter(r=>r.sentimento==='Promotor').length,d=data.filter(r=>r.sentimento==='Detrator').length,t=data.length;return{nps:t>0?Math.round((p/t-d/t)*100):0,p,d,t};};
   const m=calcNPS(mData),h=calcNPS(hData);
   animNum('comp-nps-m',m.nps); animNum('comp-nps-h',h.nps);
@@ -1468,7 +1559,7 @@ function renderComp(mData, hData) {
   setText('comp-detail-h',h.t.toLocaleString('pt-BR')+' respostas no período');
   renderCompMonthly(mData,hData);
   renderCompDonut('cc-donut-m','cc-nps-m','cc-leg-m','comp-donut-m',mData,'#000000');
-  renderCompDonut('cc-donut-h','cc-nps-h','cc-leg-h','comp-donut-h',hData,'#a78bfa');
+  renderCompDonut('cc-donut-h','cc-nps-h','cc-leg-h','comp-donut-h',hData,'#2557aa');
   renderCompVolume(mData,hData);
   renderCompCumulative(mData,hData);
 }
@@ -1485,8 +1576,8 @@ function renderCompMonthly(mData,hData) {
   const isDark=isDk();
   const mLineColor=isDark?'rgba(255,255,255,.9)':'rgba(0,0,0,.85)';
   const gm=ctx.createLinearGradient(0,0,0,300);gm.addColorStop(0,isDark?'rgba(255,255,255,.12)':'rgba(0,0,0,.06)');gm.addColorStop(1,'rgba(0,0,0,0)');
-  const gh=ctx.createLinearGradient(0,0,0,300);gh.addColorStop(0,'rgba(167,139,250,.15)');gh.addColorStop(1,'rgba(167,139,250,0)');
-  CHARTS['comp-monthly']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Minimal',data:mNPS,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:4,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:hNPS,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  const gh=ctx.createLinearGradient(0,0,0,300);gh.addColorStop(0,'rgba(37,87,170,.2)');gh.addColorStop(1,'rgba(37,87,170,0)');
+  CHARTS['comp-monthly']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Minimal',data:mNPS,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:4,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:hNPS,borderColor:'#2557aa',backgroundColor:gh,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2557aa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 function renderCompDonut(canvasId,npsId,legId,chartKey,data,accent) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
@@ -1508,7 +1599,7 @@ function renderCompVolume(mData,hData) {
   const isDark=isDk();
   const mColor=isDark?'rgba(255,255,255,.75)':'rgba(0,0,0,.65)';
   const canvas=document.getElementById('cc-bar-vol'); if(!canvas) return;
-  CHARTS['comp-vol']=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Minimal',data:allKeys.map(k=>bm[k]?bm[k].count:0),backgroundColor:mColor,borderRadius:3,borderSkipped:false},{label:'Hoomy',data:allKeys.map(k=>bh[k]?bh[k].count:0),backgroundColor:'rgba(167,139,250,.7)',borderRadius:3,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
+  CHARTS['comp-vol']=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Minimal',data:allKeys.map(k=>bm[k]?bm[k].count:0),backgroundColor:mColor,borderRadius:3,borderSkipped:false},{label:'Hoomy',data:allKeys.map(k=>bh[k]?bh[k].count:0),backgroundColor:'rgba(37,87,170,.75)',borderRadius:3,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
 }
 function renderCompCumulative(mData,hData) {
   if(CHARTS['comp-cum'])CHARTS['comp-cum'].destroy();
@@ -1523,8 +1614,8 @@ function renderCompCumulative(mData,hData) {
   const ctx=canvas.getContext('2d');
   const mLineColor=isDark?'rgba(255,255,255,.9)':'rgba(0,0,0,.85)';
   const gm=ctx.createLinearGradient(0,0,0,280);gm.addColorStop(0,isDark?'rgba(255,255,255,.12)':'rgba(0,0,0,.06)');gm.addColorStop(1,'rgba(0,0,0,0)');
-  const gh=ctx.createLinearGradient(0,0,0,280);gh.addColorStop(0,'rgba(167,139,250,.18)');gh.addColorStop(1,'rgba(167,139,250,0)');
-  CHARTS['comp-cum']=new Chart(ctx,{type:'line',data:{labels:allKeys.map(fmtDs),datasets:[{label:'Minimal',data:cumM,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:2,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:cumH,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  const gh=ctx.createLinearGradient(0,0,0,280);gh.addColorStop(0,'rgba(37,87,170,.22)');gh.addColorStop(1,'rgba(37,87,170,0)');
+  CHARTS['comp-cum']=new Chart(ctx,{type:'line',data:{labels:allKeys.map(fmtDs),datasets:[{label:'Minimal',data:cumM,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:2,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:cumH,borderColor:'#2557aa',backgroundColor:gh,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#2557aa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1722,6 +1813,146 @@ function openMicroTagModal(co, microTag, macroTag, sentiment) {
           ${r.fonte ? `<span class="tag-resp-date">📡 ${r.fonte}</span>` : ''}
           ${r.tag ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tag}</span>` : ''}
           ${r.tagMicro ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tagMicro}</span>` : ''}
+        </div>
+        <div class="tag-resp-text">${r.comentario || '<em style="color:var(--muted2)">Sem comentário</em>'}</div>
+      </div>`
+    ).join('');
+  }
+  document.getElementById('tag-modal-bg').style.display = 'flex';
+}
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// NPS REDE (unificado)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function updateRedeCard(mData, hData) {
+  const all = [...mData, ...hData];
+  const prom = all.filter(r => r.sentimento === 'Promotor').length;
+  const pass = all.filter(r => r.sentimento === 'Passivo').length;
+  const detr = all.filter(r => r.sentimento === 'Detrator').length;
+  const tot  = all.length;
+  const nps  = tot > 0 ? Math.round((prom / tot - detr / tot) * 100) : 0;
+  const pt = r => tot > 0 ? (r / tot * 100).toFixed(1) : '0.0';
+  const npsColor = nps >= 50 ? 'var(--green)' : nps >= 0 ? 'var(--warn)' : 'var(--red)';
+  const el = id => document.getElementById(id);
+  if (el('rede-nps-big')) { el('rede-nps-big').textContent = nps; el('rede-nps-big').style.color = npsColor; }
+  if (el('rede-nps-sub')) el('rede-nps-sub').textContent = tot.toLocaleString('pt-BR') + ' respostas combinadas · Minimal + Hoomy';
+  if (el('rede-prom'))     el('rede-prom').textContent = prom.toLocaleString('pt-BR');
+  if (el('rede-prom-pct')) el('rede-prom-pct').textContent = pt(prom) + '%';
+  if (el('rede-pass'))     el('rede-pass').textContent = pass.toLocaleString('pt-BR');
+  if (el('rede-pass-pct')) el('rede-pass-pct').textContent = pt(pass) + '%';
+  if (el('rede-detr'))     el('rede-detr').textContent = detr.toLocaleString('pt-BR');
+  if (el('rede-detr-pct')) el('rede-detr-pct').textContent = pt(detr) + '%';
+  if (el('rede-tot'))      el('rede-tot').textContent = tot.toLocaleString('pt-BR');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ANÁLISE DE PRODUTOS — Hoomy
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let prodToggle = 'Detrator';
+
+function switchProdToggle(mode) {
+  prodToggle = mode;
+  ['Detrator','Promotor','NPS'].forEach(m => {
+    const id = m === 'NPS' ? 'hprod-nps' : m === 'Detrator' ? 'hprod-detr' : 'hprod-prom';
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = 'prod-toggle-btn' + (m === mode ? (m === 'Detrator' ? ' active-d' : m === 'Promotor' ? ' active-p' : ' active-nps') : '');
+  });
+  renderProdAnalysis(STATE.hoomy.filtered);
+}
+
+function renderProdAnalysis(data) {
+  const products = [...new Set(data.map(r => (r.produto || '').trim()).filter(Boolean))].sort();
+  const statsEl = document.getElementById('hprod-stats');
+  const gridEl  = document.getElementById('hprod-grid');
+  if (!statsEl || !gridEl) return;
+
+  if (!products.length) {
+    gridEl.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted2);font-size:13px">Nenhum produto encontrado nos dados filtrados.</div>';
+    return;
+  }
+
+  // Build product stats
+  const prodData = products.map(prod => {
+    const rows = data.filter(r => (r.produto || '').trim() === prod);
+    const prom = rows.filter(r => r.sentimento === 'Promotor').length;
+    const pass = rows.filter(r => r.sentimento === 'Passivo').length;
+    const detr = rows.filter(r => r.sentimento === 'Detrator').length;
+    const tot  = rows.length;
+    const nps  = tot > 0 ? Math.round((prom / tot - detr / tot) * 100) : 0;
+    return { prod, prom, pass, detr, tot, nps };
+  });
+
+  // Sort by active toggle
+  prodData.sort((a, b) =>
+    prodToggle === 'Detrator' ? b.detr - a.detr :
+    prodToggle === 'Promotor' ? b.prom - a.prom :
+    b.nps - a.nps
+  );
+
+  const maxDetr = Math.max(...prodData.map(p => p.detr), 1);
+  const maxProm = Math.max(...prodData.map(p => p.prom), 1);
+  const totalFiltered = data.length;
+
+  statsEl.innerHTML = `
+    <div class="prod-stat">${products.length} produtos encontrados</div>
+    <div class="prod-stat">Total filtrado: <span>${totalFiltered.toLocaleString('pt-BR')}</span> respostas</div>
+    <div class="prod-stat" style="margin-left:auto;font-size:10px;color:var(--muted);font-style:italic">↓ clique no card para ver respostas</div>
+  `;
+
+  gridEl.innerHTML = prodData.map(p => {
+    const npsColor = p.nps >= 50 ? 'var(--green)' : p.nps >= 0 ? 'var(--warn)' : 'var(--red)';
+    const isDetrMode = prodToggle === 'Detrator';
+    const isPromMode = prodToggle === 'Promotor';
+    const barVal  = isDetrMode ? p.detr : isPromMode ? p.prom : Math.max(0, p.nps + 100);
+    const barMax  = isDetrMode ? maxDetr : isPromMode ? maxProm : 200;
+    const barPct  = (barVal / barMax * 100).toFixed(1);
+    const barColor = isDetrMode ? 'rgba(255,64,96,.75)' : isPromMode ? 'rgba(0,224,132,.75)' : (p.nps >= 0 ? 'rgba(0,224,132,.7)' : 'rgba(255,64,96,.7)');
+    const pPct = p.tot > 0 ? (p.prom/p.tot*100).toFixed(0) : 0;
+    const dPct = p.tot > 0 ? (p.detr/p.tot*100).toFixed(0) : 0;
+    const nPct = p.tot > 0 ? (p.pass/p.tot*100).toFixed(0) : 0;
+    return `<div class="prod-card" onclick="openProdModal('${p.prod.replace(/'/g,"\\'")}','${prodToggle}')">
+      <div class="prod-card-name">${p.prod}</div>
+      <div class="prod-card-nps" style="color:${npsColor}">NPS ${p.nps > 0 ? '+' : ''}${p.nps}</div>
+      <div class="prod-card-bar"><div class="prod-card-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+      <div class="prod-card-meta">
+        <span class="prod-card-chip g">😊 ${p.prom} (${pPct}%)</span>
+        <span class="prod-card-chip b">😐 ${p.pass} (${nPct}%)</span>
+        <span class="prod-card-chip r">😞 ${p.detr} (${dPct}%)</span>
+        <span style="font-size:10px;color:var(--muted2);font-weight:600;align-self:center">${p.tot} resp.</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openProdModal(produto, mode) {
+  const rows = STATE.hoomy.filtered.filter(r =>
+    (r.produto || '').trim() === produto &&
+    (mode === 'NPS' || r.sentimento === mode)
+  ).sort((a, b) => b.date - a.date);
+
+  const sentLabel = mode === 'NPS' ? 'Todas as respostas' : mode === 'Detrator' ? 'Detratores' : 'Promotores';
+  document.getElementById('tm-title').textContent = '📦 ' + produto;
+  document.getElementById('tm-sub').textContent =
+    rows.length + ' resposta' + (rows.length !== 1 ? 's' : '') + ' · ' + sentLabel + ' · Hoomy · mais recentes primeiro';
+
+  const sc = r => r.sentimento === 'Promotor' ? 'p' : r.sentimento === 'Passivo' ? 'n' : 'd';
+  const nc = r => r.avaliacao >= 9 ? 'var(--green)' : r.avaliacao >= 7 ? 'var(--blue)' : 'var(--red)';
+  const list = document.getElementById('tm-list');
+
+  if (!rows.length) {
+    list.innerHTML = '<div class="tag-resp-empty">Nenhuma resposta encontrada</div>';
+  } else {
+    list.innerHTML = rows.slice(0, 150).map(r =>
+      `<div class="tag-resp-item">
+        <div class="tag-resp-meta">
+          <span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span>
+          <span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span>
+          <span class="tag-resp-date">${fmtD(r.date)}</span>
+          ${r.tag ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tag}</span>` : ''}
+          ${r.tagMicro ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tagMicro}</span>` : ''}
+          ${r.fonte ? `<span class="tag-resp-date">📡 ${r.fonte}</span>` : ''}
         </div>
         <div class="tag-resp-text">${r.comentario || '<em style="color:var(--muted2)">Sem comentário</em>'}</div>
       </div>`
