@@ -8,8 +8,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-[data-theme="dark"]{--bg:#080e1a;--bg2:#0f1826;--bg3:#162033;--border:#1a2d45;--border2:#203550;--text:#eef2ff;--muted:#3a4f6e;--muted2:#5a7a9e;--card:#0f1826;--hdr:rgba(8,14,26,.97)}
-[data-theme="light"]{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef5;--border:#d0dbe8;--border2:#b8ccde;--text:#0f1826;--muted:#8aa4bf;--muted2:#6a8aaa;--card:#ffffff;--hdr:rgba(255,255,255,.97)}
+[data-theme="dark"]{--bg:#080e1a;--bg2:#0f1826;--bg3:#162033;--border:#1a2d45;--border2:#203550;--text:#eef2ff;--muted:#3a4f6e;--muted2:#5a7a9e;--card:#0f1826;--hdr:rgba(8,14,26,.97);--minimal-text:#ffffff}
+[data-theme="light"]{--bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef5;--border:#d0dbe8;--border2:#b8ccde;--text:#0f1826;--muted:#8aa4bf;--muted2:#6a8aaa;--card:#ffffff;--hdr:rgba(255,255,255,.97);--minimal-text:#000000}
 :root{--green:#00e084;--gdim:rgba(0,224,132,.13);--blue:#3d9eff;--bdim:rgba(61,158,255,.12);--red:#ff4060;--rdim:rgba(255,64,96,.13);--warn:#ffb820;--wdim:rgba(255,184,32,.13);--purple:#a78bfa;--pdim:rgba(167,139,250,.13);--moon:#1a2e52;--font:'Plus Jakarta Sans',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;font-family:var(--font)}
 body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .25s,color .15s}
@@ -22,12 +22,6 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 .lsub-txt{font-size:11px;color:var(--muted2);letter-spacing:.18em;text-transform:uppercase}
 .ldesc{font-size:14px;color:var(--muted2);line-height:1.65;max-width:340px}
 
-/* ─── MOON LOGO SVG ──────────────────────────────────────────────── */
-.moon-logo-lg{width:180px;height:auto}
-.moon-logo-sm{height:28px;width:auto}
-.hoomy-logo-sm{height:20px;width:auto;filter:brightness(0) invert(1);opacity:.85}
-.minimal-logo-sm{height:16px;width:auto;filter:brightness(0) invert(1);opacity:.85}
-
 /* ─── HOME SCREEN ───────────────────────────────────────────────── */
 #home-screen{position:fixed;inset:0;background:var(--bg);z-index:150;display:none;align-items:center;justify-content:center;flex-direction:column;gap:0}
 .home-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(61,158,255,.08) 0%,transparent 70%);pointer-events:none}
@@ -37,18 +31,20 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 .home-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
 .home-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 18px 22px;cursor:pointer;transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
 .home-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
-.home-card.hc-minimal{border-color:rgba(0,224,132,.25)}
-.home-card.hc-minimal:hover{border-color:rgba(0,224,132,.55);background:linear-gradient(160deg,rgba(0,224,132,.06),var(--card) 60%)}
+.home-card.hc-minimal{border-color:rgba(200,200,200,.25)}
+.home-card.hc-minimal:hover{border-color:rgba(200,200,200,.55);background:linear-gradient(160deg,rgba(200,200,200,.06),var(--card) 60%)}
 .home-card.hc-hoomy{border-color:rgba(167,139,250,.25)}
 .home-card.hc-hoomy:hover{border-color:rgba(167,139,250,.55);background:linear-gradient(160deg,rgba(167,139,250,.06),var(--card) 60%)}
 .home-card.hc-comp{border-color:rgba(255,184,32,.25)}
 .home-card.hc-comp:hover{border-color:rgba(255,184,32,.55);background:linear-gradient(160deg,rgba(255,184,32,.06),var(--card) 60%)}
 .home-card-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.home-card-ico.m{background:rgba(0,224,132,.12);border:1px solid rgba(0,224,132,.25)}
+.home-card-ico.m{background:rgba(200,200,200,.1);border:1px solid rgba(200,200,200,.25)}
 .home-card-ico.h{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25)}
 .home-card-ico.c{background:rgba(255,184,32,.12);border:1px solid rgba(255,184,32,.25)}
 .home-card-name{font-size:15px;font-weight:800;letter-spacing:-.2px}
-.home-card-name.m{color:var(--green)}.home-card-name.h{color:var(--purple)}.home-card-name.c{color:var(--warn)}
+/* Minimal: dynamic B&W */
+.home-card-name.m{color:var(--minimal-text)}
+.home-card-name.h{color:var(--purple)}.home-card-name.c{color:var(--warn)}
 .home-card-sub{font-size:11px;color:var(--muted2);line-height:1.5}
 .home-brand-row{display:flex;align-items:center;gap:16px;opacity:.5;margin-top:8px}
 .home-brand-sep{width:1px;height:16px;background:var(--border)}
@@ -57,29 +53,36 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 #app{display:none;flex-direction:column;height:100%}
 
 /* ─── HEADER ─────────────────────────────────────────────────────── */
-header{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--hdr);backdrop-filter:blur(18px);flex-shrink:0;gap:10px;flex-wrap:wrap;min-height:52px}
-.hlogo{display:flex;align-items:center;gap:12px}
-.hbrand-logos{display:flex;align-items:center;gap:10px}
-.hbrand-sep{width:1px;height:20px;background:var(--border)}
-.htitle-block{display:flex;flex-direction:column}
-.htitle{font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1.1}
-.hsub{font-size:9px;color:var(--muted2);letter-spacing:.16em;text-transform:uppercase;margin-top:1px}
-.hright{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--border);background:var(--hdr);backdrop-filter:blur(18px);flex-shrink:0;gap:12px;flex-wrap:wrap;min-height:60px}
+.hlogo{display:flex;align-items:center;gap:14px}
+
+/* ─── HEADER NAV TABS ─────────────────────────────────────────────── */
+.hnav{display:flex;align-items:center;gap:6px}
+.hnav-btn{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);color:var(--muted2);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .18s;white-space:nowrap;letter-spacing:-.1px}
+.hnav-btn:hover{border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
+.hnav-btn.active-minimal{border-color:rgba(200,200,200,.5);color:var(--minimal-text);background:rgba(200,200,200,.08)}
+.hnav-btn.active-hoomy{border-color:rgba(167,139,250,.5);color:var(--purple);background:rgba(167,139,250,.08)}
+.hnav-btn.active-comp{border-color:rgba(255,184,32,.5);color:var(--warn);background:rgba(255,184,32,.08)}
+.hnav-dot{width:7px;height:7px;border-radius:50%}
+
+.hright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ubadge{font-size:10px;font-weight:600;color:var(--muted2);background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:3px 10px}
-.ibtn{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.ibtn{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
 .ibtn:hover{background:var(--border)}
-.ibtn-home{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);color:var(--muted2);border-radius:9px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
-.ibtn-home:hover{border-color:var(--green);color:var(--green)}
-.upill{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer;font-size:12px;font-weight:600}
-.av{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;overflow:hidden;flex-shrink:0}
+.upill{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 14px 5px 5px;cursor:pointer;font-size:12px;font-weight:600}
+.av{width:28px;height:28px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;overflow:hidden;flex-shrink:0}
 .av img{width:100%;height:100%;object-fit:cover}
 
-/* active company indicator in header */
-.hco-pill{display:flex;align-items:center;gap:6px;border-radius:20px;padding:3px 10px 3px 6px;font-size:11px;font-weight:700;border:1px solid transparent}
-.hco-pill.minimal{border-color:rgba(0,224,132,.35);background:rgba(0,224,132,.08);color:var(--green)}
-.hco-pill.hoomy{border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.08);color:var(--purple)}
-.hco-pill.comp{border-color:rgba(255,184,32,.35);background:rgba(255,184,32,.08);color:var(--warn)}
-.hco-dot{width:6px;height:6px;border-radius:50%}
+/* ─── BRAND HERO (dentro da aba) ────────────────────────────────── */
+.brand-hero{display:flex;align-items:center;justify-content:center;padding:28px 0 18px;flex-shrink:0}
+.brand-hero-inner{display:flex;flex-direction:column;align-items:center;gap:10px}
+.brand-hero-name{font-size:38px;font-weight:800;letter-spacing:-1px;line-height:1}
+.brand-hero-name.minimal{color:var(--minimal-text)}
+.brand-hero-name.hoomy{color:var(--purple)}
+.brand-hero-sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);font-weight:600}
+.brand-hero-line{width:60px;height:2px;border-radius:1px;margin-top:2px}
+.brand-hero-line.minimal{background:var(--minimal-text);opacity:.3}
+.brand-hero-line.hoomy{background:var(--purple);opacity:.4}
 
 /* ─── FILTROS ────────────────────────────────────────────────────── */
 .fbar{display:flex;align-items:center;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
@@ -109,7 +112,7 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .krow5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
 .krow6h{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
 .kcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;transition:border-color .2s}
-.kcard.acc{border-color:rgba(0,224,132,.35);background:linear-gradient(135deg,rgba(0,224,132,.07),var(--card) 70%)}
+.kcard.acc{border-color:rgba(200,200,200,.3);background:linear-gradient(135deg,rgba(200,200,200,.05),var(--card) 70%)}
 .kcard.acc2{border-color:rgba(255,184,32,.3);background:linear-gradient(135deg,rgba(255,184,32,.06),var(--card) 70%)}
 .kcard.acc-purple{border-color:rgba(167,139,250,.35);background:linear-gradient(135deg,rgba(167,139,250,.07),var(--card) 70%)}
 .kcard.acc-purple2{border-color:rgba(167,139,250,.25);background:linear-gradient(135deg,rgba(167,139,250,.05),var(--card) 70%)}
@@ -119,6 +122,8 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .kval.g{color:var(--green)}.kval.b{color:var(--blue)}.kval.r{color:var(--red)}.kval.w{color:var(--warn)}.kval.p{color:var(--purple)}
 .ksub{font-size:11px;color:var(--muted2);margin-top:4px;font-weight:500}
 .nps-big{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1}
+/* Minimal NPS score: B&W dynamic */
+.nps-big.minimal-score{color:var(--minimal-text)}
 
 /* ─── PANELS ────────────────────────────────────────────────────── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -143,7 +148,7 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .legb{height:100%;border-radius:2px;transition:width 1.2s ease}
 .donut-total{font-size:11px;color:var(--muted2);text-align:center;margin-bottom:6px;font-weight:500}
 .donut-type-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block}
-.donut-type-label.geral{background:rgba(0,224,132,.12);color:var(--green)}
+.donut-type-label.geral{background:rgba(200,200,200,.1);color:var(--minimal-text)}
 .donut-type-label.varejo{background:rgba(61,158,255,.15);color:var(--blue)}
 .donut-type-label.assinatura{background:rgba(255,184,32,.15);color:var(--warn)}
 
@@ -238,21 +243,31 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 .section-header::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* ─── COMPARATIVO ───────────────────────────────────────────────── */
+/* Comp header with date filter */
+.comp-fbar{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
 .comp-hero{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;margin-bottom:14px;align-items:center}
-.comp-vs{font-size:26px;font-weight:800;color:var(--muted);text-align:center}
+.comp-vs{font-size:26px;font-weight:800;color:var(--muted);text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.comp-vs-x{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--minimal-text),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .comp-co{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
-.comp-co.minimal{border-color:rgba(0,224,132,.3);background:linear-gradient(135deg,rgba(0,224,132,.06),var(--card) 70%)}
+.comp-co.minimal{border-color:rgba(200,200,200,.3);background:linear-gradient(135deg,rgba(200,200,200,.05),var(--card) 70%)}
 .comp-co.hoomy{border-color:rgba(167,139,250,.3);background:linear-gradient(135deg,rgba(167,139,250,.06),var(--card) 70%)}
 .comp-co-name{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
-.comp-co-name.m{color:var(--green)}.comp-co-name.h{color:var(--purple)}
+.comp-co-name.m{color:var(--minimal-text)}.comp-co-name.h{color:var(--purple)}
 .comp-nps{font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1}
-.comp-nps.m{color:var(--green)}.comp-nps.h{color:var(--purple)}
+.comp-nps.m{color:var(--minimal-text)}.comp-nps.h{color:var(--purple)}
 .comp-detail{font-size:11px;color:var(--muted2);margin-top:5px}
+
+/* ─── COMP HERO WITH LOGOS ─────────────────────────────────────── */
+.comp-brand-hero{display:flex;align-items:center;justify-content:center;gap:20px;padding:20px 0 14px;flex-shrink:0;border-bottom:1px solid var(--border);margin-bottom:0}
+.comp-brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.comp-brand-name.m{color:var(--minimal-text)}
+.comp-brand-name.h{color:var(--purple)}
+.comp-brand-x{font-size:18px;font-weight:900;color:var(--muted2);padding:0 4px}
 
 /* ─── RESPONSIVE ────────────────────────────────────────────────── */
 @media(max-width:1300px){.krow,.krow6h{grid-template-columns:repeat(3,1fr)}.krow5{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.comp-hero{grid-template-columns:1fr;text-align:center}.comp-vs{display:none}}
-@media(max-width:768px){.krow,.krow5,.krow6h{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:12px 14px}header,.fbar,.tabbar{padding:7px 14px}.home-cards{grid-template-columns:1fr}}
+@media(max-width:768px){.krow,.krow5,.krow6h{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:12px 14px}header,.fbar,.tabbar{padding:7px 14px}.home-cards{grid-template-columns:1fr}.hnav-btn span.hnav-label{display:none}}
 </style>
 </head>
 <body>
@@ -260,8 +275,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 <!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
   <div class="lbox">
-    <!-- Moon Ventures Logo SVG -->
-    <svg class="moon-logo-lg" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="moon-logo-lg" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
       <circle cx="34" cy="28" r="16" fill="#0f1826"/>
       <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
@@ -281,7 +295,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 <div id="home-screen">
   <div class="home-bg"></div>
   <div class="home-inner">
-    <svg class="moon-logo-lg" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
       <circle cx="34" cy="28" r="16" fill="#080e1a"/>
       <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
@@ -292,7 +306,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
     <div class="home-cards">
       <div class="home-card hc-minimal" onclick="enterDashboard('minimal')">
         <div class="home-card-ico m">
-          <svg width="26" height="18" viewBox="0 0 80 26" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="22" letter-spacing="1" fill="#00e084">MINIMAL</text></svg>
+          <svg width="26" height="18" viewBox="0 0 80 26" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="22" letter-spacing="1" fill="var(--minimal-text)">MINIMAL</text></svg>
         </div>
         <div>
           <div class="home-card-name m">Minimal Club</div>
@@ -309,10 +323,17 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         </div>
       </div>
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
-        <div class="home-card-ico c">⚡</div>
+        <div class="home-card-ico c">
+          <!-- Mini logos side by side -->
+          <div style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800">
+            <span style="color:var(--minimal-text);opacity:.9">M</span>
+            <span style="color:var(--muted2);font-size:9px">✕</span>
+            <span style="color:var(--purple)">H</span>
+          </div>
+        </div>
         <div>
-          <div class="home-card-name c">Comparativo</div>
-          <div class="home-card-sub" style="margin-top:5px">Moon × Hoomy — NPS lado a lado e evolução conjunta</div>
+          <div class="home-card-name c">Moon × Hoomy</div>
+          <div class="home-card-sub" style="margin-top:5px">NPS lado a lado e evolução conjunta</div>
         </div>
       </div>
     </div>
@@ -352,36 +373,36 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 ════════════════════════════════════════════════════════════ -->
 <div id="app" style="display:none;flex-direction:column;height:100%">
 
-  <!-- HEADER -->
+  <!-- HEADER — now with inline nav tabs -->
   <header>
     <div class="hlogo">
-      <!-- Moon Ventures logo pequena -->
-      <svg width="112" height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+      <!-- Moon Ventures logo -->
+      <svg width="100" height="32" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
         <circle cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
         <circle cx="34" cy="28" r="16" fill="#080e1a"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
         <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
         <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
       </svg>
-      <div style="width:1px;height:28px;background:var(--border);margin:0 4px"></div>
-      <!-- Minimal logo -->
-      <svg width="60" height="14" viewBox="0 0 140 26" fill="none" style="opacity:.7">
-        <text x="0" y="20" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="18" letter-spacing="2" fill="var(--text)">MINIMAL</text>
-      </svg>
-      <div style="width:1px;height:28px;background:var(--border);margin:0 4px"></div>
-      <!-- Hoomy logo -->
-      <svg width="48" height="16" viewBox="0 0 70 28" fill="none" style="opacity:.75">
-        <text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" fill="var(--text)">hoomy</text>
-      </svg>
-      <div style="width:1px;height:28px;background:var(--border);margin:0 8px 0 4px"></div>
-      <!-- Active company pill -->
-      <div class="hco-pill" id="hco-pill">
-        <div class="hco-dot" id="hco-dot" style="background:var(--green)"></div>
-        <span id="hco-label">Minimal</span>
-      </div>
+      <div style="width:1px;height:32px;background:var(--border);margin:0 6px"></div>
+      <!-- Direct nav buttons -->
+      <nav class="hnav">
+        <button class="hnav-btn" id="hnav-minimal" onclick="enterDashboard('minimal')">
+          <div class="hnav-dot" style="background:var(--minimal-text)"></div>
+          <span class="hnav-label" style="font-size:13px;font-weight:800;letter-spacing:.5px;color:inherit">MINIMAL</span>
+        </button>
+        <button class="hnav-btn" id="hnav-hoomy" onclick="enterDashboard('hoomy')">
+          <div class="hnav-dot" style="background:var(--purple)"></div>
+          <span class="hnav-label" style="font-size:13px;font-weight:800;font-style:italic;color:inherit">hoomy</span>
+        </button>
+        <button class="hnav-btn" id="hnav-comp" onclick="enterDashboard('comp')">
+          <span style="font-size:11px;font-weight:800;color:inherit;opacity:.8">MOON</span>
+          <span style="font-size:10px;color:var(--muted2);margin:0 1px">×</span>
+          <span style="font-size:11px;font-weight:800;font-style:italic;color:inherit;opacity:.8">hoomy</span>
+        </button>
+      </nav>
     </div>
     <div class="hright">
-      <button class="ibtn-home" onclick="goHome()">← Home</button>
       <div class="ubadge" id="ubadge">—</div>
       <button class="ibtn" onclick="refreshAll()">↻ Atualizar</button>
       <button class="ibtn" onclick="toggleTheme()" id="theme-btn">🌙</button>
@@ -392,6 +413,14 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ MINIMAL SECTION ══════════════ -->
   <div id="section-minimal" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <!-- Brand Hero -->
+    <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
+      <div class="brand-hero-inner">
+        <div class="brand-hero-name minimal">MINIMAL CLUB</div>
+        <div class="brand-hero-line minimal"></div>
+        <div class="brand-hero-sub">NPS Dashboard · Varejo & Assinatura</div>
+      </div>
+    </div>
     <div class="fbar">
       <span class="flbl">Período</span>
       <select class="fsel" id="mf-ano" onchange="onMFilterChange('minimal')"><option value="">Ano</option></select>
@@ -430,7 +459,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
     </div>
     <main id="mtab-dashboard" style="display:block">
       <div class="krow">
-        <div class="kcard acc"><div class="klbl">NPS Score</div><div class="nps-big g" id="mk-nps">—</div><div class="ksub" id="mk-nps-sub">período selecionado</div></div>
+        <div class="kcard acc"><div class="klbl">NPS Score</div><div class="nps-big minimal-score" id="mk-nps">—</div><div class="ksub" id="mk-nps-sub">período selecionado</div></div>
         <div class="kcard acc2"><div class="klbl">NPS do Ano <span class="klbl-sub" id="mk-ano-lbl"></span></div><div class="nps-big w" id="mk-nps-ano">—</div><div class="ksub" id="mk-ano-sub">acumulado do ano</div></div>
         <div class="kcard"><div class="klbl">Total Respostas</div><div class="kval b" id="mk-tot">—</div><div class="ksub">avaliações no período</div></div>
         <div class="kcard"><div class="klbl">Promotores</div><div class="kval g" id="mk-prom">—</div><div class="ksub" id="mk-prom-s">—</div></div>
@@ -505,6 +534,14 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ HOOMY SECTION ══════════════ -->
   <div id="section-hoomy" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <!-- Brand Hero -->
+    <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
+      <div class="brand-hero-inner">
+        <div class="brand-hero-name hoomy">hoomy</div>
+        <div class="brand-hero-line hoomy"></div>
+        <div class="brand-hero-sub">NPS Dashboard · Produto & Tags</div>
+      </div>
+    </div>
     <div class="fbar">
       <span class="flbl">Período</span>
       <select class="fsel" id="hf-ano" onchange="onMFilterChange('hoomy')"><option value="">Ano</option></select>
@@ -543,7 +580,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       <button class="tab-btn" id="htab-graficos-btn" onclick="switchHTab('graficos')">📈 Gráficos de Linha</button>
     </div>
     <main id="htab-dashboard" style="display:block">
-      <!-- 6 cards: NPS Período, NPS Anual, Total, Promotores, Passivos, Detratores -->
       <div class="krow6h">
         <div class="kcard acc-purple"><div class="klbl">NPS Score</div><div class="nps-big p" id="hk-nps">—</div><div class="ksub" id="hk-nps-sub">período selecionado</div></div>
         <div class="kcard acc-purple2"><div class="klbl">NPS Anual <span class="klbl-sub" id="hk-ano-lbl"></span></div><div class="nps-big p" id="hk-nps-ano">—</div><div class="ksub" id="hk-ano-sub">Jan–Dez do ano atual</div></div>
@@ -554,7 +590,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       </div>
       <div class="g2" style="margin-bottom:14px">
         <div class="panel" style="display:flex;flex-direction:column;align-items:center">
-          <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="ptitle">Distribuição Geral</div><span class="donut-type-label geral">Hoomy</span></div>
+          <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="ptitle">Distribuição Geral</div><span class="donut-type-label" style="background:rgba(167,139,250,.12);color:var(--purple)">Hoomy</span></div>
           <div class="psub" style="width:100%;margin-bottom:6px">% no período selecionado</div>
           <div class="donut-total" id="hd-tot-g"></div>
           <div class="donut-wrap" style="height:148px;width:100%"><canvas id="hc-donut"></canvas><div class="donut-center"><div class="dbig" id="hd-nps">—</div><div class="dlbl">NPS</div></div></div>
@@ -606,6 +642,31 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ COMPARATIVO SECTION ══════════════ -->
   <div id="section-comp" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <!-- Comp brand hero with logos -->
+    <div class="comp-brand-hero" style="background:var(--bg2)">
+      <span class="comp-brand-name m">MINIMAL</span>
+      <span class="comp-brand-x">×</span>
+      <span class="comp-brand-name h" style="font-style:italic">hoomy</span>
+    </div>
+    <!-- Comp date filter bar -->
+    <div class="comp-fbar">
+      <span class="flbl">Filtro de Data</span>
+      <span class="fdate-label">De</span>
+      <input type="date" class="fdate" id="cf-de" onchange="onCompDateChange()"/>
+      <span class="fdate-label">Até</span>
+      <input type="date" class="fdate" id="cf-ate" onchange="onCompDateChange()"/>
+      <div class="fsep"></div>
+      <select class="fsel" id="cf-ano" onchange="onCompAnoChange()"><option value="">Todos os anos</option></select>
+      <select class="fsel" id="cf-mes" onchange="onCompMesChange()">
+        <option value="">Todos os meses</option>
+        <option value="1">Jan</option><option value="2">Fev</option><option value="3">Mar</option>
+        <option value="4">Abr</option><option value="5">Mai</option><option value="6">Jun</option>
+        <option value="7">Jul</option><option value="8">Ago</option><option value="9">Set</option>
+        <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
+      </select>
+      <button class="freset" onclick="resetCompFilters()">✕ Limpar</button>
+      <span class="f-count" id="cf-count"></span>
+    </div>
     <main style="flex:1;overflow-y:auto;padding:18px 20px">
       <div class="comp-hero">
         <div class="comp-co minimal">
@@ -613,7 +674,9 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="comp-nps m" id="comp-nps-m">—</div>
           <div class="comp-detail" id="comp-detail-m">— respostas</div>
         </div>
-        <div class="comp-vs">VS</div>
+        <div class="comp-vs">
+          <span class="comp-vs-x">×</span>
+        </div>
         <div class="comp-co hoomy">
           <div class="comp-co-name h">Hoomy</div>
           <div class="comp-nps h" id="comp-nps-h">—</div>
@@ -665,11 +728,12 @@ const CFG = {
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 let TOKEN = null, CHARTS = {};
-let currentCompany = null; // null = home
+let currentCompany = null;
 let mSubTab = { minimal: 'dashboard', hoomy: 'dashboard' };
 let mCommFilter = { minimal: 'all', hoomy: 'all' };
 let mCommMotivo = { minimal: '', hoomy: '' };
 let mUseDateRange = { minimal: false, hoomy: false };
+let compFilter = { de: '', ate: '', ano: '', mes: '' };
 const NOW = new Date();
 const CUR_YEAR  = String(NOW.getFullYear());
 const CUR_MONTH = String(NOW.getMonth() + 1);
@@ -703,9 +767,9 @@ function showHome() {
   document.getElementById('home-screen').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
   ['minimal','hoomy','comp'].forEach(c => {
-    const s = document.getElementById('section-' + c);
-    s.style.display = 'none';
+    document.getElementById('section-' + c).style.display = 'none';
   });
+  updateNavButtons(null);
 }
 
 function goHome() { showHome(); }
@@ -714,26 +778,25 @@ function enterDashboard(co) {
   currentCompany = co;
   document.getElementById('home-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-  // Hide all sections
   ['minimal','hoomy','comp'].forEach(c => {
     document.getElementById('section-' + c).style.display = 'none';
   });
   document.getElementById('section-' + co).style.display = 'flex';
-  // Update header pill
-  updateHeaderPill(co);
-  // If comp, render it
-  if (co === 'comp') requestAnimationFrame(() => renderComp());
+  updateNavButtons(co);
+  if (co === 'comp') {
+    populateCompFilters();
+    requestAnimationFrame(() => renderComp());
+  }
 }
 
-function updateHeaderPill(co) {
-  const pill = document.getElementById('hco-pill');
-  const dot  = document.getElementById('hco-dot');
-  const lbl  = document.getElementById('hco-label');
-  const map  = { minimal: ['minimal','var(--green)','Minimal Club'], hoomy: ['hoomy','var(--purple)','Hoomy'], comp: ['comp','var(--warn)','Comparativo'] };
-  const [cls, color, name] = map[co] || ['minimal','var(--green)','Minimal'];
-  pill.className = 'hco-pill ' + cls;
-  dot.style.background = color;
-  lbl.textContent = name;
+function updateNavButtons(active) {
+  const btns = { minimal: 'hnav-minimal', hoomy: 'hnav-hoomy', comp: 'hnav-comp' };
+  Object.entries(btns).forEach(([co, id]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const activeClass = co === 'minimal' ? 'active-minimal' : co === 'hoomy' ? 'active-hoomy' : 'active-comp';
+    el.className = 'hnav-btn' + (active === co ? ' ' + activeClass : '');
+  });
 }
 
 function toggleTheme() {
@@ -778,7 +841,6 @@ async function refreshAll() {
     STATE.hoomy.raw   = parseDataHoomy(hData);
     populateFiltersFor('minimal');
     populateFiltersFor('hoomy');
-    // Set default filters to current month/year — but only if not already set
     setDefaultPeriod('minimal');
     setDefaultPeriod('hoomy');
     applyMFilters('minimal');
@@ -793,15 +855,11 @@ function setDefaultPeriod(co) {
   const p = co === 'minimal' ? 'mf' : 'hf';
   const anoEl = document.getElementById(p + '-ano');
   const mesEl = document.getElementById(p + '-mes');
-  // Only set default if currently blank (don't overwrite user selections after first load)
   if (!anoEl.value) {
-    // Select current year if available
     const opt = [...anoEl.options].find(o => o.value === CUR_YEAR);
     if (opt) anoEl.value = CUR_YEAR;
   }
-  if (!mesEl.value) {
-    mesEl.value = CUR_MONTH;
-  }
+  if (!mesEl.value) mesEl.value = CUR_MONTH;
   mUseDateRange[co] = false;
 }
 
@@ -843,7 +901,75 @@ function parseDataHoomy(vals) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FILTERS
+// COMP FILTERS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function populateCompFilters() {
+  const all = [...STATE.minimal.raw, ...STATE.hoomy.raw];
+  const anos = [...new Set(all.map(r => r.ano))].filter(Boolean).sort();
+  const sel = document.getElementById('cf-ano');
+  const cur = sel.value, first = sel.options[0];
+  sel.innerHTML = ''; sel.appendChild(first);
+  anos.forEach(a => { const op = document.createElement('option'); op.value = a; op.textContent = a; sel.appendChild(op); });
+  if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+}
+
+function onCompDateChange() {
+  const de = document.getElementById('cf-de').value;
+  const ate = document.getElementById('cf-ate').value;
+  if (de || ate) {
+    document.getElementById('cf-ano').value = '';
+    document.getElementById('cf-mes').value = '';
+    document.getElementById('cf-de').classList.toggle('active', !!de);
+    document.getElementById('cf-ate').classList.toggle('active', !!ate);
+  }
+  compFilter = { de, ate, ano: '', mes: '' };
+  applyCompFilters();
+}
+function onCompAnoChange() {
+  compFilter.ano = document.getElementById('cf-ano').value;
+  compFilter.de = ''; compFilter.ate = '';
+  document.getElementById('cf-de').value = '';
+  document.getElementById('cf-ate').value = '';
+  document.getElementById('cf-de').classList.remove('active');
+  document.getElementById('cf-ate').classList.remove('active');
+  applyCompFilters();
+}
+function onCompMesChange() {
+  compFilter.mes = document.getElementById('cf-mes').value;
+  applyCompFilters();
+}
+function resetCompFilters() {
+  compFilter = { de: '', ate: '', ano: '', mes: '' };
+  ['cf-de','cf-ate'].forEach(id => { const el=document.getElementById(id); if(el){el.value='';el.classList.remove('active');} });
+  ['cf-ano','cf-mes'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  applyCompFilters();
+}
+function filterCompData(raw) {
+  return raw.filter(r => {
+    if (compFilter.de) {
+      const dp = compFilter.de.split('-'); const d = new Date(+dp[0],+dp[1]-1,+dp[2]);
+      if (r.date < d) return false;
+    }
+    if (compFilter.ate) {
+      const dp = compFilter.ate.split('-'); const d = new Date(+dp[0],+dp[1]-1,+dp[2]); d.setHours(23,59,59,999);
+      if (r.date > d) return false;
+    }
+    if (compFilter.ano && r.ano !== compFilter.ano) return false;
+    if (compFilter.mes && String(r.mesNum) !== compFilter.mes) return false;
+    return true;
+  });
+}
+function applyCompFilters() {
+  const mFiltered = filterCompData(STATE.minimal.raw);
+  const hFiltered = filterCompData(STATE.hoomy.raw);
+  const total = mFiltered.length + hFiltered.length;
+  const cnt = document.getElementById('cf-count');
+  if (cnt) cnt.textContent = 'Minimal: ' + mFiltered.length + ' · Hoomy: ' + hFiltered.length;
+  renderComp(mFiltered, hFiltered);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FILTERS (minimal/hoomy)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const pfx = co => co === 'minimal' ? 'mf' : 'hf';
 
@@ -955,7 +1081,6 @@ function resetMFilters(co) {
   mCommMotivo[co] = '';
   const ms = document.getElementById((co==='minimal'?'mc':'hc')+'f-motivo');
   if (ms) ms.value = '';
-  // restore default period
   setDefaultPeriod(co);
   applyMFilters(co);
 }
@@ -1000,7 +1125,6 @@ function renderAll(co) {
     renderComments(co);
     renderTable(co,filtered);
   } else {
-    // HOOMY — NPS Anual fixo: Jan-Dez do ano atual, ignorando filtros de data
     const curYearData = STATE.hoomy.raw.filter(r => r.ano === CUR_YEAR);
     const hyp = curYearData.filter(r => r.sentimento==='Promotor').length;
     const hyd = curYearData.filter(r => r.sentimento==='Detrator').length;
@@ -1066,11 +1190,14 @@ function renderLine(co,canvasId,chartKey,data) {
   data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')bm[k].prom++;else if(r.sentimento==='Passivo')bm[k].pass++;else bm[k].detr++;});
   const keys=Object.keys(bm).sort(),labels=keys.map(k=>bm[k].lbl);
   const npss=keys.map(k=>{const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):0;});
-  const color=co==='hoomy'?'#a78bfa':'#00e084';
+  const color=co==='hoomy'?'#a78bfa':'var(--minimal-text)';
+  const isDark=isDk();
+  const lineColor=co==='hoomy'?'#a78bfa':(isDark?'#ffffff':'#000000');
+  const gradColor=co==='hoomy'?'rgba(167,139,250,.22)':(isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)');
   const ctx=document.getElementById(canvasId).getContext('2d');
   const g=ctx.createLinearGradient(0,0,0,240);
-  g.addColorStop(0,co==='hoomy'?'rgba(167,139,250,.22)':'rgba(0,224,132,.22)');g.addColorStop(1,'rgba(0,0,0,0)');
-  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'NPS',data:npss,borderColor:color,backgroundColor:g,borderWidth:2.5,pointRadius:4,pointBackgroundColor:color,fill:true,tension:.35}]},options:{...cOpts(false),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  g.addColorStop(0,gradColor);g.addColorStop(1,'rgba(0,0,0,0)');
+  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'NPS',data:npss,borderColor:lineColor,backgroundColor:g,borderWidth:2.5,pointRadius:4,pointBackgroundColor:lineColor,fill:true,tension:.35}]},options:{...cOpts(false),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 
 function renderBar(co,canvasId,chartKey,data) {
@@ -1198,7 +1325,10 @@ function filterMTable(co) {
 // GRÁFICOS DE LINHA
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderGraficosCharts(co) {
-  const {filtered}=STATE[co],p=co==='minimal'?'m':'h',color=co==='hoomy'?'#a78bfa':'#00e084',rgb=co==='hoomy'?'167,139,250':'0,224,132';
+  const {filtered}=STATE[co],p=co==='minimal'?'m':'h';
+  const isDark=isDk();
+  const color=co==='hoomy'?'#a78bfa':(isDark?'#ffffff':'#000000');
+  const rgb=co==='hoomy'?'167,139,250':(isDark?'255,255,255':'0,0,0');
   renderLineMonthlyG(p+'c-line-m','line-'+p+'-m',filtered,color,rgb);
   renderLineDailyNPS(p+'c-line-d','line-'+p+'-d',filtered,color,rgb);
   renderLineDailyVolume(p+'c-line-vol','line-'+p+'-vol',filtered);
@@ -1251,17 +1381,17 @@ function renderLineDailyCumulative(canvasId,chartKey,data) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // COMPARATIVO
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderComp() {
-  const mData=STATE.minimal.raw.length?STATE.minimal.raw:[];
-  const hData=STATE.hoomy.raw.length?STATE.hoomy.raw:[];
+function renderComp(mData, hData) {
+  mData = mData !== undefined ? mData : STATE.minimal.raw;
+  hData = hData !== undefined ? hData : STATE.hoomy.raw;
   const calcNPS=data=>{const p=data.filter(r=>r.sentimento==='Promotor').length,d=data.filter(r=>r.sentimento==='Detrator').length,t=data.length;return{nps:t>0?Math.round((p/t-d/t)*100):0,p,d,t};};
   const m=calcNPS(mData),h=calcNPS(hData);
   animNum('comp-nps-m',m.nps); animNum('comp-nps-h',h.nps);
   animNum('cc-nps-m',m.nps);   animNum('cc-nps-h',h.nps);
-  setText('comp-detail-m',m.t.toLocaleString('pt-BR')+' respostas totais');
-  setText('comp-detail-h',h.t.toLocaleString('pt-BR')+' respostas totais');
+  setText('comp-detail-m',m.t.toLocaleString('pt-BR')+' respostas no período');
+  setText('comp-detail-h',h.t.toLocaleString('pt-BR')+' respostas no período');
   renderCompMonthly(mData,hData);
-  renderCompDonut('cc-donut-m','cc-nps-m','cc-leg-m','comp-donut-m',mData,'#00e084');
+  renderCompDonut('cc-donut-m','cc-nps-m','cc-leg-m','comp-donut-m',mData,'#000000');
   renderCompDonut('cc-donut-h','cc-nps-h','cc-leg-h','comp-donut-h',hData,'#a78bfa');
   renderCompVolume(mData,hData);
   renderCompCumulative(mData,hData);
@@ -1276,9 +1406,11 @@ function renderCompMonthly(mData,hData) {
   const hNPS=allKeys.map(k=>{if(!bh[k])return null;const{prom,pass,detr}=bh[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):null;});
   const canvas=document.getElementById('cc-line-m'); if(!canvas) return;
   const ctx=canvas.getContext('2d');
-  const gm=ctx.createLinearGradient(0,0,0,300);gm.addColorStop(0,'rgba(0,224,132,.15)');gm.addColorStop(1,'rgba(0,224,132,0)');
+  const isDark=isDk();
+  const mLineColor=isDark?'rgba(255,255,255,.9)':'rgba(0,0,0,.85)';
+  const gm=ctx.createLinearGradient(0,0,0,300);gm.addColorStop(0,isDark?'rgba(255,255,255,.12)':'rgba(0,0,0,.06)');gm.addColorStop(1,'rgba(0,0,0,0)');
   const gh=ctx.createLinearGradient(0,0,0,300);gh.addColorStop(0,'rgba(167,139,250,.15)');gh.addColorStop(1,'rgba(167,139,250,0)');
-  CHARTS['comp-monthly']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Minimal',data:mNPS,borderColor:'#00e084',backgroundColor:gm,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#00e084',fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:hNPS,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  CHARTS['comp-monthly']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Minimal',data:mNPS,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:4,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:hNPS,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 function renderCompDonut(canvasId,npsId,legId,chartKey,data,accent) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
@@ -1297,8 +1429,10 @@ function renderCompVolume(mData,hData) {
   const bm=bld(mData),bh=bld(hData);
   const allKeys=[...new Set([...Object.keys(bm),...Object.keys(bh)])].sort();
   const labels=allKeys.map(k=>(bm[k]||bh[k]).lbl);
+  const isDark=isDk();
+  const mColor=isDark?'rgba(255,255,255,.75)':'rgba(0,0,0,.65)';
   const canvas=document.getElementById('cc-bar-vol'); if(!canvas) return;
-  CHARTS['comp-vol']=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Minimal',data:allKeys.map(k=>bm[k]?bm[k].count:0),backgroundColor:'rgba(0,224,132,.7)',borderRadius:3,borderSkipped:false},{label:'Hoomy',data:allKeys.map(k=>bh[k]?bh[k].count:0),backgroundColor:'rgba(167,139,250,.7)',borderRadius:3,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
+  CHARTS['comp-vol']=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Minimal',data:allKeys.map(k=>bm[k]?bm[k].count:0),backgroundColor:mColor,borderRadius:3,borderSkipped:false},{label:'Hoomy',data:allKeys.map(k=>bh[k]?bh[k].count:0),backgroundColor:'rgba(167,139,250,.7)',borderRadius:3,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
 }
 function renderCompCumulative(mData,hData) {
   if(CHARTS['comp-cum'])CHARTS['comp-cum'].destroy();
@@ -1309,10 +1443,12 @@ function renderCompCumulative(mData,hData) {
   const cumM=allKeys.map(k=>{if(bm[k]){cp_m+=bm[k].prom;cd_m+=bm[k].detr;ct_m+=bm[k].prom+bm[k].pass+bm[k].detr;}return ct_m>0?Math.round((cp_m-cd_m)/ct_m*100):null;});
   const cumH=allKeys.map(k=>{if(bh[k]){cp_h+=bh[k].prom;cd_h+=bh[k].detr;ct_h+=bh[k].prom+bh[k].pass+bh[k].detr;}return ct_h>0?Math.round((cp_h-cd_h)/ct_h*100):null;});
   const canvas=document.getElementById('cc-line-cum'); if(!canvas) return;
+  const isDark=isDk();
   const ctx=canvas.getContext('2d');
-  const gm=ctx.createLinearGradient(0,0,0,280);gm.addColorStop(0,'rgba(0,224,132,.18)');gm.addColorStop(1,'rgba(0,224,132,0)');
+  const mLineColor=isDark?'rgba(255,255,255,.9)':'rgba(0,0,0,.85)';
+  const gm=ctx.createLinearGradient(0,0,0,280);gm.addColorStop(0,isDark?'rgba(255,255,255,.12)':'rgba(0,0,0,.06)');gm.addColorStop(1,'rgba(0,0,0,0)');
   const gh=ctx.createLinearGradient(0,0,0,280);gh.addColorStop(0,'rgba(167,139,250,.18)');gh.addColorStop(1,'rgba(167,139,250,0)');
-  CHARTS['comp-cum']=new Chart(ctx,{type:'line',data:{labels:allKeys.map(fmtDs),datasets:[{label:'Minimal',data:cumM,borderColor:'#00e084',backgroundColor:gm,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#00e084',fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:cumH,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  CHARTS['comp-cum']=new Chart(ctx,{type:'line',data:{labels:allKeys.map(fmtDs),datasets:[{label:'Minimal',data:cumM,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:2,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:cumH,borderColor:'#a78bfa',backgroundColor:gh,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#a78bfa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
