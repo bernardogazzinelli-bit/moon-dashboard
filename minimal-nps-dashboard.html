@@ -435,6 +435,9 @@ tbody td{padding:10px 16px;font-size:12px;font-weight:500}
           <button class="cbtn" id="cf-p" onclick="filterComm('Promotor')">Promotores</button>
           <button class="cbtn" id="cf-n" onclick="filterComm('Passivo')">Passivos</button>
           <button class="cbtn" id="cf-d" onclick="filterComm('Detrator')">Detratores</button>
+          <select class="fsel" id="cf-motivo" onchange="onMotivoChange()" style="max-width:180px;font-size:11px">
+            <option value="">Todos os motivos</option>
+          </select>
           <input class="tsearch" id="comm-search" placeholder="Buscar comentário..." oninput="filterComm(currentCommFilter)" style="width:180px;margin-left:4px"/>
         </div>
       </div>
@@ -502,6 +505,7 @@ const CFG={
 
 let TOKEN=null, RAW=[], FILTERED=[], YEAR_FILTERED=[], CHARTS={};
 let currentCommFilter='all';
+let currentCommMotivo='';
 let _useDateRange=false;
 let activeTab='dashboard';
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -675,7 +679,16 @@ function applyFilters(){
   }
 
   FILTERED=RAW.filter(r=>matchesDatePeriod(r,false)&&matchesOtherFilters(r));
-  YEAR_FILTERED=RAW.filter(r=>matchesDatePeriod(r,true)&&matchesOtherFilters(r));
+
+  // YEAR_FILTERED: when using date range, use the full year of the start date
+  // so "NPS do Ano" shows the full year context, not just the selected period
+  if(_useDateRange&&de){
+    const dp=de.split('-');
+    const yearOfRange=dp[0]; // ex: "2026"
+    YEAR_FILTERED=RAW.filter(r=>r.ano===yearOfRange&&matchesOtherFilters(r));
+  }else{
+    YEAR_FILTERED=RAW.filter(r=>matchesDatePeriod(r,true)&&matchesOtherFilters(r));
+  }
 
   document.getElementById('f-count').textContent=FILTERED.length+' registros';
   renderAll();
@@ -688,6 +701,9 @@ function resetFilters(){
   document.getElementById('f-de').classList.remove('active');
   document.getElementById('f-ate').classList.remove('active');
   _useDateRange=false;
+  currentCommMotivo='';
+  const msel=document.getElementById('cf-motivo');
+  if(msel)msel.value='';
   applyFilters();
 }
 
@@ -720,8 +736,9 @@ function renderAll(){
 
   const fAno=document.getElementById('f-ano').value;
   const fMes=document.getElementById('f-mes').value;
-  document.getElementById('k-ano-lbl').textContent=fAno?fAno:'';
-  const mesLabel=fMes&&!_useDateRange?' · sem filtro de mês':'';
+  const fDe=document.getElementById('f-de').value;
+  document.getElementById('k-ano-lbl').textContent=fAno?fAno:(_useDateRange&&fDe?fDe.slice(0,4):'');
+  const mesLabel=fMes&&!_useDateRange?' · sem filtro de mês':_useDateRange?' · ano completo':'';
   document.getElementById('k-ano-sub').innerHTML=`${yt.toLocaleString('pt-BR')} respostas${mesLabel}`;
 
   // 3 DONUTS
@@ -733,6 +750,7 @@ function renderAll(){
   renderBar();
   renderTagCharts(prom,pass,detr);
   renderNotas();
+  populateMotivos();
   renderComments(currentCommFilter);
   renderTable();
 
@@ -939,10 +957,13 @@ function makeTagChart(canvasId,wrapId,obj,color,sentiment){
 // ── TAG RESPONSE MODAL ────────────────────────────────────────────
 function openTagModal(tag,sentiment){
   const norm=t=>(t||'Não especificado').trim()||'Não especificado';
-  const rows=FILTERED.filter(r=>r.sentimento===sentiment&&norm(r.tag)===tag);
+  // Sort by most recent date first
+  const rows=FILTERED
+    .filter(r=>r.sentimento===sentiment&&norm(r.tag)===tag)
+    .sort((a,b)=>b.date-a.date);
   document.getElementById('tm-title').textContent=tag;
   const lbl=sentiment==='Promotor'?'Promotores':sentiment==='Passivo'?'Passivos':'Detratores';
-  document.getElementById('tm-sub').textContent=`${rows.length} resposta${rows.length!==1?'s':''} · ${lbl}`;
+  document.getElementById('tm-sub').textContent=`${rows.length} resposta${rows.length!==1?'s':''} · ${lbl} · mais recentes primeiro`;
   const sc=r=>r.sentimento==='Promotor'?'p':r.sentimento==='Passivo'?'n':'d';
   const nc=r=>r.avaliacao>=9?'var(--green)':r.avaliacao>=7?'var(--blue)':'var(--red)';
   const list=document.getElementById('tm-list');
@@ -988,6 +1009,20 @@ function renderNotas(){
 }
 
 // ── COMMENTS ──────────────────────────────────────────────────────
+function populateMotivos(){
+  const sel=document.getElementById('cf-motivo');
+  if(!sel)return;
+  const cur=sel.value;
+  const motivos=[...new Set(FILTERED.map(r=>r.tag).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Todos os motivos</option>';
+  motivos.forEach(m=>{const op=document.createElement('option');op.value=m;op.textContent=m;sel.appendChild(op);});
+  if(motivos.includes(cur))sel.value=cur;
+  else{sel.value='';currentCommMotivo='';}
+}
+function onMotivoChange(){
+  currentCommMotivo=document.getElementById('cf-motivo').value;
+  renderComments(currentCommFilter);
+}
 function filterComm(type){
   currentCommFilter=type;
   ['all','p','n','d'].forEach(k=>{const el=document.getElementById('cf-'+k);if(el)el.className='cbtn';});
@@ -1001,8 +1036,10 @@ function renderComments(type){
   const q=(document.getElementById('comm-search').value||'').toLowerCase();
   let rows=FILTERED.filter(r=>r.comentario&&r.comentario.trim());
   if(type&&type!=='all')rows=rows.filter(r=>r.sentimento===type);
+  if(currentCommMotivo)rows=rows.filter(r=>(r.tag||'')=== currentCommMotivo);
   if(q)rows=rows.filter(r=>r.comentario.toLowerCase().includes(q)||(r.tag||'').toLowerCase().includes(q));
-  rows=[...rows].reverse().slice(0,100);
+  // most recent first
+  rows=[...rows].sort((a,b)=>b.date-a.date).slice(0,100);
   const grid=document.getElementById('comm-grid');
   if(!rows.length){
     grid.innerHTML=`<div class="comm-empty">Nenhum comentário encontrado${FILTERED.length>0?' (respostas sem texto de comentário)':''}</div>`;
