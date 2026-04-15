@@ -1355,9 +1355,7 @@ function renderLine(co,canvasId,chartKey,data) {
   data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')bm[k].prom++;else if(r.sentimento==='Passivo')bm[k].pass++;else bm[k].detr++;});
   const keys=Object.keys(bm).sort(),labels=keys.map(k=>bm[k].lbl);
   const npss=keys.map(k=>{const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):0;});
-  const isDark2=isDk();
-  const color=co==='hoomy'?'#2557aa':(isDk2?'#ffffff':'#000000');
-  const isDark=isDk2;
+  const isDark=isDk();
   const lineColor=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
   const gradColor=co==='hoomy'?'rgba(37,87,170,.25)':(isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)');
   const ctx=document.getElementById(canvasId).getContext('2d');
