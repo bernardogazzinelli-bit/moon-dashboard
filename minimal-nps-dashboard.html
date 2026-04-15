@@ -161,6 +161,36 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .tag-chart-body{padding:10px 14px 14px}
 .tag-chart-hint{font-size:10px;color:var(--muted);text-align:right;margin-bottom:4px;font-style:italic}
 
+/* ─── MICRO-TEMAS SECTION ────────────────────────────────────────── */
+.microtemas-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.microtemas-header{padding:14px 20px 0;border-bottom:none}
+.microtemas-title-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.microtemas-title{font-size:14px;font-weight:800;letter-spacing:-.2px}
+.microtemas-toggle{display:flex;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:3px}
+.mt-toggle-btn{border:none;border-radius:7px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .18s;background:transparent;color:var(--muted2)}
+.mt-toggle-btn.active-d{background:var(--rdim);color:var(--red);border:1px solid rgba(255,64,96,.3)}
+.mt-toggle-btn.active-p{background:var(--gdim);color:var(--green);border:1px solid rgba(0,224,132,.3)}
+.microtemas-tabs-row{display:flex;align-items:center;gap:6px;padding:0 20px 10px;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--bg3)}
+.mt-tab{border:1px solid var(--border);border-radius:20px;padding:4px 13px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s;background:var(--card);color:var(--muted2);white-space:nowrap}
+.mt-tab:hover{border-color:var(--border2);color:var(--text)}
+.mt-tab.active-d{border-color:rgba(255,64,96,.5);background:rgba(255,64,96,.1);color:var(--red)}
+.mt-tab.active-p{border-color:rgba(0,224,132,.5);background:rgba(0,224,132,.1);color:var(--green)}
+.microtemas-body{padding:14px 20px 18px}
+.microtemas-stats{display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.mt-stat{font-size:11px;color:var(--muted2);font-weight:600}
+.mt-stat span{font-weight:800;color:var(--text)}
+.microtemas-chart-wrap{position:relative}
+/* Bar rows rendered as HTML for more control */
+.mt-bar-list{display:flex;flex-direction:column;gap:6px}
+.mt-bar-row{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:10px;cursor:pointer;padding:4px 6px;border-radius:8px;transition:background .12s}
+.mt-bar-row:hover{background:var(--bg3)}
+.mt-bar-label{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}
+.mt-bar-track{height:18px;background:var(--bg3);border-radius:4px;overflow:hidden;position:relative}
+.mt-bar-fill{height:100%;border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.mt-bar-val{font-size:11px;font-weight:700;color:var(--muted2);white-space:nowrap;text-align:left}
+.mt-bar-val span{color:var(--text);font-weight:800}
+.mt-empty{padding:28px;text-align:center;color:var(--muted2);font-size:13px}
+
 /* ─── TAG MODAL ──────────────────────────────────────────────────── */
 #tag-modal-bg{position:fixed;inset:0;background:rgba(8,14,26,.87);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
 .tag-modal-box{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:26px;max-width:640px;width:95%;max-height:82vh;display:flex;flex-direction:column;position:relative}
@@ -497,6 +527,28 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="mtg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-detr" style="height:250px"><canvas id="mc-tag-detr"></canvas></div></div></div>
       </div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="mc-notas"></canvas></div></div>
+
+      <!-- ── MICRO-TEMAS MINIMAL ── -->
+      <div class="microtemas-panel" id="mt-panel-minimal">
+        <div class="microtemas-header">
+          <div class="microtemas-title-row">
+            <div>
+              <div class="microtemas-title">🔍 Micro-Temas — Análise por Tag</div>
+              <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">Tag Macro como filtro · Tag Micro no gráfico · clique para ver respostas</div>
+            </div>
+            <div class="microtemas-toggle">
+              <button class="mt-toggle-btn active-d" id="mmt-detr" onclick="switchMTToggle('minimal','Detrator')">😞 Detratores</button>
+              <button class="mt-toggle-btn" id="mmt-prom" onclick="switchMTToggle('minimal','Promotor')">😊 Promotores</button>
+            </div>
+          </div>
+        </div>
+        <div class="microtemas-tabs-row" id="mmt-tabs"></div>
+        <div class="microtemas-body">
+          <div class="microtemas-stats" id="mmt-stats"></div>
+          <div class="mt-bar-list" id="mmt-bars"></div>
+        </div>
+      </div>
+
       <div class="comm-panel">
         <div class="comm-header">
           <div class="comm-title">Comentários</div>
@@ -605,6 +657,28 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="htg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-detr" style="height:250px"><canvas id="hc-tag-detr"></canvas></div></div></div>
       </div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="hc-notas"></canvas></div></div>
+
+      <!-- ── MICRO-TEMAS HOOMY ── -->
+      <div class="microtemas-panel" id="mt-panel-hoomy">
+        <div class="microtemas-header">
+          <div class="microtemas-title-row">
+            <div>
+              <div class="microtemas-title">🔍 Micro-Temas — Análise por Tag</div>
+              <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">Tag Macro como filtro · Tag Micro no gráfico · clique para ver respostas</div>
+            </div>
+            <div class="microtemas-toggle">
+              <button class="mt-toggle-btn active-d" id="hmt-detr" onclick="switchMTToggle('hoomy','Detrator')">😞 Detratores</button>
+              <button class="mt-toggle-btn" id="hmt-prom" onclick="switchMTToggle('hoomy','Promotor')">😊 Promotores</button>
+            </div>
+          </div>
+        </div>
+        <div class="microtemas-tabs-row" id="hmt-tabs"></div>
+        <div class="microtemas-body">
+          <div class="microtemas-stats" id="hmt-stats"></div>
+          <div class="mt-bar-list" id="hmt-bars"></div>
+        </div>
+      </div>
+
       <div class="comm-panel">
         <div class="comm-header">
           <div class="comm-title">Comentários</div>
@@ -1124,6 +1198,7 @@ function renderAll(co) {
     populateMotivos(co,filtered);
     renderComments(co);
     renderTable(co,filtered);
+    renderMicroTemas('minimal', filtered);
   } else {
     const curYearData = STATE.hoomy.raw.filter(r => r.ano === CUR_YEAR);
     const hyp = curYearData.filter(r => r.sentimento==='Promotor').length;
@@ -1141,6 +1216,7 @@ function renderAll(co) {
     populateMotivos(co,filtered);
     renderComments(co);
     renderTable(co,filtered);
+    renderMicroTemas('hoomy', filtered);
   }
 
   if (mSubTab[co] === 'graficos') requestAnimationFrame(() => renderGraficosCharts(co));
@@ -1508,6 +1584,151 @@ async function loadUser(){
   try{const r=await fetch('https://www.googleapis.com/oauth2/v1/userinfo',{headers:{Authorization:'Bearer '+TOKEN}});const u=await r.json();document.getElementById('uname').textContent=u.given_name||'Usuário';const av=document.getElementById('av');if(u.picture)av.innerHTML=`<img src="${u.picture}">`;else av.textContent=(u.given_name||'?')[0].toUpperCase();}catch(e){}
 }
 function logout(){if(!confirm('Sair?'))return;location.reload();}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// MICRO-TEMAS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const mtState = {
+  minimal: { sentiment: 'Detrator', macroTab: 'Todas' },
+  hoomy:   { sentiment: 'Detrator', macroTab: 'Todas' }
+};
+
+function switchMTToggle(co, sentiment) {
+  mtState[co].sentiment = sentiment;
+  mtState[co].macroTab = 'Todas'; // reset tab on toggle
+  const p = co === 'minimal' ? 'm' : 'h';
+  // Update toggle buttons
+  const dBtn = document.getElementById(p + 'mt-detr');
+  const pBtn = document.getElementById(p + 'mt-prom');
+  if (dBtn) { dBtn.className = 'mt-toggle-btn' + (sentiment === 'Detrator' ? ' active-d' : ''); }
+  if (pBtn) { pBtn.className = 'mt-toggle-btn' + (sentiment === 'Promotor' ? ' active-p' : ''); }
+  renderMicroTemas(co, STATE[co].filtered);
+}
+
+function switchMTTab(co, macro) {
+  mtState[co].macroTab = macro;
+  renderMicroTemas(co, STATE[co].filtered);
+}
+
+function renderMicroTemas(co, data) {
+  const p = co === 'minimal' ? 'm' : 'h';
+  const { sentiment, macroTab } = mtState[co];
+  const isDetr = sentiment === 'Detrator';
+  const activeClass = isDetr ? 'active-d' : 'active-p';
+  const accentColor = isDetr ? 'var(--red)' : 'var(--green)';
+  const fillColor   = isDetr ? 'rgba(255,64,96,.75)' : 'rgba(0,224,132,.75)';
+
+  // Filter by sentiment
+  const sentRows = data.filter(r => r.sentimento === sentiment);
+  const total = sentRows.length;
+
+  // Build macro tabs list
+  const macros = ['Todas', ...([...new Set(sentRows.map(r => (r.tag || '').trim()).filter(Boolean))].sort())];
+
+  // Render macro tabs
+  const tabsEl = document.getElementById(p + 'mt-tabs');
+  if (tabsEl) {
+    tabsEl.innerHTML = macros.map(m => {
+      const isActive = m === macroTab;
+      const cnt = m === 'Todas' ? total : sentRows.filter(r => (r.tag || '').trim() === m).length;
+      return `<button class="mt-tab${isActive ? ' ' + activeClass : ''}" onclick="switchMTTab('${co}','${m.replace(/'/g,"\\'")}')">
+        ${m} <span style="opacity:.6;font-weight:600;font-size:10px">${cnt}</span>
+      </button>`;
+    }).join('');
+  }
+
+  // Filter by macro tab
+  const tabRows = macroTab === 'Todas'
+    ? sentRows
+    : sentRows.filter(r => (r.tag || '').trim() === macroTab);
+
+  const tabTotal = tabRows.length;
+
+  // Stats
+  const statsEl = document.getElementById(p + 'mt-stats');
+  if (statsEl) {
+    const macroLabel = macroTab === 'Todas' ? 'Todos os temas' : macroTab;
+    statsEl.innerHTML = `
+      <div class="mt-stat">Total <span style="color:${accentColor}">${tabTotal}</span> ${sentiment === 'Detrator' ? 'detratores' : 'promotores'}</div>
+      <div class="mt-stat">Filtro: <span>${macroLabel}</span></div>
+      <div class="mt-stat" style="margin-left:auto;font-size:10px;font-style:italic;color:var(--muted)">↓ clique na barra para ver respostas</div>
+    `;
+  }
+
+  // Build micro counts
+  const microCounts = {};
+  tabRows.forEach(r => {
+    const micro = (r.tagMicro || r.tag || '').trim() || 'Não especificado';
+    microCounts[micro] = (microCounts[micro] || 0) + 1;
+  });
+
+  const sorted = Object.entries(microCounts).sort((a, b) => b[1] - a[1]);
+  const maxVal = sorted.length > 0 ? sorted[0][1] : 1;
+
+  const barsEl = document.getElementById(p + 'mt-bars');
+  if (!barsEl) return;
+
+  if (!sorted.length) {
+    barsEl.innerHTML = `<div class="mt-empty">Nenhum dado encontrado para o filtro selecionado.</div>`;
+    return;
+  }
+
+  barsEl.innerHTML = sorted.map(([label, count]) => {
+    const widthPct = (count / maxVal * 100).toFixed(1);
+    const totalPct = tabTotal > 0 ? (count / tabTotal * 100).toFixed(1) : '0.0';
+    const escapedLabel = label.replace(/'/g, "\\'");
+    const escapedMacro = macroTab.replace(/'/g, "\\'");
+    return `<div class="mt-bar-row" onclick="openMicroTagModal('${co}','${escapedLabel}','${escapedMacro}','${sentiment}')">
+      <div class="mt-bar-label" title="${label}">${label}</div>
+      <div class="mt-bar-track">
+        <div class="mt-bar-fill" style="width:${widthPct}%;background:${fillColor}"></div>
+      </div>
+      <div class="mt-bar-val"><span>${count}</span> (${totalPct}%)</div>
+    </div>`;
+  }).join('');
+}
+
+function openMicroTagModal(co, microTag, macroTag, sentiment) {
+  const rows = STATE[co].filtered.filter(r => {
+    if (r.sentimento !== sentiment) return false;
+    const micro = (r.tagMicro || r.tag || '').trim() || 'Não especificado';
+    if (micro !== microTag) return false;
+    if (macroTag !== 'Todas') {
+      const mac = (r.tag || '').trim();
+      if (mac !== macroTag) return false;
+    }
+    return true;
+  }).sort((a, b) => b.date - a.date);
+
+  const sentLabel = sentiment === 'Detrator' ? 'Detratores' : 'Promotores';
+  document.getElementById('tm-title').textContent = microTag;
+  document.getElementById('tm-sub').textContent =
+    `${rows.length} resposta${rows.length !== 1 ? 's' : ''} · ${sentLabel}${macroTag !== 'Todas' ? ' · ' + macroTag : ''} · ${co === 'minimal' ? 'Minimal' : 'Hoomy'} · mais recentes primeiro`;
+
+  const sc = r => r.sentimento === 'Promotor' ? 'p' : r.sentimento === 'Passivo' ? 'n' : 'd';
+  const nc = r => r.avaliacao >= 9 ? 'var(--green)' : r.avaliacao >= 7 ? 'var(--blue)' : 'var(--red)';
+  const list = document.getElementById('tm-list');
+
+  if (!rows.length) {
+    list.innerHTML = '<div class="tag-resp-empty">Nenhuma resposta encontrada</div>';
+  } else {
+    list.innerHTML = rows.slice(0, 150).map(r =>
+      `<div class="tag-resp-item">
+        <div class="tag-resp-meta">
+          <span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span>
+          <span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span>
+          <span class="tag-resp-date">${fmtD(r.date)}</span>
+          ${r.produto ? `<span class="tag-resp-date">${r.produto}</span>` : ''}
+          ${r.fonte ? `<span class="tag-resp-date">📡 ${r.fonte}</span>` : ''}
+          ${r.tag ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tag}</span>` : ''}
+          ${r.tagMicro ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tagMicro}</span>` : ''}
+        </div>
+        <div class="tag-resp-text">${r.comentario || '<em style="color:var(--muted2)">Sem comentário</em>'}</div>
+      </div>`
+    ).join('');
+  }
+  document.getElementById('tag-modal-bg').style.display = 'flex';
+}
 
 setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
 window.addEventListener('load',()=>showOv(false));
