@@ -375,6 +375,8 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .moon-solid,.moon-text1,.moon-text2{transition:fill .25s}
 .moon-line{transition:stroke .25s}
 [data-theme="dark"]  .moon-solid{fill:#ffffff}
+[data-theme="dark"]  #moon-hero-circle{background:#ffffff}
+[data-theme="light"] #moon-hero-circle{background:#0f1826}
 [data-theme="dark"]  .moon-text1{fill:#ffffff}
 [data-theme="dark"]  .moon-text2{fill:rgba(255,255,255,.55)}
 [data-theme="dark"]  .moon-line{stroke:rgba(255,255,255,.15)}
@@ -827,9 +829,9 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     <!-- MOON brand hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
-        <div style="display:flex;align-items:center;justify-content:center;gap:14px">
-          <svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle class="moon-solid" cx="19" cy="19" r="19"/></svg>
-          <div class="brand-hero-name" style="color:var(--text)">MOON</div>
+        <div class="brand-hero-name" style="color:var(--purple);display:flex;align-items:center;gap:12px">
+          <div style="width:32px;height:32px;border-radius:50%;flex-shrink:0" class="moon-solid" id="moon-hero-circle"></div>
+          MOON
         </div>
         <div class="brand-hero-line" style="background:var(--purple);opacity:.4"></div>
         <div class="brand-hero-sub">NPS Dashboard · Minimal + Hoomy</div>
