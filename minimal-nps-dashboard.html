@@ -350,35 +350,44 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 @media(max-width:1300px){.krow,.krow6h{grid-template-columns:repeat(3,1fr)}.krow5{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.comp-hero{grid-template-columns:1fr;text-align:center}.comp-vs{display:none}}
 @media(max-width:768px){.krow,.krow5,.krow6h{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:12px 14px}header,.fbar,.tabbar{padding:7px 14px}.home-cards{grid-template-columns:1fr}.hnav-btn span.hnav-label{display:none}}
+
+/* ─── MOON SVG THEME COLORS (CSS-only, no JS needed) ──────────────── */
+.moon-outer { transition: fill .25s; }
+.moon-text1 { transition: fill .25s; }
+.moon-text2 { transition: fill .25s; }
+.moon-line  { transition: stroke .25s; }
+
+/* DARK: white crescent */
+[data-theme="dark"] .moon-outer { fill: #ffffff; }
+[data-theme="dark"] .moon-text1 { fill: #ffffff; }
+[data-theme="dark"] .moon-text2 { fill: rgba(255,255,255,0.55); }
+[data-theme="dark"] .moon-line  { stroke: rgba(255,255,255,0.15); }
+
+/* LIGHT: black crescent */
+[data-theme="light"] .moon-outer { fill: #0f1826; }
+[data-theme="light"] .moon-text1 { fill: #0f1826; }
+[data-theme="light"] .moon-text2 { fill: rgba(15,24,38,0.45); }
+[data-theme="light"] .moon-line  { stroke: rgba(15,24,38,0.12); }
+
 </style>
 </head>
 <body>
-<script>
-// Run immediately so SVGs render correctly on first paint (no flash)
-function _initMoonTheme() {
-  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const outerFill = dark ? '#ffffff' : '#0f1826';
-  const innerFill = dark ? '#080e1a' : '#f0f4f8';
-  const textFill  = dark ? '#ffffff' : '#0f1826';
-  const subFill   = dark ? 'rgba(255,255,255,0.55)' : 'rgba(15,24,38,0.4)';
-  const lineFill  = dark ? 'rgba(255,255,255,0.15)' : 'rgba(15,24,38,0.12)';
-  // Inject a style tag with SVG circle fills via CSS - works before DOM IDs exist
-  const style = document.createElement('style');
-  // We'll re-run updateMoonSVGs on DOMContentLoaded, this just sets initial bg
-  document.head.appendChild(style);
-}
-_initMoonTheme();
-</script>
+
 
 <!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
   <div class="lbox">
-    <svg id="moon-login-svg" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle id="moon-login-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
-      <circle id="moon-login-inner" cx="34" cy="28" r="16" fill="#0f1826"/>
-      <text id="moon-login-t1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
-      <text id="moon-login-t2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
-      <line id="moon-login-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <mask id="moon-mask-4">
+          <circle cx="26" cy="36" r="24" fill="white"/>
+          <circle cx="34" cy="28" r="16" fill="black"/>
+        </mask>
+      </defs>
+      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-4)"/>
+      <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
+      <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
+      <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
     </svg>
     <div class="lsub-txt">NPS Moon Ventures · Dashboard de Satisfação</div>
     <div class="ldesc">Faça login com sua conta Google para acessar os dados de NPS das marcas do grupo.</div>
@@ -394,12 +403,17 @@ _initMoonTheme();
   <div class="home-bg"></div>
   <div class="home-inner" id="home-inner-wrap">
     <!-- Moon logo: theme-aware via JS -->
-    <svg id="moon-home-logo" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle id="moon-home-logo-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
-      <circle id="moon-home-logo-inner" cx="34" cy="28" r="16" fill="#080e1a"/>
-      <text id="moon-home-logo-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
-      <text id="moon-home-logo-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
-      <line id="moon-home-logo-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <mask id="moon-mask-5">
+          <circle cx="26" cy="36" r="24" fill="white"/>
+          <circle cx="34" cy="28" r="16" fill="black"/>
+        </mask>
+      </defs>
+      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-5)"/>
+      <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
+      <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
+      <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
     </svg>
     <div class="home-tagline">NPS Moon Ventures · Selecione o painel</div>
     <div class="home-cards">
@@ -423,12 +437,17 @@ _initMoonTheme();
       </div>
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
         <!-- Moon Ventures logo - theme aware -->
-        <svg id="moon-card-svg" width="140" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle id="moon-card-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
-          <circle id="moon-card-inner" cx="34" cy="28" r="16" fill="#0f1826"/>
-          <text id="moon-card-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
-          <text id="moon-card-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
-          <line id="moon-card-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <svg width="140" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <mask id="moon-mask-1">
+              <circle cx="26" cy="36" r="24" fill="white"/>
+              <circle cx="34" cy="28" r="16" fill="black"/>
+            </mask>
+          </defs>
+          <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-1)"/>
+          <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
+          <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
+          <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
         </svg>
         <div>
           <div class="home-card-name c">MOON</div>
@@ -437,7 +456,7 @@ _initMoonTheme();
       </div>
     </div>
     <div class="home-brand-row">
-      <svg height="14" viewBox="0 0 90 18" fill="none"><circle cx="9" cy="9" r="8" fill="white" opacity=".7"/><circle cx="12" cy="6" r="5" fill="#080e1a"/><text x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5" fill="rgba(255,255,255,.5)">MOON VENTURES</text></svg>
+      <svg height="14" viewBox="0 0 90 18" fill="none"><defs><mask id="moon-mask-sm"><circle cx="9" cy="9" r="8" fill="white"/><circle cx="12" cy="6" r="5" fill="black"/></mask></defs><circle class="moon-outer" cx="9" cy="9" r="8" opacity=".7" mask="url(#moon-mask-sm)"/><text class="moon-text2" x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5">MOON VENTURES</text></svg>
       <div class="home-brand-sep"></div>
       <span style="font-size:10px;color:var(--muted2);font-weight:600;letter-spacing:.05em">NPS Hub 2025</span>
     </div>
@@ -476,9 +495,14 @@ _initMoonTheme();
   <header>
     <div class="hlogo">
       <!-- Moon Ventures logo -->
-      <svg id="moon-svg-hdr" height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto">
-        <circle id="moon-outer-hdr" cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
-        <circle id="moon-inner-hdr" cx="34" cy="28" r="16" fill="#080e1a"/>
+      <svg height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto">
+        <defs>
+          <mask id="moon-mask-2">
+            <circle cx="26" cy="36" r="24" fill="white"/>
+            <circle cx="34" cy="28" r="16" fill="black"/>
+          </mask>
+        </defs>
+        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-2)"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
         <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
         <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
@@ -808,9 +832,14 @@ _initMoonTheme();
   <div id="section-comp" style="display:none;flex-direction:column;flex:1;overflow:hidden">
     <!-- MOON brand hero - SVG logo centered -->
     <div style="background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:14px 0 10px;flex-shrink:0">
-      <svg id="moon-svg-comp" width="170" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle id="moon-outer-comp" cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
-        <circle id="moon-inner-comp" cx="34" cy="28" r="16" fill="#080e1a"/>
+      <svg width="170" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <mask id="moon-mask-3">
+            <circle cx="26" cy="36" r="24" fill="white"/>
+            <circle cx="34" cy="28" r="16" fill="black"/>
+          </mask>
+        </defs>
+        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-3)"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
         <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
         <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
@@ -840,7 +869,7 @@ _initMoonTheme();
       <div class="rede-card">
         <div>
           <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;display:flex;align-items:center;gap:8px">
-            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="15" cy="24" r="11" fill="var(--purple)" opacity=".85"/><circle cx="20" cy="18" r="7" fill="#080e1a"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="15" cy="24" r="11" fill="var(--purple)" opacity=".85"/><circle cx="20" cy="18" r="7" fill="var(--bg)"/></svg>
             NPS Moon Ventures · Minimal + Hoomy
           </div>
           <div class="rede-nps-num" id="rede-nps-big">—</div>
@@ -1009,36 +1038,7 @@ function toggleTheme() {
   if (currentCompany === 'comp') renderComp();
 }
 
-function updateMoonSVGs() {
-  const dark = isDk();
-  // DARK mode:  outer=white,   inner=very dark  → white crescent visible on dark bg
-  // LIGHT mode: outer=black,   inner=light bg   → black crescent visible on light bg
-  const outerFill    = dark ? '#ffffff' : '#0f1826';
-  const outerOpacity = '1';
-  const innerFill    = dark ? '#080e1a' : '#f0f4f8';
-  const textFill     = dark ? '#ffffff' : '#0f1826';
-  const subFill      = dark ? 'rgba(255,255,255,0.55)' : 'rgba(15,24,38,0.4)';
-  const lineFill     = dark ? 'rgba(255,255,255,0.15)' : 'rgba(15,24,38,0.12)';
-
-  // All SVG element groups: [outer, inner, text1, text2, line]
-  const groups = [
-    ['moon-login-outer',      'moon-login-inner',      'moon-login-t1',        'moon-login-t2',        'moon-login-line'],
-    ['moon-outer-hdr',        'moon-inner-hdr',        null,                   null,                   null],
-    ['moon-outer-comp',       'moon-inner-comp',       null,                   null,                   null],
-    ['moon-home-logo-outer',  'moon-home-logo-inner',  'moon-home-logo-text1', 'moon-home-logo-text2', 'moon-home-logo-line'],
-    ['moon-card-outer',       'moon-card-inner',       'moon-card-text1',      'moon-card-text2',      'moon-card-line'],
-  ];
-
-  groups.forEach(([outerId, innerId, t1Id, t2Id, lineId]) => {
-    const o = document.getElementById(outerId);
-    const i = document.getElementById(innerId);
-    if (o) { o.setAttribute('fill', outerFill); o.setAttribute('opacity', outerOpacity); }
-    if (i)   i.setAttribute('fill', innerFill);
-    if (t1Id) { const el = document.getElementById(t1Id); if (el) el.setAttribute('fill', textFill); }
-    if (t2Id) { const el = document.getElementById(t2Id); if (el) el.setAttribute('fill', subFill);  }
-    if (lineId){ const el = document.getElementById(lineId); if (el) el.setAttribute('stroke', lineFill); }
-  });
-}
+function updateMoonSVGs() { /* CSS handles moon SVG theming */ }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SUB-TAB SWITCHING
