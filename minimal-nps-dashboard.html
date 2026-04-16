@@ -53,14 +53,14 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 .home-card.hc-minimal::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(200,200,200,.12) 0%,transparent 70%);pointer-events:none}
 .home-card.hc-hoomy::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(37,87,170,.18) 0%,transparent 70%);pointer-events:none}
 .home-card.hc-comp::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.18) 0%,transparent 70%);pointer-events:none}
-/* Logo icon area — larger */
-.home-card-ico{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center}
-[data-theme="dark"] .home-card-ico.m{background:rgba(200,200,200,.1);border:1px solid rgba(200,200,200,.2)}
-[data-theme="light"] .home-card-ico.m{background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.12)}
-[data-theme="dark"] .home-card-ico.h{background:rgba(37,87,170,.18);border:1px solid rgba(37,87,170,.3)}
-[data-theme="light"] .home-card-ico.h{background:rgba(37,87,170,.1);border:1px solid rgba(37,87,170,.2)}
-[data-theme="dark"] .home-card-ico.c{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.25)}
-[data-theme="light"] .home-card-ico.c{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2)}
+/* Logo icon area — no box, just logo */
+.home-card-ico{display:none}
+[data-theme="dark"] .home-card-ico.m{display:none}
+[data-theme="light"] .home-card-ico.m{display:none}
+[data-theme="dark"] .home-card-ico.h{display:none}
+[data-theme="light"] .home-card-ico.h{display:none}
+[data-theme="dark"] .home-card-ico.c{display:none}
+[data-theme="light"] .home-card-ico.c{display:none}
 .home-card-name{font-size:18px;font-weight:800;letter-spacing:-.3px;line-height:1.1}
 .home-card-name.m{color:var(--minimal-text)}
 .home-card-name.h{color:var(--navybright)}.home-card-name.c{color:var(--purple)}
@@ -377,43 +377,46 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 <div id="home-screen">
   <div class="home-bg"></div>
   <div class="home-inner" id="home-inner-wrap">
-    <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
-      <circle cx="34" cy="28" r="16" fill="#080e1a"/>
-      <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
-      <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
-      <line x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <!-- Moon logo: theme-aware via JS -->
+    <svg id="moon-home-logo" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle id="moon-home-logo-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
+      <circle id="moon-home-logo-inner" cx="34" cy="28" r="16" fill="#080e1a"/>
+      <text id="moon-home-logo-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
+      <text id="moon-home-logo-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
+      <line id="moon-home-logo-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
     </svg>
     <div class="home-tagline">NPS Moon Ventures · Selecione o painel</div>
     <div class="home-cards">
       <div class="home-card hc-minimal" onclick="enterDashboard('minimal')">
-        <div class="home-card-ico m">
-          <svg width="80" height="22" viewBox="0 0 80 26" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="22" letter-spacing="1" fill="var(--minimal-text)">MINIMAL</text></svg>
-        </div>
+        <svg width="130" height="30" viewBox="0 0 130 30" fill="none">
+          <text x="0" y="24" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="26" letter-spacing="2" fill="var(--minimal-text)">MINIMAL</text>
+        </svg>
         <div>
           <div class="home-card-name m">Minimal Club</div>
-          <div class="home-card-sub" style="margin-top:5px">Dashboard NPS com segmentação Varejo & Assinatura</div>
+          <div class="home-card-sub" style="margin-top:6px">Dashboard NPS com segmentação Varejo & Assinatura</div>
         </div>
       </div>
       <div class="home-card hc-hoomy" onclick="enterDashboard('hoomy')">
-        <div class="home-card-ico h">
-          <svg width="70" height="26" viewBox="0 0 70 28" fill="none"><text x="0" y="22" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="24" fill="#2557aa">hoomy</text></svg>
-        </div>
+        <svg width="110" height="34" viewBox="0 0 110 34" fill="none">
+          <text x="0" y="28" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="30" fill="#2557aa" font-style="italic">hoomy</text>
+        </svg>
         <div>
           <div class="home-card-name h">Hoomy</div>
-          <div class="home-card-sub" style="margin-top:5px">Dashboard NPS por Produto, Tag Macro e Tag Micro</div>
+          <div class="home-card-sub" style="margin-top:6px">Dashboard NPS por Produto, Tag Macro e Tag Micro</div>
         </div>
       </div>
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
-        <div class="home-card-ico c">
-          <svg id="moon-home-ico" width="46" height="46" viewBox="0 0 48 48" fill="none">
-            <circle id="moon-home-outer" cx="18" cy="26" r="14" fill="var(--purple)" opacity=".9"/>
-            <circle id="moon-home-inner" cx="24" cy="20" r="9" fill="#0f1826"/>
-          </svg>
-        </div>
+        <!-- Moon Ventures logo - theme aware -->
+        <svg id="moon-card-svg" width="140" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle id="moon-card-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
+          <circle id="moon-card-inner" cx="34" cy="28" r="16" fill="#0f1826"/>
+          <text id="moon-card-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
+          <text id="moon-card-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
+          <line id="moon-card-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        </svg>
         <div>
           <div class="home-card-name c">MOON</div>
-          <div class="home-card-sub" style="margin-top:5px">NPS Rede unificado · Minimal + Hoomy</div>
+          <div class="home-card-sub" style="margin-top:6px">NPS Rede unificado · Minimal + Hoomy</div>
         </div>
       </div>
     </div>
@@ -457,7 +460,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
   <header>
     <div class="hlogo">
       <!-- Moon Ventures logo -->
-      <svg id="moon-svg-hdr" width="100" height="32" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+      <svg id="moon-svg-hdr" width="130" height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
         <circle id="moon-outer-hdr" cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
         <circle id="moon-inner-hdr" cx="34" cy="28" r="16" fill="#080e1a"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
@@ -992,22 +995,51 @@ function toggleTheme() {
 
 function updateMoonSVGs() {
   const dark = isDk();
-  // In dark mode: outer=white, inner=dark (crescent effect)
-  // In light mode: outer=black, inner=light bg color (crescent on light)
-  const outerFill = dark ? 'white' : '#0f1826';
-  const outerOpacity = dark ? '0.92' : '1';
-  const innerFill = dark ? '#080e1a' : '#f0f4f8';
-  const ids = ['hdr','comp'];
-  ids.forEach(id => {
-    const outer = document.getElementById('moon-outer-' + id);
-    const inner = document.getElementById('moon-inner-' + id);
-    if (outer) { outer.setAttribute('fill', outerFill); outer.setAttribute('opacity', outerOpacity); }
-    if (inner) inner.setAttribute('fill', innerFill);
-  });
-  // Home card moon icon
-  const ho = document.getElementById('moon-home-outer');
-  const hi = document.getElementById('moon-home-inner');
-  if (hi) hi.setAttribute('fill', dark ? '#0f1826' : '#eef2f8');
+  // DARK: outer=white, inner=dark bg → white crescent on dark
+  // LIGHT: outer=black, inner=light bg → black crescent on light
+  const outerFill    = dark ? '#ffffff' : '#0f1826';
+  const outerOpacity = dark ? '0.92'   : '1';
+  const innerFillHdr = dark ? '#080e1a' : '#f0f4f8';
+  const innerFillCard= dark ? '#0f1826' : '#f0f4f8';
+  const textFill     = dark ? 'white'   : '#0f1826';
+  const subFill      = dark ? 'rgba(255,255,255,0.6)' : 'rgba(15,24,38,0.45)';
+  const lineFill     = dark ? 'rgba(255,255,255,0.2)' : 'rgba(15,24,38,0.15)';
+
+  // Header SVG
+  const ho = document.getElementById('moon-outer-hdr');
+  const hi = document.getElementById('moon-inner-hdr');
+  if (ho) { ho.setAttribute('fill', outerFill); ho.setAttribute('opacity', outerOpacity); }
+  if (hi)   hi.setAttribute('fill', innerFillHdr);
+
+  // Comp section SVG
+  const co = document.getElementById('moon-outer-comp');
+  const ci = document.getElementById('moon-inner-comp');
+  if (co) { co.setAttribute('fill', outerFill); co.setAttribute('opacity', outerOpacity); }
+  if (ci)   ci.setAttribute('fill', innerFillHdr);
+
+  // Home big logo SVG
+  const hlo = document.getElementById('moon-home-logo-outer');
+  const hli = document.getElementById('moon-home-logo-inner');
+  const hlt1 = document.getElementById('moon-home-logo-text1');
+  const hlt2 = document.getElementById('moon-home-logo-text2');
+  const hll  = document.getElementById('moon-home-logo-line');
+  if (hlo) { hlo.setAttribute('fill', outerFill); hlo.setAttribute('opacity', outerOpacity); }
+  if (hli)  hli.setAttribute('fill', innerFillHdr);
+  if (hlt1) hlt1.setAttribute('fill', textFill);
+  if (hlt2) hlt2.setAttribute('fill', subFill);
+  if (hll)  hll.setAttribute('stroke', lineFill);
+
+  // Home card Moon logo
+  const mco = document.getElementById('moon-card-outer');
+  const mci = document.getElementById('moon-card-inner');
+  const mct1= document.getElementById('moon-card-text1');
+  const mct2= document.getElementById('moon-card-text2');
+  const mcl = document.getElementById('moon-card-line');
+  if (mco) { mco.setAttribute('fill', outerFill); mco.setAttribute('opacity', outerOpacity); }
+  if (mci)  mci.setAttribute('fill', innerFillCard);
+  if (mct1) mct1.setAttribute('fill', textFill);
+  if (mct2) mct2.setAttribute('fill', subFill);
+  if (mcl)  mcl.setAttribute('stroke', lineFill);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
