@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>NPS Moon Ventures</title>
-<script>document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")||"light");</script>
+<script>document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")||"dark");</script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -371,23 +371,17 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 @media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.comp-hero{grid-template-columns:1fr;text-align:center}.comp-vs{display:none}}
 @media(max-width:768px){.krow,.krow5,.krow6h{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:12px 14px}header,.fbar,.tabbar{padding:7px 14px}.home-cards{grid-template-columns:1fr}.hnav-btn span.hnav-label{display:none}}
 
-/* ─── MOON SVG THEME COLORS (CSS-only, no JS needed) ──────────────── */
-.moon-outer { transition: fill .25s; }
-.moon-text1 { transition: fill .25s; }
-.moon-text2 { transition: fill .25s; }
-.moon-line  { transition: stroke .25s; }
-
-/* DARK: white crescent */
-[data-theme="dark"] .moon-outer { fill: #ffffff; }
-[data-theme="dark"] .moon-text1 { fill: #ffffff; }
-[data-theme="dark"] .moon-text2 { fill: rgba(255,255,255,0.55); }
-[data-theme="dark"] .moon-line  { stroke: rgba(255,255,255,0.15); }
-
-/* LIGHT: black crescent */
-[data-theme="light"] .moon-outer { fill: #0f1826; }
-[data-theme="light"] .moon-text1 { fill: #0f1826; }
-[data-theme="light"] .moon-text2 { fill: rgba(15,24,38,0.45); }
-[data-theme="light"] .moon-line  { stroke: rgba(15,24,38,0.12); }
+/* ─── MOON SVG THEME COLORS ──────────────────────────────────────── */
+.moon-solid,.moon-text1,.moon-text2{transition:fill .25s}
+.moon-line{transition:stroke .25s}
+[data-theme="dark"]  .moon-solid{fill:#ffffff}
+[data-theme="dark"]  .moon-text1{fill:#ffffff}
+[data-theme="dark"]  .moon-text2{fill:rgba(255,255,255,.55)}
+[data-theme="dark"]  .moon-line{stroke:rgba(255,255,255,.15)}
+[data-theme="light"] .moon-solid{fill:#0f1826}
+[data-theme="light"] .moon-text1{fill:#0f1826}
+[data-theme="light"] .moon-text2{fill:rgba(15,24,38,.45)}
+[data-theme="light"] .moon-line{stroke:rgba(15,24,38,.12)}
 
 </style>
 </head>
@@ -398,13 +392,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 <div id="login-screen">
   <div class="lbox">
     <svg width="260" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <mask id="moon-mask-4">
-          <circle cx="26" cy="36" r="24" fill="white"/>
-          <circle cx="34" cy="28" r="16" fill="black"/>
-        </mask>
-      </defs>
-      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-4)"/>
+      <circle class="moon-solid" cx="26" cy="36" r="24"/>
       <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
       <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
       <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
@@ -424,13 +412,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <div class="home-inner" id="home-inner-wrap">
     <!-- Moon logo: theme-aware via JS -->
     <svg width="220" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <mask id="moon-mask-5">
-          <circle cx="26" cy="36" r="24" fill="white"/>
-          <circle cx="34" cy="28" r="16" fill="black"/>
-        </mask>
-      </defs>
-      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-5)"/>
+      <circle class="moon-solid" cx="26" cy="36" r="24"/>
       <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
       <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
       <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
@@ -458,13 +440,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
         <!-- Moon Ventures logo - theme aware -->
         <svg width="180" height="58" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <mask id="moon-mask-1">
-              <circle cx="26" cy="36" r="24" fill="white"/>
-              <circle cx="34" cy="28" r="16" fill="black"/>
-            </mask>
-          </defs>
-          <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-1)"/>
+          <circle class="moon-solid" cx="26" cy="36" r="24"/>
           <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
           <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
           <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
@@ -476,7 +452,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       </div>
     </div>
     <div class="home-brand-row">
-      <svg height="14" viewBox="0 0 90 18" fill="none"><defs><mask id="moon-mask-sm"><circle cx="9" cy="9" r="8" fill="white"/><circle cx="12" cy="6" r="5" fill="black"/></mask></defs><circle class="moon-outer" cx="9" cy="9" r="8" opacity=".7" mask="url(#moon-mask-sm)"/><text class="moon-text2" x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5">MOON VENTURES</text></svg>
+      <svg height="14" viewBox="0 0 90 18" fill="none"><circle class="moon-solid" cx="9" cy="9" r="8"/><text class="moon-text2" x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5">MOON VENTURES</text></svg>
       <div class="home-brand-sep"></div>
       <span style="font-size:10px;color:var(--muted2);font-weight:600;letter-spacing:.05em">NPS Hub 2025</span>
     </div>
@@ -515,17 +491,11 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <header>
     <div class="hlogo">
       <!-- Moon Ventures logo -->
-      <svg height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto">
-        <defs>
-          <mask id="moon-mask-2">
-            <circle cx="26" cy="36" r="24" fill="white"/>
-            <circle cx="34" cy="28" r="16" fill="black"/>
-          </mask>
-        </defs>
-        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-2)"/>
-        <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
-        <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
-        <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
+      <svg height="32" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto;vertical-align:middle">
+        <circle class="moon-solid" cx="26" cy="36" r="22"/>
+        <text x="58" y="31" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="21" letter-spacing="1" fill="var(--text)">MOON</text>
+        <text x="59" y="49" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="9.5" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
+        <line x1="58" y1="54" x2="215" y2="54" stroke="var(--border)" stroke-width="1"/>
       </svg>
       <div style="width:1px;height:32px;background:var(--border);margin:0 6px"></div>
       <!-- Direct nav buttons -->
@@ -859,13 +829,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     <!-- MOON brand hero - SVG logo centered -->
     <div style="background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:14px 0 10px;flex-shrink:0">
       <svg width="170" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <mask id="moon-mask-3">
-            <circle cx="26" cy="36" r="24" fill="white"/>
-            <circle cx="34" cy="28" r="16" fill="black"/>
-          </mask>
-        </defs>
-        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-3)"/>
+        <circle class="moon-solid" cx="26" cy="36" r="24"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
         <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
         <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
