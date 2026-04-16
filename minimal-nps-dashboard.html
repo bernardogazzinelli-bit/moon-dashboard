@@ -491,13 +491,11 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <header>
     <div class="hlogo">
       <!-- Moon Ventures logo -->
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle class="moon-solid" cx="14" cy="14" r="14"/>
-        </svg>
-        <div style="display:flex;flex-direction:column;line-height:1.1">
-          <span style="font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--text)">MOON</span>
-          <span style="font-size:8px;font-weight:500;letter-spacing:.25em;color:var(--muted2);text-transform:uppercase">Ventures</span>
+      <div style="display:flex;align-items:center;gap:7px;flex-shrink:0;padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle class="moon-solid" cx="8" cy="8" r="8"/></svg>
+        <div style="line-height:1">
+          <div style="font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--text)">MOON</div>
+          <div style="font-size:7px;font-weight:600;letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;margin-top:1px">Ventures</div>
         </div>
       </div>
       <div style="width:1px;height:32px;background:var(--border);margin:0 6px"></div>
@@ -1148,6 +1146,9 @@ function populateCompFilters() {
   }
   const mesEl = document.getElementById('cf-mes');
   if (mesEl && !mesEl.value) mesEl.value = CUR_MONTH;
+  // Sync compFilter with DOM values
+  compFilter.ano = document.getElementById('cf-ano').value || '';
+  compFilter.mes = document.getElementById('cf-mes').value || '';
 }
 
 function onCompDateChange() {
