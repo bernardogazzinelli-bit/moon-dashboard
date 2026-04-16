@@ -353,16 +353,32 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 </style>
 </head>
 <body>
+<script>
+// Run immediately so SVGs render correctly on first paint (no flash)
+function _initMoonTheme() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const outerFill = dark ? '#ffffff' : '#0f1826';
+  const innerFill = dark ? '#080e1a' : '#f0f4f8';
+  const textFill  = dark ? '#ffffff' : '#0f1826';
+  const subFill   = dark ? 'rgba(255,255,255,0.55)' : 'rgba(15,24,38,0.4)';
+  const lineFill  = dark ? 'rgba(255,255,255,0.15)' : 'rgba(15,24,38,0.12)';
+  // Inject a style tag with SVG circle fills via CSS - works before DOM IDs exist
+  const style = document.createElement('style');
+  // We'll re-run updateMoonSVGs on DOMContentLoaded, this just sets initial bg
+  document.head.appendChild(style);
+}
+_initMoonTheme();
+</script>
 
 <!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
   <div class="lbox">
-    <svg class="moon-logo-lg" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
-      <circle cx="34" cy="28" r="16" fill="#0f1826"/>
-      <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
-      <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
-      <line x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <svg id="moon-login-svg" width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle id="moon-login-outer" cx="26" cy="36" r="24" fill="white" opacity="0.95"/>
+      <circle id="moon-login-inner" cx="34" cy="28" r="16" fill="#0f1826"/>
+      <text id="moon-login-t1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="white">MOON</text>
+      <text id="moon-login-t2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="rgba(255,255,255,0.6)">VENTURES</text>
+      <line id="moon-login-line" x1="62" y1="55" x2="218" y2="55" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
     </svg>
     <div class="lsub-txt">NPS Moon Ventures · Dashboard de Satisfação</div>
     <div class="ldesc">Faça login com sua conta Google para acessar os dados de NPS das marcas do grupo.</div>
@@ -460,7 +476,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
   <header>
     <div class="hlogo">
       <!-- Moon Ventures logo -->
-      <svg id="moon-svg-hdr" width="130" height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+      <svg id="moon-svg-hdr" height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto">
         <circle id="moon-outer-hdr" cx="26" cy="36" r="24" fill="white" opacity="0.92"/>
         <circle id="moon-inner-hdr" cx="34" cy="28" r="16" fill="#080e1a"/>
         <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
@@ -995,51 +1011,33 @@ function toggleTheme() {
 
 function updateMoonSVGs() {
   const dark = isDk();
-  // DARK: outer=white, inner=dark bg → white crescent on dark
-  // LIGHT: outer=black, inner=light bg → black crescent on light
+  // DARK mode:  outer=white,   inner=very dark  → white crescent visible on dark bg
+  // LIGHT mode: outer=black,   inner=light bg   → black crescent visible on light bg
   const outerFill    = dark ? '#ffffff' : '#0f1826';
-  const outerOpacity = dark ? '0.92'   : '1';
-  const innerFillHdr = dark ? '#080e1a' : '#f0f4f8';
-  const innerFillCard= dark ? '#0f1826' : '#f0f4f8';
-  const textFill     = dark ? 'white'   : '#0f1826';
-  const subFill      = dark ? 'rgba(255,255,255,0.6)' : 'rgba(15,24,38,0.45)';
-  const lineFill     = dark ? 'rgba(255,255,255,0.2)' : 'rgba(15,24,38,0.15)';
+  const outerOpacity = '1';
+  const innerFill    = dark ? '#080e1a' : '#f0f4f8';
+  const textFill     = dark ? '#ffffff' : '#0f1826';
+  const subFill      = dark ? 'rgba(255,255,255,0.55)' : 'rgba(15,24,38,0.4)';
+  const lineFill     = dark ? 'rgba(255,255,255,0.15)' : 'rgba(15,24,38,0.12)';
 
-  // Header SVG
-  const ho = document.getElementById('moon-outer-hdr');
-  const hi = document.getElementById('moon-inner-hdr');
-  if (ho) { ho.setAttribute('fill', outerFill); ho.setAttribute('opacity', outerOpacity); }
-  if (hi)   hi.setAttribute('fill', innerFillHdr);
+  // All SVG element groups: [outer, inner, text1, text2, line]
+  const groups = [
+    ['moon-login-outer',      'moon-login-inner',      'moon-login-t1',        'moon-login-t2',        'moon-login-line'],
+    ['moon-outer-hdr',        'moon-inner-hdr',        null,                   null,                   null],
+    ['moon-outer-comp',       'moon-inner-comp',       null,                   null,                   null],
+    ['moon-home-logo-outer',  'moon-home-logo-inner',  'moon-home-logo-text1', 'moon-home-logo-text2', 'moon-home-logo-line'],
+    ['moon-card-outer',       'moon-card-inner',       'moon-card-text1',      'moon-card-text2',      'moon-card-line'],
+  ];
 
-  // Comp section SVG
-  const co = document.getElementById('moon-outer-comp');
-  const ci = document.getElementById('moon-inner-comp');
-  if (co) { co.setAttribute('fill', outerFill); co.setAttribute('opacity', outerOpacity); }
-  if (ci)   ci.setAttribute('fill', innerFillHdr);
-
-  // Home big logo SVG
-  const hlo = document.getElementById('moon-home-logo-outer');
-  const hli = document.getElementById('moon-home-logo-inner');
-  const hlt1 = document.getElementById('moon-home-logo-text1');
-  const hlt2 = document.getElementById('moon-home-logo-text2');
-  const hll  = document.getElementById('moon-home-logo-line');
-  if (hlo) { hlo.setAttribute('fill', outerFill); hlo.setAttribute('opacity', outerOpacity); }
-  if (hli)  hli.setAttribute('fill', innerFillHdr);
-  if (hlt1) hlt1.setAttribute('fill', textFill);
-  if (hlt2) hlt2.setAttribute('fill', subFill);
-  if (hll)  hll.setAttribute('stroke', lineFill);
-
-  // Home card Moon logo
-  const mco = document.getElementById('moon-card-outer');
-  const mci = document.getElementById('moon-card-inner');
-  const mct1= document.getElementById('moon-card-text1');
-  const mct2= document.getElementById('moon-card-text2');
-  const mcl = document.getElementById('moon-card-line');
-  if (mco) { mco.setAttribute('fill', outerFill); mco.setAttribute('opacity', outerOpacity); }
-  if (mci)  mci.setAttribute('fill', innerFillCard);
-  if (mct1) mct1.setAttribute('fill', textFill);
-  if (mct2) mct2.setAttribute('fill', subFill);
-  if (mcl)  mcl.setAttribute('stroke', lineFill);
+  groups.forEach(([outerId, innerId, t1Id, t2Id, lineId]) => {
+    const o = document.getElementById(outerId);
+    const i = document.getElementById(innerId);
+    if (o) { o.setAttribute('fill', outerFill); o.setAttribute('opacity', outerOpacity); }
+    if (i)   i.setAttribute('fill', innerFill);
+    if (t1Id) { const el = document.getElementById(t1Id); if (el) el.setAttribute('fill', textFill); }
+    if (t2Id) { const el = document.getElementById(t2Id); if (el) el.setAttribute('fill', subFill);  }
+    if (lineId){ const el = document.getElementById(lineId); if (el) el.setAttribute('stroke', lineFill); }
+  });
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2042,6 +2040,7 @@ function openProdModal(produto, mode) {
 
 setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
 window.addEventListener('load',()=>{showOv(false);updateMoonSVGs();});
+document.addEventListener('DOMContentLoaded', updateMoonSVGs);
 </script>
 </body>
 </html>
