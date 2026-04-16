@@ -1074,7 +1074,7 @@ async function refreshAll() {
     setDefaultPeriod('hoomy');
     applyMFilters('minimal');
     applyMFilters('hoomy');
-    updateRedeCard(STATE.minimal.raw, STATE.hoomy.raw);
+    updateRedeCard(filterCompData(STATE.minimal.raw), filterCompData(STATE.hoomy.raw));
     document.getElementById('ubadge').textContent = 'Atualizado: ' + new Date().toLocaleTimeString('pt-BR');
     toast('Minimal: ' + STATE.minimal.raw.length + ' | Hoomy: ' + STATE.hoomy.raw.length + ' respostas', 'ok');
   } catch(e) { toast('Erro: ' + e.message, 'err'); console.error(e); }
@@ -1630,8 +1630,8 @@ function renderLineDailyCumulative(canvasId,chartKey,data) {
 // COMPARATIVO
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderComp(mData, hData) {
-  mData = mData !== undefined ? mData : STATE.minimal.raw;
-  hData = hData !== undefined ? hData : STATE.hoomy.raw;
+  mData = mData !== undefined ? mData : filterCompData(STATE.minimal.raw);
+  hData = hData !== undefined ? hData : filterCompData(STATE.hoomy.raw);
   updateRedeCard(mData, hData);
   const calcNPS=data=>{const p=data.filter(r=>r.sentimento==='Promotor').length,d=data.filter(r=>r.sentimento==='Detrator').length,t=data.length;return{nps:t>0?Math.round((p/t-d/t)*100):0,p,d,t};};
   const m=calcNPS(mData),h=calcNPS(hData);
