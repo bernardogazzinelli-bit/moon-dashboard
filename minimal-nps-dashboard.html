@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -14,6 +14,28 @@
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;font-family:var(--font)}
 body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .25s,color .15s}
 
+/* ─── MOON SVG ─────────────────────────────────────────────────── */
+/*
+  A lua agora é um círculo SIMPLES sem máscara.
+  No dark: branca (filled white circle = lua cheia branca).
+  No light: preta (filled black circle = lua cheia preta).
+  As classes moon-outer, moon-text1, moon-text2, moon-line controlam tudo via CSS.
+*/
+.moon-outer { transition: fill .25s; }
+.moon-text1 { transition: fill .25s; }
+.moon-text2 { transition: fill .25s; }
+.moon-line  { transition: stroke .25s; }
+
+[data-theme="dark"]  .moon-outer { fill: #ffffff; }
+[data-theme="dark"]  .moon-text1 { fill: #ffffff; }
+[data-theme="dark"]  .moon-text2 { fill: rgba(255,255,255,0.55); }
+[data-theme="dark"]  .moon-line  { stroke: rgba(255,255,255,0.15); }
+
+[data-theme="light"] .moon-outer { fill: #0f1826; }
+[data-theme="light"] .moon-text1 { fill: #0f1826; }
+[data-theme="light"] .moon-text2 { fill: rgba(15,24,38,0.45); }
+[data-theme="light"] .moon-line  { stroke: rgba(15,24,38,0.12); }
+
 /* ─── LOGIN ─────────────────────────────────────────────────────── */
 #login-screen{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center}
 .lbox{text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
@@ -24,43 +46,23 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 
 /* ─── HOME SCREEN ─── BENTO GRID ──────────────────────────────── */
 #home-screen{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;flex-direction:column;gap:0;overflow:hidden}
-/* Animated gradient background */
 .home-bg{position:absolute;inset:0;pointer-events:none}
 [data-theme="dark"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.18) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.15) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.06) 0%,transparent 60%),#080e1a}
 [data-theme="light"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.12) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.12) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.05) 0%,transparent 60%),#eef2f8}
 .home-inner{display:flex;flex-direction:column;align-items:center;gap:36px;z-index:1;width:100%;max-width:820px;padding:0 28px}
 .home-logo-area{display:flex;flex-direction:column;align-items:center;gap:10px}
 .home-tagline{font-size:11px;color:var(--muted2);letter-spacing:.28em;text-transform:uppercase;font-weight:600}
-/* Bento grid */
 .home-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%}
-/* Glassmorphism card base */
-.home-card{
-  position:relative;overflow:hidden;
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border-radius:24px;padding:36px 24px 30px;
-  cursor:pointer;transition:all .28s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;
-  min-height:220px;justify-content:center;
-}
+.home-card{position:relative;overflow:hidden;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:24px;padding:36px 24px 30px;cursor:pointer;transition:all .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;min-height:220px;justify-content:center;}
 [data-theme="dark"] .home-card{background:rgba(15,24,38,.55);border:1px solid rgba(255,255,255,.07)}
 [data-theme="light"] .home-card{background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.08)}
-/* Card hover: lift + glow */
 .home-card:hover{transform:translateY(-6px) scale(1.01)}
 .home-card.hc-minimal:hover{box-shadow:0 20px 60px rgba(160,160,160,.22),0 0 0 1px rgba(200,200,200,.3)}
 .home-card.hc-hoomy:hover{box-shadow:0 20px 60px rgba(37,87,170,.28),0 0 0 1px rgba(37,87,170,.35)}
 .home-card.hc-comp:hover{box-shadow:0 20px 60px rgba(167,139,250,.28),0 0 0 1px rgba(167,139,250,.35)}
-/* Subtle accent glow per card */
 .home-card.hc-minimal::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(200,200,200,.12) 0%,transparent 70%);pointer-events:none}
 .home-card.hc-hoomy::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(37,87,170,.18) 0%,transparent 70%);pointer-events:none}
 .home-card.hc-comp::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.18) 0%,transparent 70%);pointer-events:none}
-/* Logo icon area — no box, just logo */
-.home-card-ico{display:none}
-[data-theme="dark"] .home-card-ico.m{display:none}
-[data-theme="light"] .home-card-ico.m{display:none}
-[data-theme="dark"] .home-card-ico.h{display:none}
-[data-theme="light"] .home-card-ico.h{display:none}
-[data-theme="dark"] .home-card-ico.c{display:none}
-[data-theme="light"] .home-card-ico.c{display:none}
 .home-card-name{font-size:18px;font-weight:800;letter-spacing:-.3px;line-height:1.1}
 .home-card-name.m{color:var(--minimal-text)}
 .home-card-name.h{color:var(--navybright)}.home-card-name.c{color:var(--purple)}
@@ -141,7 +143,6 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .kval.g{color:var(--green)}.kval.b{color:var(--blue)}.kval.r{color:var(--red)}.kval.w{color:var(--warn)}.kval.p{color:var(--navybright)}
 .ksub{font-size:11px;color:var(--muted2);margin-top:4px;font-weight:500}
 .nps-big{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1}
-/* Minimal NPS score: B&W dynamic */
 .nps-big.minimal-score{color:var(--minimal-text)}
 
 /* ─── PANELS ────────────────────────────────────────────────────── */
@@ -199,7 +200,6 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .mt-stat{font-size:11px;color:var(--muted2);font-weight:600}
 .mt-stat span{font-weight:800;color:var(--text)}
 .microtemas-chart-wrap{position:relative}
-/* Bar rows rendered as HTML for more control */
 .mt-bar-list{display:flex;flex-direction:column;gap:6px}
 .mt-bar-row{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:10px;cursor:pointer;padding:4px 6px;border-radius:8px;transition:background .12s}
 .mt-bar-row:hover{background:var(--bg3)}
@@ -209,7 +209,6 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .mt-bar-val{font-size:11px;font-weight:700;color:var(--muted2);white-space:nowrap;text-align:left}
 .mt-bar-val span{color:var(--text);font-weight:800}
 .mt-empty{padding:28px;text-align:center;color:var(--muted2);font-size:13px}
-
 
 /* ─── NPS REDE CARD ──────────────────────────────────────────────── */
 .rede-card{background:linear-gradient(135deg,rgba(37,87,170,.14),rgba(167,139,250,.08),var(--card) 65%);border:1px solid rgba(37,87,170,.45);border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px}
@@ -325,7 +324,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 .section-header::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* ─── COMPARATIVO ───────────────────────────────────────────────── */
-/* Comp header with date filter */
 .comp-fbar{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;flex-wrap:wrap}
 .comp-hero{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;margin-bottom:14px;align-items:center}
 .comp-vs{font-size:26px;font-weight:800;color:var(--muted);text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -339,52 +337,23 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 .comp-nps.m{color:var(--minimal-text)}.comp-nps.h{color:var(--navybright)}
 .comp-detail{font-size:11px;color:var(--muted2);margin-top:5px}
 
-/* ─── COMP HERO WITH LOGOS ─────────────────────────────────────── */
-.comp-brand-hero{display:flex;align-items:center;justify-content:center;gap:20px;padding:20px 0 14px;flex-shrink:0;border-bottom:1px solid var(--border);margin-bottom:0}
-.comp-brand-name{font-size:22px;font-weight:800;letter-spacing:-.5px}
-.comp-brand-name.m{color:var(--minimal-text)}
-.comp-brand-name.h{color:var(--navybright)}
-.comp-brand-x{font-size:18px;font-weight:900;color:var(--muted2);padding:0 4px}
-
 /* ─── RESPONSIVE ────────────────────────────────────────────────── */
 @media(max-width:1300px){.krow,.krow6h{grid-template-columns:repeat(3,1fr)}.krow5{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1100px){.g3{grid-template-columns:1fr 1fr}.comp-hero{grid-template-columns:1fr;text-align:center}.comp-vs{display:none}}
 @media(max-width:768px){.krow,.krow5,.krow6h{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}main{padding:12px 14px}header,.fbar,.tabbar{padding:7px 14px}.home-cards{grid-template-columns:1fr}.hnav-btn span.hnav-label{display:none}}
-
-/* ─── MOON SVG THEME COLORS (CSS-only, no JS needed) ──────────────── */
-.moon-outer { transition: fill .25s; }
-.moon-text1 { transition: fill .25s; }
-.moon-text2 { transition: fill .25s; }
-.moon-line  { transition: stroke .25s; }
-
-/* DARK: white crescent */
-[data-theme="dark"] .moon-outer { fill: #ffffff; }
-[data-theme="dark"] .moon-text1 { fill: #ffffff; }
-[data-theme="dark"] .moon-text2 { fill: rgba(255,255,255,0.55); }
-[data-theme="dark"] .moon-line  { stroke: rgba(255,255,255,0.15); }
-
-/* LIGHT: black crescent */
-[data-theme="light"] .moon-outer { fill: #0f1826; }
-[data-theme="light"] .moon-text1 { fill: #0f1826; }
-[data-theme="light"] .moon-text2 { fill: rgba(15,24,38,0.45); }
-[data-theme="light"] .moon-line  { stroke: rgba(15,24,38,0.12); }
-
 </style>
 </head>
 <body>
 
-
 <!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
   <div class="lbox">
+    <!--
+      LUA: círculo simples sem máscara. CSS controla a cor:
+      dark = branco, light = preto
+    -->
     <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <mask id="moon-mask-4">
-          <circle cx="26" cy="36" r="24" fill="white"/>
-          <circle cx="34" cy="28" r="16" fill="black"/>
-        </mask>
-      </defs>
-      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-4)"/>
+      <circle class="moon-outer" cx="26" cy="36" r="22"/>
       <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
       <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
       <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
@@ -402,30 +371,26 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 <div id="home-screen">
   <div class="home-bg"></div>
   <div class="home-inner" id="home-inner-wrap">
-    <!-- Moon logo: theme-aware via JS -->
+    <!-- Moon logo home — círculo simples, CSS controla cor -->
     <svg width="180" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <mask id="moon-mask-5">
-          <circle cx="26" cy="36" r="24" fill="white"/>
-          <circle cx="34" cy="28" r="16" fill="black"/>
-        </mask>
-      </defs>
-      <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-5)"/>
+      <circle class="moon-outer" cx="26" cy="36" r="22"/>
       <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
       <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
       <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
     </svg>
     <div class="home-tagline">NPS Moon Ventures · Selecione o painel</div>
     <div class="home-cards">
+      <!-- Card Minimal -->
       <div class="home-card hc-minimal" onclick="enterDashboard('minimal')">
         <svg width="130" height="30" viewBox="0 0 130 30" fill="none">
           <text x="0" y="24" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="26" letter-spacing="2" fill="var(--minimal-text)">MINIMAL</text>
         </svg>
         <div>
           <div class="home-card-name m">Minimal Club</div>
-          <div class="home-card-sub" style="margin-top:6px">Dashboard NPS com segmentação Varejo & Assinatura</div>
+          <div class="home-card-sub" style="margin-top:6px">Dashboard NPS com segmentação Varejo &amp; Assinatura</div>
         </div>
       </div>
+      <!-- Card Hoomy -->
       <div class="home-card hc-hoomy" onclick="enterDashboard('hoomy')">
         <svg width="110" height="34" viewBox="0 0 110 34" fill="none">
           <text x="0" y="28" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="30" fill="#2557aa" font-style="italic">hoomy</text>
@@ -435,16 +400,10 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="home-card-sub" style="margin-top:6px">Dashboard NPS por Produto, Tag Macro e Tag Micro</div>
         </div>
       </div>
+      <!-- Card Moon (comparativo) — logo padronizada -->
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
-        <!-- Moon Ventures logo - theme aware -->
         <svg width="140" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <mask id="moon-mask-1">
-              <circle cx="26" cy="36" r="24" fill="white"/>
-              <circle cx="34" cy="28" r="16" fill="black"/>
-            </mask>
-          </defs>
-          <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-1)"/>
+          <circle class="moon-outer" cx="26" cy="36" r="22"/>
           <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
           <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
           <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
@@ -456,7 +415,11 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       </div>
     </div>
     <div class="home-brand-row">
-      <svg height="14" viewBox="0 0 90 18" fill="none"><defs><mask id="moon-mask-sm"><circle cx="9" cy="9" r="8" fill="white"/><circle cx="12" cy="6" r="5" fill="black"/></mask></defs><circle class="moon-outer" cx="9" cy="9" r="8" opacity=".7" mask="url(#moon-mask-sm)"/><text class="moon-text2" x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5">MOON VENTURES</text></svg>
+      <!-- Ícone de lua pequeno no rodapé da home — círculo simples -->
+      <svg height="14" viewBox="0 0 140 18" fill="none">
+        <circle class="moon-outer" cx="9" cy="9" r="7" opacity=".7"/>
+        <text class="moon-text2" x="22" y="13" font-family="'Plus Jakarta Sans',sans-serif" font-weight="700" font-size="10" letter-spacing=".5">MOON VENTURES</text>
+      </svg>
       <div class="home-brand-sep"></div>
       <span style="font-size:10px;color:var(--muted2);font-weight:600;letter-spacing:.05em">NPS Hub 2025</span>
     </div>
@@ -491,43 +454,49 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 ════════════════════════════════════════════════════════════ -->
 <div id="app" style="display:none;flex-direction:column;height:100%">
 
-  <!-- HEADER — now with inline nav tabs -->
+  <!-- HEADER -->
   <header>
     <div class="hlogo">
-      <!-- Moon Ventures logo -->
+      <!--
+        LOGO MOON VENTURES NO HEADER
+        Todas as logos no header têm height:36px para padronização.
+        Lua = círculo simples, CSS controla cor.
+      -->
       <svg height="36" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:auto">
-        <defs>
-          <mask id="moon-mask-2">
-            <circle cx="26" cy="36" r="24" fill="white"/>
-            <circle cx="34" cy="28" r="16" fill="black"/>
-          </mask>
-        </defs>
-        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-2)"/>
-        <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
-        <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
-        <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
+        <circle class="moon-outer" cx="26" cy="36" r="22"/>
+        <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
+        <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
+        <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
       </svg>
       <div style="width:1px;height:32px;background:var(--border);margin:0 6px"></div>
-      <!-- Direct nav buttons -->
+      <!-- Nav buttons — logos das marcas padronizadas a height:36px -->
       <nav class="hnav">
+        <!-- Minimal: texto SVG com height:36px -->
         <button class="hnav-btn" id="hnav-minimal" onclick="enterDashboard('minimal')">
-          <div class="hnav-dot" style="background:var(--minimal-text)"></div>
-          <span class="hnav-label" style="font-size:13px;font-weight:800;letter-spacing:.5px;color:inherit">MINIMAL</span>
+          <svg height="16" viewBox="0 0 100 20" fill="none" style="flex-shrink:0">
+            <text x="0" y="16" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="17" letter-spacing="1.5" fill="var(--minimal-text)">MINIMAL</text>
+          </svg>
         </button>
+        <!-- Hoomy: texto SVG com height:36px -->
         <button class="hnav-btn" id="hnav-hoomy" onclick="enterDashboard('hoomy')">
-          <div class="hnav-dot" style="background:var(--navybright)"></div>
-          <span class="hnav-label" style="font-size:13px;font-weight:800;font-style:italic;color:inherit">hoomy</span>
+          <svg height="16" viewBox="0 0 80 20" fill="none" style="flex-shrink:0">
+            <text x="0" y="16" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="19" fill="#2557aa" font-style="italic">hoomy</text>
+          </svg>
         </button>
+        <!-- Moon comparativo: ícone lua + texto, mesmo height -->
         <button class="hnav-btn" id="hnav-comp" onclick="enterDashboard('comp')">
-          <div class="hnav-dot" style="background:var(--purple)"></div>
-          <span style="font-size:13px;font-weight:800;letter-spacing:.5px;color:inherit">MOON</span>
+          <svg height="16" viewBox="0 0 80 20" fill="none" style="flex-shrink:0">
+            <circle class="moon-outer" cx="10" cy="10" r="8"/>
+            <text class="moon-text1" x="24" y="15" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="14" letter-spacing=".5">MOON</text>
+          </svg>
         </button>
       </nav>
     </div>
     <div class="hright">
       <div class="ubadge" id="ubadge">—</div>
       <button class="ibtn" onclick="refreshAll()">↻ Atualizar</button>
-      <button class="ibtn" onclick="toggleTheme()" id="theme-btn">🌙</button>
+      <!-- Começa com ☀️ pois o tema inicial é dark -->
+      <button class="ibtn" onclick="toggleTheme()" id="theme-btn">☀️</button>
       <button class="ibtn" onclick="exportCSV()">⬇ CSV</button>
       <div class="upill" onclick="logout()"><div class="av" id="av">?</div><span id="uname">Usuário</span></div>
     </div>
@@ -535,12 +504,11 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ MINIMAL SECTION ══════════════ -->
   <div id="section-minimal" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- Brand Hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
         <div class="brand-hero-name minimal">MINIMAL CLUB</div>
         <div class="brand-hero-line minimal"></div>
-        <div class="brand-hero-sub">NPS Dashboard · Varejo & Assinatura</div>
+        <div class="brand-hero-sub">NPS Dashboard · Varejo &amp; Assinatura</div>
       </div>
     </div>
     <div class="fbar">
@@ -616,8 +584,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title n">😐 Passivos</div><div class="tag-chart-cnt" id="mtg-cnt-n" style="color:var(--blue)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-pass" style="height:250px"><canvas id="mc-tag-pass"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="mtg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-detr" style="height:250px"><canvas id="mc-tag-detr"></canvas></div></div></div>
       </div>
-
-      <!-- ── MICRO-TEMAS MINIMAL ── -->
       <div class="microtemas-panel" id="mt-panel-minimal">
         <div class="microtemas-header">
           <div class="microtemas-title-row">
@@ -637,11 +603,9 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="mt-bar-list" id="mmt-bars"></div>
         </div>
       </div>
-
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="mc-notas"></canvas></div></div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:230px"><canvas id="mc-line"></canvas></div></div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="mc-bar"></canvas></div></div>
-
       <div class="comm-panel">
         <div class="comm-header">
           <div class="comm-title">Comentários</div>
@@ -679,12 +643,11 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ HOOMY SECTION ══════════════ -->
   <div id="section-hoomy" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- Brand Hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
         <div class="brand-hero-name hoomy">hoomy</div>
         <div class="brand-hero-line hoomy"></div>
-        <div class="brand-hero-sub">NPS Dashboard · Produto & Tags</div>
+        <div class="brand-hero-sub">NPS Dashboard · Produto &amp; Tags</div>
       </div>
     </div>
     <div class="fbar">
@@ -748,8 +711,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title n">😐 Passivos</div><div class="tag-chart-cnt" id="htg-cnt-n" style="color:var(--blue)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-pass" style="height:250px"><canvas id="hc-tag-pass"></canvas></div></div></div>
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="htg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-detr" style="height:250px"><canvas id="hc-tag-detr"></canvas></div></div></div>
       </div>
-
-      <!-- ── MICRO-TEMAS HOOMY ── -->
       <div class="microtemas-panel" id="mt-panel-hoomy">
         <div class="microtemas-header">
           <div class="microtemas-title-row">
@@ -769,12 +730,8 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="mt-bar-list" id="hmt-bars"></div>
         </div>
       </div>
-
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="hc-notas"></canvas></div></div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="hc-bar"></canvas></div></div>
-
-
-      <!-- ── ANÁLISE DE PRODUTOS (Hoomy only) ── -->
       <div class="prod-analysis-panel" id="prod-panel-hoomy">
         <div class="prod-analysis-header">
           <div>
@@ -792,7 +749,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="prod-grid" id="hprod-grid"></div>
         </div>
       </div>
-
       <div class="comm-panel">
         <div class="comm-header">
           <div class="comm-title">Comentários</div>
@@ -830,22 +786,15 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
 
   <!-- ══════════════ COMPARATIVO SECTION ══════════════ -->
   <div id="section-comp" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- MOON brand hero - SVG logo centered -->
     <div style="background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:14px 0 10px;flex-shrink:0">
+      <!-- Logo Moon no comparativo — círculo simples, CSS controla cor -->
       <svg width="170" height="46" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <mask id="moon-mask-3">
-            <circle cx="26" cy="36" r="24" fill="white"/>
-            <circle cx="34" cy="28" r="16" fill="black"/>
-          </mask>
-        </defs>
-        <circle class="moon-outer" cx="26" cy="36" r="24" mask="url(#moon-mask-3)"/>
-        <text x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1" fill="var(--text)">MOON</text>
-        <text x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5" fill="var(--muted2)">VENTURES</text>
-        <line x1="62" y1="55" x2="218" y2="55" stroke="var(--border)" stroke-width="1"/>
+        <circle class="moon-outer" cx="26" cy="36" r="22"/>
+        <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
+        <text class="moon-text2" x="63" y="50" font-family="'Plus Jakarta Sans',sans-serif" font-weight="400" font-size="10" letter-spacing="3.5">VENTURES</text>
+        <line class="moon-line" x1="62" y1="55" x2="218" y2="55" stroke-width="1"/>
       </svg>
     </div>
-    <!-- Comp date filter bar -->
     <div class="comp-fbar">
       <span class="flbl">Filtro de Data</span>
       <span class="fdate-label">De</span>
@@ -865,7 +814,6 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
       <span class="f-count" id="cf-count"></span>
     </div>
     <main style="flex:1;overflow-y:auto;padding:18px 20px">
-      <!-- ══ NPS REDE ══ -->
       <div class="rede-card">
         <div>
           <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;display:flex;align-items:center;gap:8px">
@@ -876,26 +824,10 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div style="font-size:12px;color:var(--muted2);margin-top:8px;font-weight:500" id="rede-nps-sub">Calculando...</div>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-          <div class="rede-mini-card">
-            <div class="rede-mini-lbl">Promotores</div>
-            <div class="rede-mini-val" style="color:var(--green)" id="rede-prom">—</div>
-            <div class="rede-mini-pct" id="rede-prom-pct">—%</div>
-          </div>
-          <div class="rede-mini-card">
-            <div class="rede-mini-lbl">Passivos</div>
-            <div class="rede-mini-val" style="color:var(--blue)" id="rede-pass">—</div>
-            <div class="rede-mini-pct" id="rede-pass-pct">—%</div>
-          </div>
-          <div class="rede-mini-card">
-            <div class="rede-mini-lbl">Detratores</div>
-            <div class="rede-mini-val" style="color:var(--red)" id="rede-detr">—</div>
-            <div class="rede-mini-pct" id="rede-detr-pct">—%</div>
-          </div>
-          <div class="rede-mini-card">
-            <div class="rede-mini-lbl">Total</div>
-            <div class="rede-mini-val" style="color:var(--text)" id="rede-tot">—</div>
-            <div class="rede-mini-pct">respostas</div>
-          </div>
+          <div class="rede-mini-card"><div class="rede-mini-lbl">Promotores</div><div class="rede-mini-val" style="color:var(--green)" id="rede-prom">—</div><div class="rede-mini-pct" id="rede-prom-pct">—%</div></div>
+          <div class="rede-mini-card"><div class="rede-mini-lbl">Passivos</div><div class="rede-mini-val" style="color:var(--blue)" id="rede-pass">—</div><div class="rede-mini-pct" id="rede-pass-pct">—%</div></div>
+          <div class="rede-mini-card"><div class="rede-mini-lbl">Detratores</div><div class="rede-mini-val" style="color:var(--red)" id="rede-detr">—</div><div class="rede-mini-pct" id="rede-detr-pct">—%</div></div>
+          <div class="rede-mini-card"><div class="rede-mini-lbl">Total</div><div class="rede-mini-val" style="color:var(--text)" id="rede-tot">—</div><div class="rede-mini-pct">respostas</div></div>
         </div>
       </div>
       <div class="comp-hero">
@@ -904,9 +836,7 @@ tbody td{padding:9px 14px;font-size:12px;font-weight:500}
           <div class="comp-nps m" id="comp-nps-m">—</div>
           <div class="comp-detail" id="comp-detail-m">— respostas</div>
         </div>
-        <div class="comp-vs">
-          <span class="comp-vs-x">×</span>
-        </div>
+        <div class="comp-vs"><span class="comp-vs-x">×</span></div>
         <div class="comp-co hoomy">
           <div class="comp-co-name h">Hoomy</div>
           <div class="comp-nps h" id="comp-nps-h">—</div>
@@ -1002,8 +932,6 @@ function showHome() {
   updateNavButtons(null);
 }
 
-function goHome() { showHome(); }
-
 function enterDashboard(co) {
   currentCompany = co;
   document.getElementById('home-screen').style.display = 'none';
@@ -1030,15 +958,14 @@ function updateNavButtons(active) {
 }
 
 function toggleTheme() {
-  const h = document.documentElement, d = h.getAttribute('data-theme') === 'dark';
-  h.setAttribute('data-theme', d ? 'light' : 'dark');
-  document.getElementById('theme-btn').textContent = d ? '☀️' : '🌙';
-  updateMoonSVGs();
+  const h = document.documentElement;
+  const isDark = h.getAttribute('data-theme') === 'dark';
+  h.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  // dark→light = mostra sol para voltar ao dark; light→dark = mostra lua
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
   renderAll('minimal'); renderAll('hoomy');
   if (currentCompany === 'comp') renderComp();
 }
-
-function updateMoonSVGs() { /* CSS handles moon SVG theming */ }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SUB-TAB SWITCHING
@@ -1145,7 +1072,6 @@ function populateCompFilters() {
   sel.innerHTML = ''; sel.appendChild(first);
   anos.forEach(a => { const op = document.createElement('option'); op.value = a; op.textContent = a; sel.appendChild(op); });
   if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
-  // Set default to current year/month if not already set
   if (!sel.value) {
     const opt = [...sel.options].find(o => o.value === CUR_YEAR);
     if (opt) sel.value = CUR_YEAR;
@@ -1203,14 +1129,13 @@ function filterCompData(raw) {
 function applyCompFilters() {
   const mFiltered = filterCompData(STATE.minimal.raw);
   const hFiltered = filterCompData(STATE.hoomy.raw);
-  const total = mFiltered.length + hFiltered.length;
   const cnt = document.getElementById('cf-count');
   if (cnt) cnt.textContent = 'Minimal: ' + mFiltered.length + ' · Hoomy: ' + hFiltered.length;
   renderComp(mFiltered, hFiltered);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FILTERS (minimal/hoomy)
+// FILTERS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const pfx = co => co === 'minimal' ? 'mf' : 'hf';
 
@@ -1296,7 +1221,6 @@ function applyMFilters(co) {
   }
 
   STATE[co].filtered = STATE[co].raw.filter(r => matchDate(r, false) && matchOther(r));
-
   if (useDR && de) {
     const yr = de.split('-')[0];
     STATE[co].yearFiltered = STATE[co].raw.filter(r => r.ano === yr && matchOther(r));
@@ -1483,7 +1407,6 @@ function renderNotas(co,canvasId,chartKey,data) {
   CHARTS[chartKey]=new Chart(document.getElementById(canvasId).getContext('2d'),{type:'bar',data:{labels:['0','1','2','3','4','5','6','7','8','9','10'],datasets:[{label:'Respostas',data:counts,borderRadius:5,borderSkipped:false,backgroundColor:counts.map((_,i)=>i<=6?'rgba(255,64,96,.75)':i<=8?'rgba(61,158,255,.75)':'rgba(0,224,132,.75)')}]},options:{...cOpts(false),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"}}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
 }
 
-// TAG MODAL
 function openTagModal(tag,sentiment,co) {
   const norm=t=>(t||'Não especificado').trim()||'Não especificado';
   const rows=STATE[co].filtered.filter(r=>r.sentimento===sentiment&&norm(r.tag)===tag).sort((a,b)=>b.date-a.date);
@@ -1499,7 +1422,6 @@ function openTagModal(tag,sentiment,co) {
 }
 function closeTagModal(e){if(e.target===document.getElementById('tag-modal-bg'))document.getElementById('tag-modal-bg').style.display='none';}
 
-// COMMENTS
 function populateMotivos(co,data) {
   const selId=(co==='minimal'?'mc':'hc')+'f-motivo';
   const sel=document.getElementById(selId); if(!sel) return;
@@ -1545,7 +1467,6 @@ function openMModal(co,idx) {
 }
 function closeModal(e){if(e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').style.display='none';}
 
-// TABLE
 function renderTable(co,data) { STATE[co].tbl=[...data].reverse().slice(0,500); buildTable(co,STATE[co].tbl); }
 function buildTable(co,rows) {
   const tb=document.getElementById((co==='minimal'?'m':'h')+'t-body');
@@ -1763,9 +1684,8 @@ const mtState = {
 
 function switchMTToggle(co, sentiment) {
   mtState[co].sentiment = sentiment;
-  mtState[co].macroTab = 'Todas'; // reset tab on toggle
+  mtState[co].macroTab = 'Todas';
   const p = co === 'minimal' ? 'm' : 'h';
-  // Update toggle buttons
   const dBtn = document.getElementById(p + 'mt-detr');
   const pBtn = document.getElementById(p + 'mt-prom');
   if (dBtn) { dBtn.className = 'mt-toggle-btn' + (sentiment === 'Detrator' ? ' active-d' : ''); }
@@ -1786,14 +1706,11 @@ function renderMicroTemas(co, data) {
   const accentColor = isDetr ? 'var(--red)' : 'var(--green)';
   const fillColor   = isDetr ? 'rgba(255,64,96,.75)' : 'rgba(0,224,132,.75)';
 
-  // Filter by sentiment
   const sentRows = data.filter(r => r.sentimento === sentiment);
   const total = sentRows.length;
 
-  // Build macro tabs list
   const macros = ['Todas', ...([...new Set(sentRows.map(r => (r.tag || '').trim()).filter(Boolean))].sort())];
 
-  // Render macro tabs
   const tabsEl = document.getElementById(p + 'mt-tabs');
   if (tabsEl) {
     tabsEl.innerHTML = macros.map(m => {
@@ -1805,14 +1722,12 @@ function renderMicroTemas(co, data) {
     }).join('');
   }
 
-  // Filter by macro tab
   const tabRows = macroTab === 'Todas'
     ? sentRows
     : sentRows.filter(r => (r.tag || '').trim() === macroTab);
 
   const tabTotal = tabRows.length;
 
-  // Stats
   const statsEl = document.getElementById(p + 'mt-stats');
   if (statsEl) {
     const macroLabel = macroTab === 'Todas' ? 'Todos os temas' : macroTab;
@@ -1823,7 +1738,6 @@ function renderMicroTemas(co, data) {
     `;
   }
 
-  // Build micro counts
   const microCounts = {};
   tabRows.forEach(r => {
     const micro = (r.tagMicro || r.tag || '').trim() || 'Não especificado';
@@ -1898,9 +1812,8 @@ function openMicroTagModal(co, microTag, macroTag, sentiment) {
   document.getElementById('tag-modal-bg').style.display = 'flex';
 }
 
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// NPS REDE (unificado)
+// NPS REDE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function updateRedeCard(mData, hData) {
   const all = [...mData, ...hData];
@@ -1950,7 +1863,6 @@ function renderProdAnalysis(data) {
     return;
   }
 
-  // Build product stats
   const prodData = products.map(prod => {
     const rows = data.filter(r => (r.produto || '').trim() === prod);
     const prom = rows.filter(r => r.sentimento === 'Promotor').length;
@@ -1961,7 +1873,6 @@ function renderProdAnalysis(data) {
     return { prod, prom, pass, detr, tot, nps };
   });
 
-  // Sort by active toggle
   prodData.sort((a, b) =>
     prodToggle === 'Detrator' ? b.detr - a.detr :
     prodToggle === 'Promotor' ? b.prom - a.prom :
@@ -2039,8 +1950,7 @@ function openProdModal(produto, mode) {
 }
 
 setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
-window.addEventListener('load',()=>{showOv(false);updateMoonSVGs();});
-document.addEventListener('DOMContentLoaded', updateMoonSVGs);
+window.addEventListener('load',()=>{showOv(false);});
 </script>
 </body>
 </html>
