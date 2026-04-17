@@ -1059,17 +1059,17 @@ function switchMTab(tab) {
   document.getElementById('mtab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active' : '');
   document.getElementById('mtab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active' : '');
   if (tab === 'graficos') {
-    const yr = new Date().getFullYear();
-    const de = yr + '-01-01';
-    const ate = yr + '-12-31';
-    ['mg-m-de','mg-d-de','mg-vol-de','mg-cum-de'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && !el.value) { el.value = de; el.classList.add('active'); }
-    });
-    ['mg-m-ate','mg-d-ate','mg-vol-ate','mg-cum-ate'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && !el.value) { el.value = ate; el.classList.add('active'); }
-    });
+    const now = new Date();
+    const yr = now.getFullYear();
+    const mo = String(now.getMonth() + 1).padStart(2, '0');
+    const lastDay = String(new Date(yr, now.getMonth() + 1, 0).getDate()).padStart(2, '0');
+    const yrDe = `${yr}-01-01`, yrAte = `${yr}-12-31`;
+    const moDe = `${yr}-${mo}-01`, moAte = `${yr}-${mo}-${lastDay}`;
+    const sv = (id, val) => { const e = document.getElementById(id); if (e) { e.value = val; e.classList.add('active'); } };
+    sv('mg-m-de', yrDe); sv('mg-m-ate', yrAte);
+    sv('mg-d-de', moDe); sv('mg-d-ate', moAte);
+    sv('mg-vol-de', moDe); sv('mg-vol-ate', moAte);
+    sv('mg-cum-de', moDe); sv('mg-cum-ate', moAte);
     requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('minimal')));
   }
 }
@@ -1080,17 +1080,19 @@ function switchHTab(tab) {
   document.getElementById('htab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active-purple' : '');
   document.getElementById('htab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active-purple' : '');
   if (tab === 'graficos') {
-    const yr = new Date().getFullYear();
-    const de = yr + '-01-01';
-    const ate = yr + '-12-31';
-    ['hg-m-de','hg-d-de','hg-vol-de','hg-cum-de'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && !el.value) { el.value = de; el.classList.add('active'); }
-    });
-    ['hg-m-ate','hg-d-ate','hg-vol-ate','hg-cum-ate'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && !el.value) { el.value = ate; el.classList.add('active'); }
-    });
+    const now = new Date();
+    const yr = now.getFullYear();
+    const mo = String(now.getMonth() + 1).padStart(2, '0');
+    const lastDay = String(new Date(yr, now.getMonth() + 1, 0).getDate()).padStart(2, '0');
+    const yrDe = `${yr}-01-01`, yrAte = `${yr}-12-31`;
+    const moDe = `${yr}-${mo}-01`, moAte = `${yr}-${mo}-${lastDay}`;
+    const sv = (id, val) => { const e = document.getElementById(id); if (e) { e.value = val; e.classList.add('active'); } };
+    // NPS Mensal → ano inteiro
+    sv('hg-m-de', yrDe); sv('hg-m-ate', yrAte);
+    // Outros → mês atual
+    sv('hg-d-de', moDe); sv('hg-d-ate', moAte);
+    sv('hg-vol-de', moDe); sv('hg-vol-ate', moAte);
+    sv('hg-cum-de', moDe); sv('hg-cum-ate', moAte);
     requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('hoomy')));
   }
 }
@@ -1632,7 +1634,8 @@ function renderLineDailyNPS(canvasId,chartKey,data,color,rgb) {
   const canvas=document.getElementById(canvasId); if(!canvas) return;
   const ctx=canvas.getContext('2d'),g=ctx.createLinearGradient(0,0,0,280);
   g.addColorStop(0,`rgba(${rgb},.18)`);g.addColorStop(1,`rgba(${rgb},0)`);
-  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels:keys.map(fmtDs),datasets:[{label:'NPS Acumulado',data:cumNPS,borderColor:color,backgroundColor:g,borderWidth:2.5,pointRadius:3,pointBackgroundColor:color,fill:true,tension:.35,order:1},{label:'NPS do Dia',data:dailyNPS,borderColor:'rgba(61,158,255,.7)',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#3d9eff',borderDash:[5,4],fill:false,tension:.3,spanGaps:true,order:2}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
+  const labelPlugin={id:'ptLabels',afterDatasetsDraw(chart){const ds=chart.data.datasets[0];const meta=chart.getDatasetMeta(0);const isDk2=isDk();ctx.save();ctx.font=`bold 9px 'Plus Jakarta Sans',sans-serif`;ctx.fillStyle=isDk2?'rgba(238,242,255,.75)':'rgba(15,24,38,.7)';ctx.textAlign='center';meta.data.forEach((pt,i)=>{const v=ds.data[i];if(v==null)return;const step=Math.max(1,Math.floor(meta.data.length/30));if(i%step!==0&&i!==meta.data.length-1)return;ctx.fillText((v>0?'+':'')+v,pt.x,pt.y-8);});ctx.restore();}};
+  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels:keys.map(fmtDs),datasets:[{label:'NPS Acumulado',data:cumNPS,borderColor:color,backgroundColor:g,borderWidth:2.5,pointRadius:3,pointBackgroundColor:color,fill:true,tension:.35,order:1},{label:'NPS do Dia',data:dailyNPS,borderColor:'rgba(61,158,255,.7)',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#3d9eff',borderDash:[5,4],fill:false,tension:.3,spanGaps:true,order:2}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}},plugins:[labelPlugin]});
 }
 function renderLineDailyVolume(canvasId,chartKey,data) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
@@ -1640,7 +1643,10 @@ function renderLineDailyVolume(canvasId,chartKey,data) {
   data.forEach(r=>{const k=getDateKey(r.dateStr);if(!dm[k])dm[k]={prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')dm[k].prom++;else if(r.sentimento==='Passivo')dm[k].pass++;else dm[k].detr++;});
   const keys=Object.keys(dm).sort((a,b)=>dateKeyToMs(a)-dateKeyToMs(b)); if(!keys.length) return;
   const canvas=document.getElementById(canvasId); if(!canvas) return;
-  CHARTS[chartKey]=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels:keys.map(fmtDs),datasets:[{label:'Promotores',data:keys.map(k=>dm[k].prom),backgroundColor:'rgba(0,224,132,.75)',borderRadius:2,borderSkipped:false},{label:'Passivos',data:keys.map(k=>dm[k].pass),backgroundColor:'rgba(61,158,255,.75)',borderRadius:2,borderSkipped:false},{label:'Detratores',data:keys.map(k=>dm[k].detr),backgroundColor:'rgba(255,64,96,.75)',borderRadius:2,borderSkipped:false}]},options:{...cOpts(true),_showTotals:true,scales:{x:{stacked:true,grid:{display:false},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{stacked:true,grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
+  const ctx=canvas.getContext('2d');
+  const totals=keys.map(k=>dm[k].prom+dm[k].pass+dm[k].detr);
+  const totalLabelPlugin={id:'barTotals',afterDatasetsDraw(chart){const meta=chart.getDatasetMeta(2);if(!meta||!meta.data.length)return;ctx.save();ctx.font=`bold 9px 'Plus Jakarta Sans',sans-serif`;ctx.fillStyle=isDk()?'rgba(238,242,255,.8)':'rgba(15,24,38,.75)';ctx.textAlign='center';const step=Math.max(1,Math.floor(meta.data.length/30));meta.data.forEach((bar,i)=>{if(i%step!==0&&i!==meta.data.length-1)return;const v=totals[i];if(!v)return;ctx.fillText(v,bar.x,bar.y-5);});ctx.restore();}};
+  CHARTS[chartKey]=new Chart(ctx,{type:'bar',data:{labels:keys.map(fmtDs),datasets:[{label:'Promotores',data:keys.map(k=>dm[k].prom),backgroundColor:'rgba(0,224,132,.75)',borderRadius:2,borderSkipped:false},{label:'Passivos',data:keys.map(k=>dm[k].pass),backgroundColor:'rgba(61,158,255,.75)',borderRadius:2,borderSkipped:false},{label:'Detratores',data:keys.map(k=>dm[k].detr),backgroundColor:'rgba(255,64,96,.75)',borderRadius:2,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{stacked:true,grid:{display:false},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{stacked:true,grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}},plugins:[totalLabelPlugin]});
 }
 function renderLineDailyCumulative(canvasId,chartKey,data) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
@@ -1651,7 +1657,8 @@ function renderLineDailyCumulative(canvasId,chartKey,data) {
   const canvas=document.getElementById(canvasId); if(!canvas) return;
   const ctx=canvas.getContext('2d'),g=ctx.createLinearGradient(0,0,0,280);
   g.addColorStop(0,'rgba(61,158,255,.25)');g.addColorStop(1,'rgba(61,158,255,0)');
-  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels:keys.map(fmtDs),datasets:[{label:'Total Acumulado',data:cumData,borderColor:'#3d9eff',backgroundColor:g,borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#3d9eff',pointHoverRadius:6,fill:true,tension:.4}]},options:{...cOpts(false),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
+  const cumLabelPlugin={id:'cumLabels',afterDatasetsDraw(chart){const meta=chart.getDatasetMeta(0);ctx.save();ctx.font=`bold 9px 'Plus Jakarta Sans',sans-serif`;ctx.fillStyle=isDk()?'rgba(238,242,255,.75)':'rgba(15,24,38,.7)';ctx.textAlign='center';const step=Math.max(1,Math.floor(meta.data.length/25));meta.data.forEach((pt,i)=>{if(i%step!==0&&i!==meta.data.length-1)return;ctx.fillText(cumData[i],pt.x,pt.y-8);});ctx.restore();}};
+  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels:keys.map(fmtDs),datasets:[{label:'Total Acumulado',data:cumData,borderColor:'#3d9eff',backgroundColor:g,borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#3d9eff',pointHoverRadius:6,fill:true,tension:.4}]},options:{...cOpts(false),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}},plugins:[cumLabelPlugin]});
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
