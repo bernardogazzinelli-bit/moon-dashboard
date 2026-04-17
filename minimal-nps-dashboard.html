@@ -390,7 +390,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 <body>
 
 
-<!-- ════════════════ LOGIN ════════════════ -->
 <div id="login-screen">
   <div class="lbox">
     <svg width="260" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -408,11 +407,9 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   </div>
 </div>
 
-<!-- ════════════════ HOME ════════════════ -->
 <div id="home-screen">
   <div class="home-bg"></div>
   <div class="home-inner" id="home-inner-wrap">
-    <!-- Moon logo: theme-aware via JS -->
     <svg width="220" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle class="moon-solid" cx="26" cy="36" r="24"/>
       <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
@@ -440,7 +437,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
       </div>
       <div class="home-card hc-comp" onclick="enterDashboard('comp')">
-        <!-- Moon Ventures logo - theme aware -->
         <svg width="180" height="58" viewBox="0 0 220 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle class="moon-solid" cx="26" cy="36" r="24"/>
           <text class="moon-text1" x="62" y="32" font-family="'Plus Jakarta Sans',sans-serif" font-weight="800" font-size="22" letter-spacing="1">MOON</text>
@@ -461,7 +457,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   </div>
 </div>
 
-<!-- ════════════════ OVERLAY / MODAL ════════════════ -->
 <div id="overlay"><div class="spin"></div><div class="ovtxt" id="ovtxt">Carregando dados...</div></div>
 
 <div id="modal-bg" onclick="closeModal(event)">
@@ -484,21 +479,15 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════════
-     APP
-════════════════════════════════════════════════════════════ -->
 <div id="app" style="display:none;flex-direction:column;height:100%">
 
-  <!-- HEADER — now with inline nav tabs -->
   <header>
     <div class="hlogo">
-      <!-- Moon Ventures logo -->
       <div class="hnav-btn" style="cursor:default;gap:8px">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle class="moon-solid" cx="7" cy="7" r="7"/></svg>
         <span style="font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--text)">MOON <span style="font-size:9px;font-weight:500;letter-spacing:.2em;color:var(--muted2)">VENTURES</span></span>
       </div>
       <div style="width:1px;height:32px;background:var(--border);margin:0 6px"></div>
-      <!-- Direct nav buttons -->
       <nav class="hnav">
         <button class="hnav-btn" id="hnav-minimal" onclick="enterDashboard('minimal')">
           <div class="hnav-dot" style="background:var(--minimal-text)"></div>
@@ -523,9 +512,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     </div>
   </header>
 
-  <!-- ══════════════ MINIMAL SECTION ══════════════ -->
   <div id="section-minimal" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- Brand Hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
         <div class="brand-hero-name minimal">MINIMAL CLUB</div>
@@ -610,7 +597,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="mtg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="mwrap-tag-detr" style="height:250px"><canvas id="mc-tag-detr"></canvas></div></div></div>
       </div>
 
-      <!-- ── MICRO-TEMAS MINIMAL ── -->
       <div class="microtemas-panel" id="mt-panel-minimal">
         <div class="microtemas-header">
           <div class="microtemas-title-row">
@@ -632,7 +618,19 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       </div>
 
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="mc-notas"></canvas></div></div>
-      <div class="panel" style="margin-bottom:14px"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:230px"><canvas id="mc-line"></canvas></div></div>
+
+      <div class="panel" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+          <div class="ptitle">Evolução do NPS</div>
+          <select class="fsel" id="m-dash-nps-sel" onchange="renderDashNPS('minimal')" style="padding:2px 6px; font-size:10px;">
+            <option value="mensal">Acumulado Mês</option>
+            <option value="diario">Acumulado Dia</option>
+          </select>
+        </div>
+        <div class="psub">Score evolutivo</div>
+        <div class="cwrap" style="height:230px"><canvas id="mc-line"></canvas></div>
+      </div>
+
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="mc-bar"></canvas></div></div>
 
       <div class="comm-panel">
@@ -656,30 +654,56 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
       </div>
     </main>
+
     <main id="mtab-graficos" style="display:none">
-      <div class="panel" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-          <div><div class="ptitle">Evolução — Minimal</div><div class="psub">Selecione a visão desejada</div></div>
-          <select class="fsel" id="m-graf-sel" onchange="switchGrafView('minimal')" style="max-width:220px">
-            <option value="nps-mensal">NPS Mensal</option>
-            <option value="nps-acumulado">NPS Acumulado (dia)</option>
-            <option value="vol-diario">Volume por Dia</option>
-            <option value="vol-acumulado">Respostas Acumuladas</option>
-          </select>
+      <div class="g2">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">NPS Mensal</div><div class="psub">Score NPS mês a mês</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="mg-m-de" onchange="renderIndividualGraf('minimal','m')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="mg-m-ate" onchange="renderIndividualGraf('minimal','m')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="mc-line-m"></canvas></div>
         </div>
-        <div style="position:relative;height:320px">
-          <canvas id="mc-line-m" style="position:absolute;inset:0;display:block"></canvas>
-          <canvas id="mc-line-d" style="position:absolute;inset:0;display:none"></canvas>
-          <canvas id="mc-line-vol" style="position:absolute;inset:0;display:none"></canvas>
-          <canvas id="mc-line-cum" style="position:absolute;inset:0;display:none"></canvas>
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">NPS por Dia (acumulado)</div><div class="psub">Score NPS acumulado dia a dia</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="mg-d-de" onchange="renderIndividualGraf('minimal','d')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="mg-d-ate" onchange="renderIndividualGraf('minimal','d')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="mc-line-d"></canvas></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">Respostas por Dia</div><div class="psub">Quantidade diária</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="mg-vol-de" onchange="renderIndividualGraf('minimal','vol')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="mg-vol-ate" onchange="renderIndividualGraf('minimal','vol')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="mc-line-vol"></canvas></div>
+        </div>
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">Respostas Acumuladas</div><div class="psub">Crescimento acumulado</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="mg-cum-de" onchange="renderIndividualGraf('minimal','cum')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="mg-cum-ate" onchange="renderIndividualGraf('minimal','cum')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="mc-line-cum"></canvas></div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- ══════════════ HOOMY SECTION ══════════════ -->
   <div id="section-hoomy" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- Brand Hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
         <div class="brand-hero-name hoomy">hoomy</div>
@@ -744,7 +768,18 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
           <div class="donut-wrap" style="height:148px;width:100%"><canvas id="hc-donut"></canvas><div class="donut-center"><div class="dbig" id="hd-nps">—</div><div class="dlbl">NPS</div></div></div>
           <div class="legend" id="hd-leg" style="width:100%"></div>
         </div>
-        <div class="panel"><div class="ptitle">Evolução do NPS</div><div class="psub">Score mensal</div><div class="cwrap" style="height:210px"><canvas id="hc-line"></canvas></div></div>
+        
+        <div class="panel">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+            <div class="ptitle">Evolução do NPS</div>
+            <select class="fsel" id="h-dash-nps-sel" onchange="renderDashNPS('hoomy')" style="padding:2px 6px; font-size:10px;">
+              <option value="mensal">Acumulado Mês</option>
+              <option value="diario">Acumulado Dia</option>
+            </select>
+          </div>
+          <div class="psub">Score evolutivo</div>
+          <div class="cwrap" style="height:230px"><canvas id="hc-line"></canvas></div>
+        </div>
       </div>
       <div class="g3">
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title p">😊 Promotores</div><div class="tag-chart-cnt" id="htg-cnt-p" style="color:var(--green)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-prom" style="height:250px"><canvas id="hc-tag-prom"></canvas></div></div></div>
@@ -752,7 +787,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <div class="tag-chart-panel"><div class="tag-chart-header"><div class="tag-chart-title d">😞 Detratores</div><div class="tag-chart-cnt" id="htg-cnt-d" style="color:var(--red)">—</div></div><div class="tag-chart-body"><div class="tag-chart-hint">↖ clique para ver respostas</div><div class="cwrap" id="hwrap-tag-detr" style="height:250px"><canvas id="hc-tag-detr"></canvas></div></div></div>
       </div>
 
-      <!-- ── MICRO-TEMAS HOOMY ── -->
       <div class="microtemas-panel" id="mt-panel-hoomy">
         <div class="microtemas-header">
           <div class="microtemas-title-row">
@@ -777,17 +811,15 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="hc-bar"></canvas></div></div>
 
 
-      <!-- ── ANÁLISE DE PRODUTOS (Hoomy only) ── -->
       <div class="prod-analysis-panel" id="prod-panel-hoomy">
         <div class="prod-analysis-header">
           <div>
             <div style="font-size:14px;font-weight:800;letter-spacing:-.2px">📦 Análise por Produto</div>
-            <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">NPS por produto · compare detratores e promotores · clique no card para ver respostas</div>
+            <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">NPS por produto · compare detratores e promotores · clique no gráfico para ver respostas</div>
           </div>
           <div class="prod-toggle">
             <button class="prod-toggle-btn active-d" id="hprod-detr" onclick="switchProdToggle('Detrator')">😞 Detratores</button>
             <button class="prod-toggle-btn" id="hprod-prom" onclick="switchProdToggle('Promotor')">😊 Promotores</button>
-            <button class="prod-toggle-btn" id="hprod-nps" onclick="switchProdToggle('NPS')">📊 NPS Score</button>
           </div>
         </div>
         <div class="prod-body">
@@ -827,30 +859,56 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
       </div>
     </main>
+    
     <main id="htab-graficos" style="display:none">
-      <div class="panel" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-          <div><div class="ptitle">Evolução — Hoomy</div><div class="psub">Selecione a visão desejada</div></div>
-          <select class="fsel" id="h-graf-sel" onchange="switchGrafView('hoomy')" style="max-width:220px">
-            <option value="nps-mensal">NPS Mensal</option>
-            <option value="nps-acumulado">NPS Acumulado (dia)</option>
-            <option value="vol-diario">Volume por Dia</option>
-            <option value="vol-acumulado">Respostas Acumuladas</option>
-          </select>
+      <div class="g2">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">NPS Mensal</div><div class="psub">Score NPS mês a mês</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="hg-m-de" onchange="renderIndividualGraf('hoomy','m')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="hg-m-ate" onchange="renderIndividualGraf('hoomy','m')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="hc-line-m"></canvas></div>
         </div>
-        <div style="position:relative;height:320px">
-          <canvas id="hc-line-m" style="position:absolute;inset:0;display:block"></canvas>
-          <canvas id="hc-line-d" style="position:absolute;inset:0;display:none"></canvas>
-          <canvas id="hc-line-vol" style="position:absolute;inset:0;display:none"></canvas>
-          <canvas id="hc-line-cum" style="position:absolute;inset:0;display:none"></canvas>
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">NPS por Dia (acumulado)</div><div class="psub">Score NPS acumulado dia a dia</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="hg-d-de" onchange="renderIndividualGraf('hoomy','d')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="hg-d-ate" onchange="renderIndividualGraf('hoomy','d')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="hc-line-d"></canvas></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">Respostas por Dia</div><div class="psub">Quantidade diária</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="hg-vol-de" onchange="renderIndividualGraf('hoomy','vol')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="hg-vol-ate" onchange="renderIndividualGraf('hoomy','vol')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="hc-line-vol"></canvas></div>
+        </div>
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+            <div><div class="ptitle">Respostas Acumuladas</div><div class="psub">Crescimento acumulado</div></div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="date" class="fdate" id="hg-cum-de" onchange="renderIndividualGraf('hoomy','cum')" style="width:115px; font-size:10px;">
+              <input type="date" class="fdate" id="hg-cum-ate" onchange="renderIndividualGraf('hoomy','cum')" style="width:115px; font-size:10px;">
+            </div>
+          </div>
+          <div class="cwrap" style="height:250px"><canvas id="hc-line-cum"></canvas></div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- ══════════════ COMPARATIVO SECTION ══════════════ -->
   <div id="section-comp" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <!-- MOON brand hero -->
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
         <div class="brand-hero-name" style="color:var(--purple);display:flex;align-items:center;gap:12px">
@@ -861,7 +919,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <div class="brand-hero-sub">NPS Dashboard · Minimal + Hoomy</div>
       </div>
     </div>
-    <!-- Comp date filter bar -->
     <div class="comp-fbar">
       <span class="flbl">Filtro de Data</span>
       <span class="fdate-label">De</span>
@@ -881,7 +938,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <span class="f-count" id="cf-count"></span>
     </div>
     <main style="flex:1;overflow-y:auto;padding:18px 20px">
-      <!-- ══ NPS REDE ══ -->
       <div class="rede-card">
         <div>
           <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;display:flex;align-items:center;gap:8px">
@@ -930,8 +986,8 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
       </div>
       <div class="panel" style="margin-bottom:14px">
-        <div class="ptitle">NPS Mensal — Comparativo</div>
-        <div class="psub">Score NPS mês a mês · Minimal vs Hoomy</div>
+        <div class="ptitle">NPS Mensal — Comparativo (Ano Todo)</div>
+        <div class="psub">Score NPS mês a mês · Visão Anual Completa</div>
         <div class="cwrap" style="height:300px"><canvas id="cc-line-m"></canvas></div>
       </div>
       <div class="g2">
@@ -947,7 +1003,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
       </div>
       <div class="panel" style="margin-bottom:14px">
-        <div class="ptitle">Volume Mensal — Comparativo</div><div class="psub">Total de respostas mensais · Minimal vs Hoomy</div>
+        <div class="ptitle">Volume Mensal — Comparativo (Acumulado Diário)</div><div class="psub">Evolução do volume de respostas · Minimal vs Hoomy</div>
         <div class="cwrap" style="height:260px"><canvas id="cc-bar-vol"></canvas></div>
       </div>
       <div class="panel" style="margin-bottom:14px">
@@ -957,8 +1013,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     </main>
   </div>
 
-</div><!-- /app -->
-<div class="toast" id="toast"></div>
+</div><div class="toast" id="toast"></div>
 
 <script>
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1068,7 +1123,7 @@ function switchMTab(tab) {
   document.getElementById('mtab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('mtab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active' : '');
   document.getElementById('mtab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('minimal'); setTimeout(()=>switchGrafView('minimal'),50); }));
+  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('minimal'); }));
 }
 function switchHTab(tab) {
   mSubTab.hoomy = tab;
@@ -1076,7 +1131,7 @@ function switchHTab(tab) {
   document.getElementById('htab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('htab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active-purple' : '');
   document.getElementById('htab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active-purple' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('hoomy'); setTimeout(()=>switchGrafView('hoomy'),50); }));
+  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('hoomy'); }));
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1349,6 +1404,27 @@ function resetMFilters(co) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// RENDER DASHBOARD EVOLUÇÃO
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderDashNPS(co) {
+  const p = co === 'minimal' ? 'm' : 'h';
+  const sel = document.getElementById(p + '-dash-nps-sel').value;
+  const data = STATE[co].filtered;
+  const isDark=isDk();
+  const color=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
+  const rgb=co==='hoomy'?'37,87,170':(isDark?'255,255,255':'0,0,0');
+  const chartKey = 'dash-' + p + '-line'; 
+
+  if (CHARTS[chartKey]) { CHARTS[chartKey].destroy(); }
+
+  if (sel === 'mensal') {
+    renderLineMonthlyG(p+'c-line', chartKey, data, color, rgb);
+  } else {
+    renderLineDailyNPS(p+'c-line', chartKey, data, color, rgb);
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // RENDER ALL
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderAll(co) {
@@ -1389,7 +1465,7 @@ function renderAll(co) {
     renderSegmentDonut('mc-donut','md-nps','md-leg','md-tot-g','m-donut',null,filtered);
     renderSegmentDonut('mc-donut-v','md-nps-v','md-leg-v','md-tot-v','m-donut-v','Varejo',filtered);
     renderSegmentDonut('mc-donut-a','md-nps-a','md-leg-a','md-tot-a','m-donut-a','Assinatura',filtered);
-    renderLine(co,'mc-line','line-m-dash',yearFiltered);
+    renderDashNPS('minimal');
     renderBar(co,'mc-bar','bar-m',filtered);
     renderTagCharts(co,filtered);
     renderNotas(co,'mc-notas','notas-m',filtered);
@@ -1407,7 +1483,7 @@ function renderAll(co) {
     setText('hk-ano-lbl', CUR_YEAR);
     setText('hk-ano-sub', hyt.toLocaleString('pt-BR') + ' resp · Jan–Dez ' + CUR_YEAR);
     renderSegmentDonut('hc-donut','hd-nps','hd-leg','hd-tot-g','h-donut',null,filtered);
-    renderLine(co,'hc-line','line-h-dash',filtered);
+    renderDashNPS('hoomy');
     renderBar(co,'hc-bar','bar-h',filtered);
     renderTagCharts(co,filtered);
     renderNotas(co,'hc-notas','notas-h',filtered);
@@ -1457,21 +1533,6 @@ function renderSegmentDonut(canvasId,npsId,legId,totId,chartKey,tipo,data) {
   const le=document.getElementById(legId); if(!le) return;
   if(tot===0){le.innerHTML='<div style="text-align:center;color:var(--muted2);font-size:11px;padding:8px 0">Sem dados</div>';}
   else{le.innerHTML=[{l:'Promotores',v:prom,c:'#00e084'},{l:'Passivos',v:pass,c:'#3d9eff'},{l:'Detratores',v:detr,c:'#ff4060'}].map(x=>`<div class="legr"><div class="legl"><div class="legdot" style="background:${x.c}"></div><span class="legname">${x.l}</span></div><div class="legbw"><div class="legb" style="width:${pct(x.v,tot)}%;background:${x.c}"></div></div><span class="legpct">${x.v} · ${pct(x.v,tot)}%</span></div>`).join('');}
-}
-
-function renderLine(co,canvasId,chartKey,data) {
-  if(CHARTS[chartKey])CHARTS[chartKey].destroy();
-  const bm={};
-  data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')bm[k].prom++;else if(r.sentimento==='Passivo')bm[k].pass++;else bm[k].detr++;});
-  const keys=Object.keys(bm).sort(),labels=keys.map(k=>bm[k].lbl);
-  const npss=keys.map(k=>{const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):0;});
-  const isDark=isDk();
-  const lineColor=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
-  const gradColor=co==='hoomy'?'rgba(37,87,170,.25)':(isDark?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)');
-  const ctx=document.getElementById(canvasId).getContext('2d');
-  const g=ctx.createLinearGradient(0,0,0,240);
-  g.addColorStop(0,gradColor);g.addColorStop(1,'rgba(0,0,0,0)');
-  CHARTS[chartKey]=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'NPS',data:npss,borderColor:lineColor,backgroundColor:g,borderWidth:2.5,pointRadius:4,pointBackgroundColor:lineColor,fill:true,tension:.35}]},options:{...cOpts(false),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
 
 function renderBar(co,canvasId,chartKey,data) {
@@ -1596,18 +1657,55 @@ function filterMTable(co) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// GRÁFICOS DE LINHA
+// GRÁFICOS DE LINHA - PAINÉIS INDIVIDUAIS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function renderGraficosCharts(co) {
-  const {filtered}=STATE[co],p=co==='minimal'?'m':'h';
+function getLocalGrafData(co, type) {
+  const p = co === 'minimal' ? 'm' : 'h';
+  const de = document.getElementById(p + 'g-' + type + '-de').value;
+  const ate = document.getElementById(p + 'g-' + type + '-ate').value;
+
+  if (!de && !ate) return STATE[co].filtered;
+
+  return STATE[co].raw.filter(r => {
+    if (de) { const dp=de.split('-'); const d=new Date(+dp[0],+dp[1]-1,+dp[2]); if(r.date<d) return false; }
+    if (ate) { const dp=ate.split('-'); const d=new Date(+dp[0],+dp[1]-1,+dp[2]); d.setHours(23,59,59,999); if(r.date>d) return false; }
+
+    const gp = p + 'f-';
+    const sent = document.getElementById(gp+'sent').value;
+    const prod = document.getElementById(gp+'prod').value;
+    const nota = document.getElementById(gp+'nota').value;
+    const tipo = co === 'minimal' ? document.getElementById('mf-tipo').value : '';
+    const tagm = co === 'hoomy'   ? document.getElementById('hf-tagm').value : '';
+    const tagi = co === 'hoomy'   ? document.getElementById('hf-tagi').value : '';
+
+    if (sent && r.sentimento !== sent) return false;
+    if (prod && r.produto !== prod) return false;
+    if (nota !== '' && String(r.avaliacao) !== nota) return false;
+    if (tipo && r.tipo !== tipo) return false;
+    if (tagm && r.tag !== tagm) return false;
+    if (tagi && r.tagMicro !== tagi) return false;
+
+    return true;
+  });
+}
+
+function renderIndividualGraf(co, type) {
+  const data = getLocalGrafData(co, type);
+  const p = co === 'minimal' ? 'm' : 'h';
   const isDark=isDk();
   const color=co==='hoomy'?'#2557aa':(isDark?'#ffffff':'#000000');
   const rgb=co==='hoomy'?'37,87,170':(isDark?'255,255,255':'0,0,0');
-  renderLineMonthlyG(p+'c-line-m','line-'+p+'-m',filtered,color,rgb);
-  renderLineDailyNPS(p+'c-line-d','line-'+p+'-d',filtered,color,rgb);
-  renderLineDailyVolume(p+'c-line-vol','line-'+p+'-vol',filtered);
-  renderLineDailyCumulative(p+'c-line-cum','line-'+p+'-cum',filtered);
+
+  if (type === 'm') renderLineMonthlyG(p+'c-line-m', 'line-'+p+'-m', data, color, rgb);
+  if (type === 'd') renderLineDailyNPS(p+'c-line-d', 'line-'+p+'-d', data, color, rgb);
+  if (type === 'vol') renderLineDailyVolume(p+'c-line-vol', 'line-'+p+'-vol', data);
+  if (type === 'cum') renderLineDailyCumulative(p+'c-line-cum', 'line-'+p+'-cum', data);
 }
+
+function renderGraficosCharts(co) {
+  ['m', 'd', 'vol', 'cum'].forEach(t => renderIndividualGraf(co, t));
+}
+
 function renderLineMonthlyG(canvasId,chartKey,data,color,rgb) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
   const bm={};
@@ -1665,16 +1763,21 @@ function renderComp(mData, hData) {
   animNum('cc-nps-m',m.nps);   animNum('cc-nps-h',h.nps);
   setText('comp-detail-m',m.t.toLocaleString('pt-BR')+' respostas no período');
   setText('comp-detail-h',h.t.toLocaleString('pt-BR')+' respostas no período');
-  renderCompMonthly(mData,hData);
+  renderCompMonthly();
   renderCompDonut('cc-donut-m','cc-nps-m','cc-leg-m','comp-donut-m',mData,'#000000');
   renderCompDonut('cc-donut-h','cc-nps-h','cc-leg-h','comp-donut-h',hData,'#2557aa');
   renderCompVolume(mData,hData);
   renderCompCumulative(mData,hData);
 }
-function renderCompMonthly(mData,hData) {
+
+function renderCompMonthly() {
   if(CHARTS['comp-monthly'])CHARTS['comp-monthly'].destroy();
+  const targetYear = compFilter.ano || CUR_YEAR;
+  const fullYearM = STATE.minimal.raw.filter(r => String(r.ano) === String(targetYear));
+  const fullYearH = STATE.hoomy.raw.filter(r => String(r.ano) === String(targetYear));
+  
   const bld=data=>{const bm={};data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')bm[k].prom++;else if(r.sentimento==='Passivo')bm[k].pass++;else bm[k].detr++;});return bm;};
-  const bm=bld(mData),bh=bld(hData);
+  const bm=bld(fullYearM),bh=bld(fullYearH);
   const allKeys=[...new Set([...Object.keys(bm),...Object.keys(bh)])].sort();
   const labels=allKeys.map(k=>(bm[k]||bh[k]||{}).lbl||k);
   const mNPS=allKeys.map(k=>{if(!bm[k])return null;const{prom,pass,detr}=bm[k],t=prom+pass+detr;return t>0?Math.round((prom-detr)/t*100):null;});
@@ -1687,6 +1790,7 @@ function renderCompMonthly(mData,hData) {
   const gh=ctx.createLinearGradient(0,0,0,300);gh.addColorStop(0,'rgba(37,87,170,.2)');gh.addColorStop(1,'rgba(37,87,170,0)');
   CHARTS['comp-monthly']=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Minimal',data:mNPS,borderColor:mLineColor,backgroundColor:gm,borderWidth:2.5,pointRadius:4,pointBackgroundColor:mLineColor,fill:true,tension:.35,spanGaps:true},{label:'Hoomy',data:hNPS,borderColor:'#2557aa',backgroundColor:gh,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2557aa',fill:true,tension:.35,spanGaps:true}]},options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:18}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},suggestedMin:-100,suggestedMax:100}}}});
 }
+
 function renderCompDonut(canvasId,npsId,legId,chartKey,data,accent) {
   if(CHARTS[chartKey])CHARTS[chartKey].destroy();
   const prom=data.filter(r=>r.sentimento==='Promotor').length,pass=data.filter(r=>r.sentimento==='Passivo').length,detr=data.filter(r=>r.sentimento==='Detrator').length,tot=data.length;
@@ -1698,17 +1802,43 @@ function renderCompDonut(canvasId,npsId,legId,chartKey,data,accent) {
   if(tot===0)le.innerHTML='<div style="text-align:center;color:var(--muted2);font-size:11px">Sem dados</div>';
   else le.innerHTML=[{l:'Promotores',v:prom,c:'#00e084'},{l:'Passivos',v:pass,c:'#3d9eff'},{l:'Detratores',v:detr,c:'#ff4060'}].map(x=>`<div class="legr"><div class="legl"><div class="legdot" style="background:${x.c}"></div><span class="legname">${x.l}</span></div><div class="legbw"><div class="legb" style="width:${pct(x.v,tot)}%;background:${x.c}"></div></div><span class="legpct">${x.v} · ${pct(x.v,tot)}%</span></div>`).join('');
 }
-function renderCompVolume(mData,hData) {
+
+function renderCompVolume(mData, hData) {
   if(CHARTS['comp-vol'])CHARTS['comp-vol'].destroy();
-  const bld=data=>{const bm={};data.forEach(r=>{const k=r.ano+'-'+String(r.mesNum).padStart(2,'0');if(!bm[k])bm[k]={lbl:r.mes.slice(0,3)+'/'+r.ano.slice(2),count:0};bm[k].count++;});return bm;};
-  const bm=bld(mData),bh=bld(hData);
-  const allKeys=[...new Set([...Object.keys(bm),...Object.keys(bh)])].sort();
-  const labels=allKeys.map(k=>(bm[k]||bh[k]).lbl);
-  const isDark=isDk();
-  const mColor=isDark?'rgba(255,255,255,.75)':'rgba(0,0,0,.65)';
+  const bld=data=>{const dm={};data.forEach(r=>{const k=getDateKey(r.dateStr);dm[k]=(dm[k]||0)+1;});return dm;};
+  const bm=bld(mData), bh=bld(hData);
+  const allKeys=[...new Set([...Object.keys(bm),...Object.keys(bh)])].sort((a,b)=>dateKeyToMs(a)-dateKeyToMs(b));
+
+  let cumM=0, cumH=0;
+  const dataM = allKeys.map(k => { if(bm[k]) cumM += bm[k]; return cumM; });
+  const dataH = allKeys.map(k => { if(bh[k]) cumH += bh[k]; return cumH; });
+
   const canvas=document.getElementById('cc-bar-vol'); if(!canvas) return;
-  CHARTS['comp-vol']=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{label:'Minimal',data:allKeys.map(k=>bm[k]?bm[k].count:0),backgroundColor:mColor,borderRadius:3,borderSkipped:false},{label:'Hoomy',data:allKeys.map(k=>bh[k]?bh[k].count:0),backgroundColor:'rgba(37,87,170,.75)',borderRadius:3,borderSkipped:false}]},options:{...cOpts(true),scales:{x:{grid:{display:false},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:20}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}});
+  const isDark=isDk();
+  const mColor=isDark?'rgba(255,255,255,.9)':'rgba(0,0,0,.85)';
+  const ctx=canvas.getContext('2d');
+
+  const gm=ctx.createLinearGradient(0,0,0,280);
+  gm.addColorStop(0,isDark?'rgba(255,255,255,.12)':'rgba(0,0,0,.06)');
+  gm.addColorStop(1,'rgba(0,0,0,0)');
+
+  const gh=ctx.createLinearGradient(0,0,0,280);
+  gh.addColorStop(0,'rgba(37,87,170,.22)');
+  gh.addColorStop(1,'rgba(37,87,170,0)');
+
+  CHARTS['comp-vol']=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:allKeys.map(fmtDs),
+      datasets:[
+        {label:'Minimal',data:dataM,borderColor:mColor,backgroundColor:gm,borderWidth:2.5,pointRadius:2,pointBackgroundColor:mColor,fill:true,tension:.35,spanGaps:true},
+        {label:'Hoomy',data:dataH,borderColor:'#2557aa',backgroundColor:gh,borderWidth:2.5,pointRadius:2,pointBackgroundColor:'#2557aa',fill:true,tension:.35,spanGaps:true}
+      ]
+    },
+    options:{...cOpts(true),scales:{x:{grid:{color:gc()},ticks:{color:tc(),font:{size:9,family:"'Plus Jakarta Sans',sans-serif"},maxTicksLimit:22}},y:{grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}},beginAtZero:true}}}
+  });
 }
+
 function renderCompCumulative(mData,hData) {
   if(CHARTS['comp-cum'])CHARTS['comp-cum'].destroy();
   const bld=data=>{const dm={};data.forEach(r=>{const k=getDateKey(r.dateStr);if(!dm[k])dm[k]={prom:0,pass:0,detr:0};if(r.sentimento==='Promotor')dm[k].prom++;else if(r.sentimento==='Passivo')dm[k].pass++;else dm[k].detr++;});return dm;};
@@ -1751,372 +1881,4 @@ function cOpts(leg){return{responsive:true,maintainAspectRatio:false,interaction
 function pct(a,b){return b>0?(a/b*100).toFixed(1):'0.0';}
 function pN(s){if(!s&&s!==0)return 0;s=s.toString().trim();if(!s||s==='-')return 0;if(s.indexOf(',')>-1)s=s.replace(/\./g,'').replace(',','.');return parseFloat(s.replace(/[^\d.-]/g,''))||0;}
 function pD(s){
-  if(!s)return null;s=s.toString().trim();
-  const dp=s.split(/[\sT]/)[0];
-  let m=dp.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);
-  m=dp.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);if(m)return new Date(+m[1],+m[2]-1,+m[3]);
-  const d=new Date(s);return isNaN(d.getTime())?null:d;
-}
-function fmtD(d){return d instanceof Date?d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}):d;}
-function fmtDs(s){
-  const m1=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(m1)return m1[1]+'/'+m1[2];
-  const pts=s.split('-');if(pts.length===3){if(pts[0].length===4)return pts[2]+'/'+pts[1];return pts[0]+'/'+pts[1];}
-  const d=pD(s);return d?d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}):s;
-}
-function getDateKey(s){if(!s)return'';return(s+'').trim().split(/[\sT]/)[0];}
-function dateKeyToMs(s){
-  const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);if(m)return new Date(+m[3],+m[2]-1,+m[1]).getTime();
-  const m2=s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);if(m2)return new Date(+m2[1],+m2[2]-1,+m2[3]).getTime();
-  return new Date(s).getTime()||0;
-}
-function animNum(id,target){
-  const el=document.getElementById(id);if(!el)return;
-  const dur=700,st=performance.now();
-  (function step(now){const pr=Math.min((now-st)/dur,1),e=1-Math.pow(1-pr,3);el.textContent=Math.round(target*e);if(pr<1)requestAnimationFrame(step);else el.textContent=target;})(performance.now());
-}
-function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
-function setHTML(id,v){const el=document.getElementById(id);if(el)el.innerHTML=v;}
-function showOv(v,msg){document.getElementById('overlay').style.display=v?'flex':'none';if(msg)document.getElementById('ovtxt').textContent=msg;}
-let _tt;
-function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),3500);}
-async function loadUser(){
-  try{const r=await fetch('https://www.googleapis.com/oauth2/v1/userinfo',{headers:{Authorization:'Bearer '+TOKEN}});const u=await r.json();document.getElementById('uname').textContent=u.given_name||'Usuário';const av=document.getElementById('av');if(u.picture)av.innerHTML=`<img src="${u.picture}">`;else av.textContent=(u.given_name||'?')[0].toUpperCase();}catch(e){}
-}
-function logout(){if(!confirm('Sair?'))return;location.reload();}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// MICRO-TEMAS
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-const mtState = {
-  minimal: { sentiment: 'Detrator', macroTab: 'Todas' },
-  hoomy:   { sentiment: 'Detrator', macroTab: 'Todas' }
-};
-
-function switchMTToggle(co, sentiment) {
-  mtState[co].sentiment = sentiment;
-  mtState[co].macroTab = 'Todas'; // reset tab on toggle
-  const p = co === 'minimal' ? 'm' : 'h';
-  // Update toggle buttons
-  const dBtn = document.getElementById(p + 'mt-detr');
-  const pBtn = document.getElementById(p + 'mt-prom');
-  if (dBtn) { dBtn.className = 'mt-toggle-btn' + (sentiment === 'Detrator' ? ' active-d' : ''); }
-  if (pBtn) { pBtn.className = 'mt-toggle-btn' + (sentiment === 'Promotor' ? ' active-p' : ''); }
-  renderMicroTemas(co, STATE[co].filtered);
-}
-
-function switchMTTab(co, macro) {
-  mtState[co].macroTab = macro;
-  renderMicroTemas(co, STATE[co].filtered);
-}
-
-function renderMicroTemas(co, data) {
-  const p = co === 'minimal' ? 'm' : 'h';
-  const { sentiment, macroTab } = mtState[co];
-  const isDetr = sentiment === 'Detrator';
-  const activeClass = isDetr ? 'active-d' : 'active-p';
-  const accentColor = isDetr ? 'var(--red)' : 'var(--green)';
-  const fillColor   = isDetr ? 'rgba(255,64,96,.75)' : 'rgba(0,224,132,.75)';
-
-  // Filter by sentiment
-  const sentRows = data.filter(r => r.sentimento === sentiment);
-  const total = sentRows.length;
-
-  // Build macro tabs list
-  const macros = ['Todas', ...([...new Set(sentRows.map(r => (r.tag || '').trim()).filter(Boolean))].sort())];
-
-  // Render macro tabs
-  const tabsEl = document.getElementById(p + 'mt-tabs');
-  if (tabsEl) {
-    tabsEl.innerHTML = macros.map(m => {
-      const isActive = m === macroTab;
-      const cnt = m === 'Todas' ? total : sentRows.filter(r => (r.tag || '').trim() === m).length;
-      return `<button class="mt-tab${isActive ? ' ' + activeClass : ''}" onclick="switchMTTab('${co}','${m.replace(/'/g,"\\'")}')">
-        ${m} <span style="opacity:.6;font-weight:600;font-size:10px">${cnt}</span>
-      </button>`;
-    }).join('');
-  }
-
-  // Filter by macro tab
-  const tabRows = macroTab === 'Todas'
-    ? sentRows
-    : sentRows.filter(r => (r.tag || '').trim() === macroTab);
-
-  const tabTotal = tabRows.length;
-
-  // Stats
-  const statsEl = document.getElementById(p + 'mt-stats');
-  if (statsEl) {
-    const macroLabel = macroTab === 'Todas' ? 'Todos os temas' : macroTab;
-    statsEl.innerHTML = `
-      <div class="mt-stat">Total <span style="color:${accentColor}">${tabTotal}</span> ${sentiment === 'Detrator' ? 'detratores' : 'promotores'}</div>
-      <div class="mt-stat">Filtro: <span>${macroLabel}</span></div>
-      <div class="mt-stat" style="margin-left:auto;font-size:10px;font-style:italic;color:var(--muted)">↓ clique na barra para ver respostas</div>
-    `;
-  }
-
-  // Build micro counts
-  const microCounts = {};
-  tabRows.forEach(r => {
-    const micro = (r.tagMicro || r.tag || '').trim() || 'Não especificado';
-    microCounts[micro] = (microCounts[micro] || 0) + 1;
-  });
-
-  const sorted = Object.entries(microCounts).sort((a, b) => b[1] - a[1]);
-  const maxVal = sorted.length > 0 ? sorted[0][1] : 1;
-
-  const barsEl = document.getElementById(p + 'mt-bars');
-  if (!barsEl) return;
-
-  if (!sorted.length) {
-    barsEl.innerHTML = `<div class="mt-empty">Nenhum dado encontrado para o filtro selecionado.</div>`;
-    return;
-  }
-
-  barsEl.innerHTML = sorted.map(([label, count]) => {
-    const widthPct = (count / maxVal * 100).toFixed(1);
-    const totalPct = tabTotal > 0 ? (count / tabTotal * 100).toFixed(1) : '0.0';
-    const escapedLabel = label.replace(/'/g, "\\'");
-    const escapedMacro = macroTab.replace(/'/g, "\\'");
-    return `<div class="mt-bar-row" onclick="openMicroTagModal('${co}','${escapedLabel}','${escapedMacro}','${sentiment}')">
-      <div class="mt-bar-label" title="${label}">${label}</div>
-      <div class="mt-bar-track">
-        <div class="mt-bar-fill" style="width:${widthPct}%;background:${fillColor}"></div>
-      </div>
-      <div class="mt-bar-val"><span>${count}</span> (${totalPct}%)</div>
-    </div>`;
-  }).join('');
-}
-
-function openMicroTagModal(co, microTag, macroTag, sentiment) {
-  const rows = STATE[co].filtered.filter(r => {
-    if (r.sentimento !== sentiment) return false;
-    const micro = (r.tagMicro || r.tag || '').trim() || 'Não especificado';
-    if (micro !== microTag) return false;
-    if (macroTag !== 'Todas') {
-      const mac = (r.tag || '').trim();
-      if (mac !== macroTag) return false;
-    }
-    return true;
-  }).sort((a, b) => b.date - a.date);
-
-  const sentLabel = sentiment === 'Detrator' ? 'Detratores' : 'Promotores';
-  document.getElementById('tm-title').textContent = microTag;
-  document.getElementById('tm-sub').textContent =
-    `${rows.length} resposta${rows.length !== 1 ? 's' : ''} · ${sentLabel}${macroTag !== 'Todas' ? ' · ' + macroTag : ''} · ${co === 'minimal' ? 'Minimal' : 'Hoomy'} · mais recentes primeiro`;
-
-  const sc = r => r.sentimento === 'Promotor' ? 'p' : r.sentimento === 'Passivo' ? 'n' : 'd';
-  const nc = r => r.avaliacao >= 9 ? 'var(--green)' : r.avaliacao >= 7 ? 'var(--blue)' : 'var(--red)';
-  const list = document.getElementById('tm-list');
-
-  if (!rows.length) {
-    list.innerHTML = '<div class="tag-resp-empty">Nenhuma resposta encontrada</div>';
-  } else {
-    list.innerHTML = rows.slice(0, 150).map(r =>
-      `<div class="tag-resp-item">
-        <div class="tag-resp-meta">
-          <span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span>
-          <span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span>
-          <span class="tag-resp-date">${fmtD(r.date)}</span>
-          ${r.produto ? `<span class="tag-resp-date">${r.produto}</span>` : ''}
-          ${r.fonte ? `<span class="tag-resp-date">📡 ${r.fonte}</span>` : ''}
-          ${r.tag ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tag}</span>` : ''}
-          ${r.tagMicro ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tagMicro}</span>` : ''}
-        </div>
-        <div class="tag-resp-text">${r.comentario || '<em style="color:var(--muted2)">Sem comentário</em>'}</div>
-      </div>`
-    ).join('');
-  }
-  document.getElementById('tag-modal-bg').style.display = 'flex';
-}
-
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// NPS REDE (unificado)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function updateRedeCard(mData, hData) {
-  const all = [...mData, ...hData];
-  const prom = all.filter(r => r.sentimento === 'Promotor').length;
-  const pass = all.filter(r => r.sentimento === 'Passivo').length;
-  const detr = all.filter(r => r.sentimento === 'Detrator').length;
-  const tot  = all.length;
-  const nps  = tot > 0 ? Math.round((prom / tot - detr / tot) * 100) : 0;
-  const pt = r => tot > 0 ? (r / tot * 100).toFixed(1) : '0.0';
-  const npsColor = nps >= 50 ? 'var(--green)' : nps >= 0 ? 'var(--warn)' : 'var(--red)';
-  const el = id => document.getElementById(id);
-  if (el('rede-nps-big')) { el('rede-nps-big').textContent = nps; el('rede-nps-big').style.color = npsColor; }
-  if (el('rede-nps-sub')) el('rede-nps-sub').textContent = tot.toLocaleString('pt-BR') + ' respostas combinadas · Minimal + Hoomy';
-  if (el('rede-prom'))     el('rede-prom').textContent = prom.toLocaleString('pt-BR');
-  if (el('rede-prom-pct')) el('rede-prom-pct').textContent = pt(prom) + '%';
-  if (el('rede-pass'))     el('rede-pass').textContent = pass.toLocaleString('pt-BR');
-  if (el('rede-pass-pct')) el('rede-pass-pct').textContent = pt(pass) + '%';
-  if (el('rede-detr'))     el('rede-detr').textContent = detr.toLocaleString('pt-BR');
-  if (el('rede-detr-pct')) el('rede-detr-pct').textContent = pt(detr) + '%';
-  if (el('rede-tot'))      el('rede-tot').textContent = tot.toLocaleString('pt-BR');
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ANÁLISE DE PRODUTOS — Hoomy
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-let prodToggle = 'Detrator';
-
-function switchProdToggle(mode) {
-  prodToggle = mode;
-  ['Detrator','Promotor','NPS'].forEach(m => {
-    const id = m === 'NPS' ? 'hprod-nps' : m === 'Detrator' ? 'hprod-detr' : 'hprod-prom';
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.className = 'prod-toggle-btn' + (m === mode ? (m === 'Detrator' ? ' active-d' : m === 'Promotor' ? ' active-p' : ' active-nps') : '');
-  });
-  renderProdAnalysis(STATE.hoomy.filtered);
-}
-
-function renderProdAnalysis(data) {
-  const products = [...new Set(data.map(r => (r.produto || '').trim()).filter(Boolean))].sort();
-  const statsEl = document.getElementById('hprod-stats');
-  if (!statsEl) return;
-
-  if (!products.length) {
-    const bw = document.getElementById('hprod-bar-wrap');
-    if (bw) bw.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted2);font-size:13px">Nenhum produto encontrado.</div>';
-    return;
-  }
-
-  // Build product stats
-  const prodData = products.map(prod => {
-    const rows = data.filter(r => (r.produto || '').trim() === prod);
-    const prom = rows.filter(r => r.sentimento === 'Promotor').length;
-    const pass = rows.filter(r => r.sentimento === 'Passivo').length;
-    const detr = rows.filter(r => r.sentimento === 'Detrator').length;
-    const tot  = rows.length;
-    const nps  = tot > 0 ? Math.round((prom / tot - detr / tot) * 100) : 0;
-    return { prod, prom, pass, detr, tot, nps };
-  });
-
-  // Sort by active toggle
-  prodData.sort((a, b) =>
-    prodToggle === 'Detrator' ? b.detr - a.detr :
-    prodToggle === 'Promotor' ? b.prom - a.prom :
-    b.nps - a.nps
-  );
-
-  const totalFiltered = data.length;
-  statsEl.innerHTML = `
-    <div class="prod-stat">${products.length} produtos encontrados</div>
-    <div class="prod-stat">Total: <span>${totalFiltered.toLocaleString('pt-BR')}</span> respostas</div>
-    <div class="prod-stat" style="margin-left:auto;font-size:10px;color:var(--muted);font-style:italic">↓ clique no gráfico para ver respostas</div>
-  `;
-
-  const isNPS = prodToggle === 'NPS';
-  const isDetr = prodToggle === 'Detrator';
-
-  // ── Pizza ──
-  const pieTitle = document.getElementById('hprod-pie-title');
-  if (pieTitle) pieTitle.textContent = isNPS ? 'Composição Geral' : (isDetr ? 'Detratores por Produto' : 'Promotores por Produto');
-  if (CHARTS['hprod-pie']) CHARTS['hprod-pie'].destroy();
-  const pieCanvas = document.getElementById('hprod-pie');
-  if (pieCanvas) {
-    const pieData = isNPS
-      ? [data.filter(r=>r.sentimento==='Promotor').length, data.filter(r=>r.sentimento==='Passivo').length, data.filter(r=>r.sentimento==='Detrator').length]
-      : prodData.map(p => isDetr ? p.detr : p.prom);
-    const pieLabels = isNPS ? ['Promotores','Passivos','Detratores'] : prodData.map(p => p.prod);
-    const dPalette = ['#ff4060','#ff7043','#ffa726','#ffca28','#d4e157','#66bb6a','#26c6da','#42a5f5','#7e57c2','#ec407a','#8d6e63','#78909c'];
-    const pPalette = ['#00e084','#26c6da','#42a5f5','#7e57c2','#a78bfa','#66bb6a','#ffa726','#ff7043','#ec407a','#8d6e63'];
-    const pieColors = isNPS ? ['#00e084','#3d9eff','#ff4060'] : prodData.map((_,i) => isDetr ? dPalette[i%dPalette.length] : pPalette[i%pPalette.length]);
-    const totalPie = pieData.reduce((a,b)=>a+b,0);
-    CHARTS['hprod-pie'] = new Chart(pieCanvas.getContext('2d'), {
-      type: 'doughnut',
-      data: { labels: pieLabels, datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0, hoverOffset: 6 }] },
-      options: {
-        responsive:true, maintainAspectRatio:false, cutout: isNPS?'65%':'50%',
-        onClick:(evt,elements)=>{ if(!elements.length) return; const idx=elements[0].index; openProdModal(isNPS?'__ALL__':prodData[idx].prod, isNPS?['Promotor','Passivo','Detrator'][idx]:prodToggle); },
-        plugins:{ legend:{display:false}, tooltip:{...ttOpts(),callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw} (${pct(ctx.raw,totalPie)}%)`}} }
-      }
-    });
-    const legEl = document.getElementById('hprod-pie-leg');
-    if (legEl) legEl.innerHTML = pieLabels.slice(0,8).map((l,i)=>`<div class="legr" style="cursor:pointer" onclick="openProdModal('${isNPS?'__ALL__':prodData[i].prod.replace(/'/g,"\\'")}','${isNPS?['Promotor','Passivo','Detrator'][i]:prodToggle}')"><div class="legl"><div class="legdot" style="background:${pieColors[i]}"></div><span class="legname" style="font-size:11px">${l}</span></div><span class="legpct">${pieData[i]}</span></div>`).join('')+(pieLabels.length>8?`<div style="font-size:10px;color:var(--muted2);margin-top:4px">+${pieLabels.length-8} mais</div>`:'');
-  }
-
-  // ── Barras horizontais ──
-  if (CHARTS['hprod-bar']) CHARTS['hprod-bar'].destroy();
-  const barWrap = document.getElementById('hprod-bar-wrap');
-  if (barWrap) barWrap.style.height = Math.max(280, prodData.length*32+40)+'px';
-  const barCanvas = document.getElementById('hprod-bar');
-  if (barCanvas) {
-    const barDatasets = isNPS
-      ? [{label:'NPS Score',data:prodData.map(p=>p.nps),backgroundColor:prodData.map(p=>p.nps>=50?'rgba(0,224,132,.8)':p.nps>=0?'rgba(255,184,32,.8)':'rgba(255,64,96,.8)'),borderRadius:4,borderSkipped:false}]
-      : [{label:'Promotores',data:prodData.map(p=>p.prom),backgroundColor:'rgba(0,224,132,.75)',borderRadius:3,borderSkipped:false,stack:'s'},{label:'Passivos',data:prodData.map(p=>p.pass),backgroundColor:'rgba(61,158,255,.75)',borderRadius:3,borderSkipped:false,stack:'s'},{label:'Detratores',data:prodData.map(p=>p.detr),backgroundColor:'rgba(255,64,96,.75)',borderRadius:3,borderSkipped:false,stack:'s'}];
-    CHARTS['hprod-bar'] = new Chart(barCanvas.getContext('2d'), {
-      type:'bar', data:{labels:prodData.map(p=>p.prod),datasets:barDatasets},
-      options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
-        onClick:(evt,elements)=>{ if(elements.length) openProdModal(prodData[elements[0].index].prod, prodToggle==='NPS'?'NPS':prodToggle); },
-        plugins:{legend:isNPS?{display:false}:{labels:{color:tc(),font:{family:"'Plus Jakarta Sans',sans-serif",size:11},boxWidth:10}},tooltip:{...ttOpts()}},
-        scales:{x:{stacked:!isNPS,grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}}},y:{stacked:!isNPS,grid:{display:false},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},crossAlign:'far'}}}}
-    });
-  }
-}
-
-function openProdModal(produto, mode) {
-  const rows = STATE.hoomy.filtered.filter(r =>
-    (r.produto || '').trim() === produto &&
-    (mode === 'NPS' || r.sentimento === mode)
-  ).sort((a, b) => b.date - a.date);
-
-  const sentLabel = mode === 'NPS' ? 'Todas as respostas' : mode === 'Detrator' ? 'Detratores' : 'Promotores';
-  document.getElementById('tm-title').textContent = '📦 ' + produto;
-  document.getElementById('tm-sub').textContent =
-    rows.length + ' resposta' + (rows.length !== 1 ? 's' : '') + ' · ' + sentLabel + ' · Hoomy · mais recentes primeiro';
-
-  const sc = r => r.sentimento === 'Promotor' ? 'p' : r.sentimento === 'Passivo' ? 'n' : 'd';
-  const nc = r => r.avaliacao >= 9 ? 'var(--green)' : r.avaliacao >= 7 ? 'var(--blue)' : 'var(--red)';
-  const list = document.getElementById('tm-list');
-
-  if (!rows.length) {
-    list.innerHTML = '<div class="tag-resp-empty">Nenhuma resposta encontrada</div>';
-  } else {
-    list.innerHTML = rows.slice(0, 150).map(r =>
-      `<div class="tag-resp-item">
-        <div class="tag-resp-meta">
-          <span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span>
-          <span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span>
-          <span class="tag-resp-date">${fmtD(r.date)}</span>
-          ${r.tag ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tag}</span>` : ''}
-          ${r.tagMicro ? `<span class="tag-resp-date" style="background:var(--bg3);border:1px solid var(--border);padding:1px 7px;border-radius:10px">${r.tagMicro}</span>` : ''}
-          ${r.fonte ? `<span class="tag-resp-date">📡 ${r.fonte}</span>` : ''}
-        </div>
-        <div class="tag-resp-text">${r.comentario || '<em style="color:var(--muted2)">Sem comentário</em>'}</div>
-      </div>`
-    ).join('');
-  }
-  document.getElementById('tag-modal-bg').style.display = 'flex';
-}
-
-// ── switchGrafView: alterna canvas no painel unificado ──
-function switchGrafView(co) {
-  const p = co==='minimal'?'m':'h';
-  const val = (document.getElementById(p+'-graf-sel')||{}).value||'nps-mensal';
-  const map = {'nps-mensal':p+'c-line-m','nps-acumulado':p+'c-line-d','vol-diario':p+'c-line-vol','vol-acumulado':p+'c-line-cum'};
-  Object.values(map).forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  const active=document.getElementById(map[val]);if(active)active.style.display='block';
-}
-// ── openProdModal: suporte a __ALL__ (clique na pizza NPS) ──
-const _origOpenProdModal = openProdModal;
-function openProdModal(produto, mode) {
-  if (produto==='__ALL__') {
-    const rows=STATE.hoomy.filtered.filter(r=>mode==='NPS'||r.sentimento===mode).sort((a,b)=>b.date-a.date);
-    const sentLabel=mode==='NPS'?'Todas':mode==='Detrator'?'Detratores':mode==='Promotor'?'Promotores':'Passivos';
-    document.getElementById('tm-title').textContent='📦 Todos os Produtos';
-    document.getElementById('tm-sub').textContent=rows.length+' respostas · '+sentLabel+' · Hoomy';
-    const sc=r=>r.sentimento==='Promotor'?'p':r.sentimento==='Passivo'?'n':'d';
-    const nc=r=>r.avaliacao>=9?'var(--green)':r.avaliacao>=7?'var(--blue)':'var(--red)';
-    document.getElementById('tm-list').innerHTML=rows.slice(0,150).map(r=>`<div class="tag-resp-item"><div class="tag-resp-meta"><span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span><span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span><span class="tag-resp-date">${fmtD(r.date)}</span>${r.produto?`<span class="tag-resp-date">${r.produto}</span>`:''}</div><div class="tag-resp-text">${r.comentario||'<em style="color:var(--muted2)">Sem comentário</em>'}</div></div>`).join('')||'<div class="tag-resp-empty">Nenhuma resposta.</div>';
-    document.getElementById('tag-modal-bg').style.display='flex';
-    return;
-  }
-  _origOpenProdModal(produto,mode);
-}
-setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
-window.addEventListener('load',()=>{showOv(false);document.getElementById('theme-btn').textContent=isDk()?'☀️':'🌙';});
-document.addEventListener('DOMContentLoaded', updateMoonSVGs);
-</script>
-</body>
-</html>
+  if(!s)return null
