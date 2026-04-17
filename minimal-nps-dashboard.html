@@ -204,7 +204,7 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .prod-toggle-btn.active-nps{background:var(--bdim);color:var(--blue);border:1px solid rgba(61,158,255,.3)}
 .prod-toggle-btn.active-pizza{background:rgba(167,139,250,.13);color:var(--purple);border:1px solid rgba(167,139,250,.3)}
 .prod-body{padding:0}
-.prod-stats-row{display:flex;align-items:center;gap:16px;margin-bottom:0;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--border)}
+.prod-stats-row{display:flex;align-items:center;gap:10px;margin-bottom:0;flex-wrap:wrap;padding:8px 14px;border-bottom:1px solid var(--border);font-size:10px}
 .prod-stat{font-size:11px;color:var(--muted2);font-weight:600}
 .prod-stat span{font-weight:800;color:var(--text)}
 .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
@@ -221,25 +221,25 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .prod-card-chip.r{background:var(--rdim);color:var(--red)}
 
 /* ─── PROD PIZZA VIEW ───────────────────────────────────────────── */
-.prod-pizza-section{display:grid;grid-template-columns:1fr 1fr;gap:0;width:100%}
-.prod-pizza-half{display:flex;flex-direction:column;align-items:center;padding:20px 28px 28px;border-radius:12px}
-.prod-pizza-half:first-child{border-right:1px solid var(--border)}
-.prod-pizza-col-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:7px;align-self:flex-start}
-.prod-pizza-chart-area{display:flex;align-items:center;justify-content:center;gap:36px;width:100%;flex-wrap:wrap}
-.prod-pizza-chart-wrap{position:relative;flex-shrink:0;width:260px;height:260px}
-.prod-pizza-canvas{width:260px!important;height:260px!important}
-.prod-pizza-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:120px}
-.prod-pizza-center-num{font-size:42px;font-weight:800;letter-spacing:-2px;line-height:1}
-.prod-pizza-center-lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
-.prod-pizza-legend{display:flex;flex-direction:column;gap:8px;flex:1;min-width:180px;max-height:280px;overflow-y:auto}
-.prod-pizza-leg-row{display:flex;align-items:center;gap:10px;cursor:pointer;padding:6px 8px;border-radius:9px;transition:background .12s}
+.prod-pizza-section{display:flex;flex-direction:column;gap:20px;width:100%}
+.prod-pizza-half{display:flex;flex-direction:column;align-items:center;padding:14px 16px 18px;border-radius:10px;border-bottom:1px solid var(--border)}
+.prod-pizza-half:last-child{border-bottom:none}
+.prod-pizza-col-title{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;align-self:flex-start}
+.prod-pizza-chart-area{display:flex;align-items:center;justify-content:center;gap:20px;width:100%;flex-wrap:nowrap}
+.prod-pizza-chart-wrap{position:relative;flex-shrink:0;width:140px;height:140px}
+.prod-pizza-canvas{width:140px!important;height:140px!important}
+.prod-pizza-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:80px}
+.prod-pizza-center-num{font-size:24px;font-weight:800;letter-spacing:-1px;line-height:1}
+.prod-pizza-center-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:3px}
+.prod-pizza-legend{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0;max-height:160px;overflow-y:auto}
+.prod-pizza-leg-row{display:flex;align-items:center;gap:7px;cursor:pointer;padding:4px 5px;border-radius:7px;transition:background .12s}
 .prod-pizza-leg-row:hover{background:var(--bg3)}
-.prod-pizza-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.prod-pizza-name{font-size:13px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-pizza-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.prod-pizza-name{font-size:11px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prod-pizza-vals{text-align:right;flex-shrink:0}
-.prod-pizza-pct{font-size:13px;font-weight:800;color:var(--text)}
-.prod-pizza-count{font-size:10px;color:var(--muted2);font-weight:500;margin-top:2px}
-.prod-pizza-empty{padding:28px;text-align:center;color:var(--muted2);font-size:12px;font-style:italic}
+.prod-pizza-pct{font-size:11px;font-weight:800;color:var(--text)}
+.prod-pizza-count{font-size:9px;color:var(--muted2);font-weight:500;margin-top:1px}
+.prod-pizza-empty{padding:16px;text-align:center;color:var(--muted2);font-size:12px;font-style:italic}
 
 /* ─── ADVANCED FILTERS ──────────────────────────────────────────── */
 .fadv{overflow:hidden;max-height:0;opacity:0;transition:max-height .35s ease,opacity .25s ease;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -793,36 +793,36 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Distribuição de Notas</div><div class="psub">Quantidade por nota 0–10</div><div class="cwrap" style="height:190px"><canvas id="hc-notas"></canvas></div></div>
       <div class="panel" style="margin-bottom:14px"><div class="ptitle">Volume de Respostas por Dia</div><div class="psub">Promotores · Passivos · Detratores</div><div class="cwrap" style="height:200px"><canvas id="hc-bar"></canvas></div></div>
 
-      <!-- ── ANÁLISE DE PRODUTOS (Hoomy only) ── -->
-      <div class="prod-analysis-panel" id="prod-panel-hoomy">
-        <div class="prod-analysis-header">
-          <div>
-            <div style="font-size:14px;font-weight:800;letter-spacing:-.2px">📦 Análise por Produto</div>
-            <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">NPS por produto · compare detratores e promotores · clique no card para ver respostas</div>
+      <!-- ── PIZZA + COMENTÁRIOS lado a lado ── -->
+      <div style="display:grid;grid-template-columns:420px 1fr;gap:14px;margin-bottom:14px;align-items:start">
+        <!-- Pizza -->
+        <div class="prod-analysis-panel" id="prod-panel-hoomy" style="margin-bottom:0">
+          <div class="prod-analysis-header">
+            <div>
+              <div style="font-size:14px;font-weight:800;letter-spacing:-.2px">📦 Análise por Produto</div>
+              <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">Detratores e Promotores · clique para ver respostas</div>
+            </div>
           </div>
-          <div class="prod-toggle">
-            <button class="prod-toggle-btn active-pizza" id="hprod-pizza" onclick="switchProdToggle('Pizza')">🥧 Distribuição por Produto</button>
-          </div>
-        </div>
-        <div class="prod-body">
-          <div class="prod-stats-row" id="hprod-stats"></div>
-          <div class="prod-grid" id="hprod-grid"></div>
-        </div>
-      </div>
-
-      <div class="comm-panel">
-        <div class="comm-header">
-          <div class="comm-title">Comentários</div>
-          <div class="comm-filters">
-            <button class="cbtn active" id="hcf-all" onclick="filterMComm('hoomy','all')">Todos</button>
-            <button class="cbtn" id="hcf-p" onclick="filterMComm('hoomy','Promotor')">Promotores</button>
-            <button class="cbtn" id="hcf-n" onclick="filterMComm('hoomy','Passivo')">Passivos</button>
-            <button class="cbtn" id="hcf-d" onclick="filterMComm('hoomy','Detrator')">Detratores</button>
-            <select class="fsel" id="hcf-motivo" onchange="onMotivoChange('hoomy')" style="max-width:170px;font-size:11px"><option value="">Todos os motivos</option></select>
-            <input class="tsearch" id="hcomm-search" placeholder="Buscar comentário..." oninput="filterMComm('hoomy',mCommFilter.hoomy)" style="width:170px;margin-left:4px"/>
+          <div class="prod-body">
+            <div class="prod-stats-row" id="hprod-stats"></div>
+            <div id="hprod-grid"></div>
           </div>
         </div>
-        <div class="comm-grid" id="hcomm-grid"></div>
+        <!-- Comentários -->
+        <div class="comm-panel" style="margin-bottom:0">
+          <div class="comm-header">
+            <div class="comm-title">Comentários</div>
+            <div class="comm-filters">
+              <button class="cbtn active" id="hcf-all" onclick="filterMComm('hoomy','all')">Todos</button>
+              <button class="cbtn" id="hcf-p" onclick="filterMComm('hoomy','Promotor')">Promotores</button>
+              <button class="cbtn" id="hcf-n" onclick="filterMComm('hoomy','Passivo')">Passivos</button>
+              <button class="cbtn" id="hcf-d" onclick="filterMComm('hoomy','Detrator')">Detratores</button>
+              <select class="fsel" id="hcf-motivo" onchange="onMotivoChange('hoomy')" style="max-width:170px;font-size:11px"><option value="">Todos os motivos</option></select>
+              <input class="tsearch" id="hcomm-search" placeholder="Buscar comentário..." oninput="filterMComm('hoomy',mCommFilter.hoomy)" style="width:170px;margin-left:4px"/>
+            </div>
+          </div>
+          <div class="comm-grid" id="hcomm-grid" style="max-height:500px"></div>
+        </div>
       </div>
       <div class="tcard">
         <div class="thead-r"><div class="ttitle">Todas as Respostas</div><input class="tsearch" id="ht-search" placeholder="Buscar..." oninput="filterMTable('hoomy')"/></div>
@@ -1058,7 +1058,20 @@ function switchMTab(tab) {
   document.getElementById('mtab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('mtab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active' : '');
   document.getElementById('mtab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('minimal')));
+  if (tab === 'graficos') {
+    const yr = new Date().getFullYear();
+    const de = yr + '-01-01';
+    const ate = yr + '-12-31';
+    ['mg-m-de','mg-d-de','mg-vol-de','mg-cum-de'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value) { el.value = de; el.classList.add('active'); }
+    });
+    ['mg-m-ate','mg-d-ate','mg-vol-ate','mg-cum-ate'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value) { el.value = ate; el.classList.add('active'); }
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('minimal')));
+  }
 }
 function switchHTab(tab) {
   mSubTab.hoomy = tab;
@@ -1066,7 +1079,20 @@ function switchHTab(tab) {
   document.getElementById('htab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('htab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active-purple' : '');
   document.getElementById('htab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active-purple' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('hoomy')));
+  if (tab === 'graficos') {
+    const yr = new Date().getFullYear();
+    const de = yr + '-01-01';
+    const ate = yr + '-12-31';
+    ['hg-m-de','hg-d-de','hg-vol-de','hg-cum-de'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value) { el.value = de; el.classList.add('active'); }
+    });
+    ['hg-m-ate','hg-d-ate','hg-vol-ate','hg-cum-ate'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value) { el.value = ate; el.classList.add('active'); }
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('hoomy')));
+  }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2098,7 +2124,7 @@ function renderProdPizza(data, products, statsEl, gridEl) {
       if (CHARTS[ck]) CHARTS[ck].destroy();
       const canvas = document.getElementById(canvasId);
       if (!canvas || !statsList.length || totalVal === 0) return;
-      canvas.width = 260; canvas.height = 260;
+      canvas.width = 140; canvas.height = 140;
       CHARTS[ck] = new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
