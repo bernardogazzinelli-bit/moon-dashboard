@@ -657,15 +657,22 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       </div>
     </main>
     <main id="mtab-graficos" style="display:none">
-      <div class="section-header">Evolução do NPS — Minimal</div>
-      <div class="g2">
-        <div class="panel"><div class="ptitle">NPS Mensal</div><div class="psub">Score NPS mês a mês</div><div class="cwrap" style="height:270px"><canvas id="mc-line-m"></canvas></div></div>
-        <div class="panel"><div class="ptitle">NPS por Dia (acumulado)</div><div class="psub">Score NPS acumulado dia a dia</div><div class="cwrap" style="height:270px"><canvas id="mc-line-d"></canvas></div></div>
-      </div>
-      <div class="section-header">Volume de Respostas</div>
-      <div class="g2">
-        <div class="panel"><div class="ptitle">Respostas por Dia</div><div class="psub">Quantidade diária</div><div class="cwrap" style="height:270px"><canvas id="mc-line-vol"></canvas></div></div>
-        <div class="panel"><div class="ptitle">Respostas Acumuladas</div><div class="psub">Crescimento acumulado</div><div class="cwrap" style="height:270px"><canvas id="mc-line-cum"></canvas></div></div>
+      <div class="panel" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <div><div class="ptitle">Evolução — Minimal</div><div class="psub">Selecione a visão desejada</div></div>
+          <select class="fsel" id="m-graf-sel" onchange="switchGrafView('minimal')" style="max-width:220px">
+            <option value="nps-mensal">NPS Mensal</option>
+            <option value="nps-acumulado">NPS Acumulado (dia)</option>
+            <option value="vol-diario">Volume por Dia</option>
+            <option value="vol-acumulado">Respostas Acumuladas</option>
+          </select>
+        </div>
+        <div style="position:relative;height:320px">
+          <canvas id="mc-line-m" style="position:absolute;inset:0;display:block"></canvas>
+          <canvas id="mc-line-d" style="position:absolute;inset:0;display:none"></canvas>
+          <canvas id="mc-line-vol" style="position:absolute;inset:0;display:none"></canvas>
+          <canvas id="mc-line-cum" style="position:absolute;inset:0;display:none"></canvas>
+        </div>
       </div>
     </main>
   </div>
@@ -785,7 +792,17 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         </div>
         <div class="prod-body">
           <div class="prod-stats-row" id="hprod-stats"></div>
-          <div class="prod-grid" id="hprod-grid"></div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+            <div style="flex:1;min-width:260px;max-width:340px">
+              <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px" id="hprod-pie-title">Distribuição</div>
+              <div style="position:relative;height:280px"><canvas id="hprod-pie"></canvas></div>
+              <div id="hprod-pie-leg" style="margin-top:10px;display:flex;flex-direction:column;gap:5px"></div>
+            </div>
+            <div style="flex:2;min-width:300px">
+              <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px">Por Produto</div>
+              <div id="hprod-bar-wrap" style="position:relative;height:280px"><canvas id="hprod-bar"></canvas></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -811,15 +828,22 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       </div>
     </main>
     <main id="htab-graficos" style="display:none">
-      <div class="section-header">Evolução do NPS — Hoomy</div>
-      <div class="g2">
-        <div class="panel"><div class="ptitle">NPS Mensal</div><div class="psub">Score NPS mês a mês</div><div class="cwrap" style="height:270px"><canvas id="hc-line-m"></canvas></div></div>
-        <div class="panel"><div class="ptitle">NPS por Dia (acumulado)</div><div class="psub">Score NPS acumulado dia a dia</div><div class="cwrap" style="height:270px"><canvas id="hc-line-d"></canvas></div></div>
-      </div>
-      <div class="section-header">Volume de Respostas</div>
-      <div class="g2">
-        <div class="panel"><div class="ptitle">Respostas por Dia</div><div class="psub">Quantidade diária</div><div class="cwrap" style="height:270px"><canvas id="hc-line-vol"></canvas></div></div>
-        <div class="panel"><div class="ptitle">Respostas Acumuladas</div><div class="psub">Crescimento acumulado</div><div class="cwrap" style="height:270px"><canvas id="hc-line-cum"></canvas></div></div>
+      <div class="panel" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <div><div class="ptitle">Evolução — Hoomy</div><div class="psub">Selecione a visão desejada</div></div>
+          <select class="fsel" id="h-graf-sel" onchange="switchGrafView('hoomy')" style="max-width:220px">
+            <option value="nps-mensal">NPS Mensal</option>
+            <option value="nps-acumulado">NPS Acumulado (dia)</option>
+            <option value="vol-diario">Volume por Dia</option>
+            <option value="vol-acumulado">Respostas Acumuladas</option>
+          </select>
+        </div>
+        <div style="position:relative;height:320px">
+          <canvas id="hc-line-m" style="position:absolute;inset:0;display:block"></canvas>
+          <canvas id="hc-line-d" style="position:absolute;inset:0;display:none"></canvas>
+          <canvas id="hc-line-vol" style="position:absolute;inset:0;display:none"></canvas>
+          <canvas id="hc-line-cum" style="position:absolute;inset:0;display:none"></canvas>
+        </div>
       </div>
     </main>
   </div>
@@ -1044,7 +1068,7 @@ function switchMTab(tab) {
   document.getElementById('mtab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('mtab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active' : '');
   document.getElementById('mtab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('minimal')));
+  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('minimal'); setTimeout(()=>switchGrafView('minimal'),50); }));
 }
 function switchHTab(tab) {
   mSubTab.hoomy = tab;
@@ -1052,7 +1076,7 @@ function switchHTab(tab) {
   document.getElementById('htab-graficos').style.display  = tab === 'graficos' ? 'block' : 'none';
   document.getElementById('htab-dashboard-btn').className = 'tab-btn' + (tab === 'dashboard' ? ' active-purple' : '');
   document.getElementById('htab-graficos-btn').className  = 'tab-btn' + (tab === 'graficos' ? ' active-purple' : '');
-  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => renderGraficosCharts('hoomy')));
+  if (tab === 'graficos') requestAnimationFrame(() => requestAnimationFrame(() => { renderGraficosCharts('hoomy'); setTimeout(()=>switchGrafView('hoomy'),50); }));
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1949,11 +1973,11 @@ function switchProdToggle(mode) {
 function renderProdAnalysis(data) {
   const products = [...new Set(data.map(r => (r.produto || '').trim()).filter(Boolean))].sort();
   const statsEl = document.getElementById('hprod-stats');
-  const gridEl  = document.getElementById('hprod-grid');
-  if (!statsEl || !gridEl) return;
+  if (!statsEl) return;
 
   if (!products.length) {
-    gridEl.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted2);font-size:13px">Nenhum produto encontrado nos dados filtrados.</div>';
+    const bw = document.getElementById('hprod-bar-wrap');
+    if (bw) bw.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted2);font-size:13px">Nenhum produto encontrado.</div>';
     return;
   }
 
@@ -1975,39 +1999,60 @@ function renderProdAnalysis(data) {
     b.nps - a.nps
   );
 
-  const maxDetr = Math.max(...prodData.map(p => p.detr), 1);
-  const maxProm = Math.max(...prodData.map(p => p.prom), 1);
   const totalFiltered = data.length;
-
   statsEl.innerHTML = `
     <div class="prod-stat">${products.length} produtos encontrados</div>
-    <div class="prod-stat">Total filtrado: <span>${totalFiltered.toLocaleString('pt-BR')}</span> respostas</div>
-    <div class="prod-stat" style="margin-left:auto;font-size:10px;color:var(--muted);font-style:italic">↓ clique no card para ver respostas</div>
+    <div class="prod-stat">Total: <span>${totalFiltered.toLocaleString('pt-BR')}</span> respostas</div>
+    <div class="prod-stat" style="margin-left:auto;font-size:10px;color:var(--muted);font-style:italic">↓ clique no gráfico para ver respostas</div>
   `;
 
-  gridEl.innerHTML = prodData.map(p => {
-    const npsColor = p.nps >= 50 ? 'var(--green)' : p.nps >= 0 ? 'var(--warn)' : 'var(--red)';
-    const isDetrMode = prodToggle === 'Detrator';
-    const isPromMode = prodToggle === 'Promotor';
-    const barVal  = isDetrMode ? p.detr : isPromMode ? p.prom : Math.max(0, p.nps + 100);
-    const barMax  = isDetrMode ? maxDetr : isPromMode ? maxProm : 200;
-    const barPct  = (barVal / barMax * 100).toFixed(1);
-    const barColor = isDetrMode ? 'rgba(255,64,96,.75)' : isPromMode ? 'rgba(0,224,132,.75)' : (p.nps >= 0 ? 'rgba(0,224,132,.7)' : 'rgba(255,64,96,.7)');
-    const pPct = p.tot > 0 ? (p.prom/p.tot*100).toFixed(0) : 0;
-    const dPct = p.tot > 0 ? (p.detr/p.tot*100).toFixed(0) : 0;
-    const nPct = p.tot > 0 ? (p.pass/p.tot*100).toFixed(0) : 0;
-    return `<div class="prod-card" onclick="openProdModal('${p.prod.replace(/'/g,"\\'")}','${prodToggle}')">
-      <div class="prod-card-name">${p.prod}</div>
-      <div class="prod-card-nps" style="color:${npsColor}">NPS ${p.nps > 0 ? '+' : ''}${p.nps}</div>
-      <div class="prod-card-bar"><div class="prod-card-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
-      <div class="prod-card-meta">
-        <span class="prod-card-chip g">😊 ${p.prom} (${pPct}%)</span>
-        <span class="prod-card-chip b">😐 ${p.pass} (${nPct}%)</span>
-        <span class="prod-card-chip r">😞 ${p.detr} (${dPct}%)</span>
-        <span style="font-size:10px;color:var(--muted2);font-weight:600;align-self:center">${p.tot} resp.</span>
-      </div>
-    </div>`;
-  }).join('');
+  const isNPS = prodToggle === 'NPS';
+  const isDetr = prodToggle === 'Detrator';
+
+  // ── Pizza ──
+  const pieTitle = document.getElementById('hprod-pie-title');
+  if (pieTitle) pieTitle.textContent = isNPS ? 'Composição Geral' : (isDetr ? 'Detratores por Produto' : 'Promotores por Produto');
+  if (CHARTS['hprod-pie']) CHARTS['hprod-pie'].destroy();
+  const pieCanvas = document.getElementById('hprod-pie');
+  if (pieCanvas) {
+    const pieData = isNPS
+      ? [data.filter(r=>r.sentimento==='Promotor').length, data.filter(r=>r.sentimento==='Passivo').length, data.filter(r=>r.sentimento==='Detrator').length]
+      : prodData.map(p => isDetr ? p.detr : p.prom);
+    const pieLabels = isNPS ? ['Promotores','Passivos','Detratores'] : prodData.map(p => p.prod);
+    const dPalette = ['#ff4060','#ff7043','#ffa726','#ffca28','#d4e157','#66bb6a','#26c6da','#42a5f5','#7e57c2','#ec407a','#8d6e63','#78909c'];
+    const pPalette = ['#00e084','#26c6da','#42a5f5','#7e57c2','#a78bfa','#66bb6a','#ffa726','#ff7043','#ec407a','#8d6e63'];
+    const pieColors = isNPS ? ['#00e084','#3d9eff','#ff4060'] : prodData.map((_,i) => isDetr ? dPalette[i%dPalette.length] : pPalette[i%pPalette.length]);
+    const totalPie = pieData.reduce((a,b)=>a+b,0);
+    CHARTS['hprod-pie'] = new Chart(pieCanvas.getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: pieLabels, datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0, hoverOffset: 6 }] },
+      options: {
+        responsive:true, maintainAspectRatio:false, cutout: isNPS?'65%':'50%',
+        onClick:(evt,elements)=>{ if(!elements.length) return; const idx=elements[0].index; openProdModal(isNPS?'__ALL__':prodData[idx].prod, isNPS?['Promotor','Passivo','Detrator'][idx]:prodToggle); },
+        plugins:{ legend:{display:false}, tooltip:{...ttOpts(),callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw} (${pct(ctx.raw,totalPie)}%)`}} }
+      }
+    });
+    const legEl = document.getElementById('hprod-pie-leg');
+    if (legEl) legEl.innerHTML = pieLabels.slice(0,8).map((l,i)=>`<div class="legr" style="cursor:pointer" onclick="openProdModal('${isNPS?'__ALL__':prodData[i].prod.replace(/'/g,"\\'")}','${isNPS?['Promotor','Passivo','Detrator'][i]:prodToggle}')"><div class="legl"><div class="legdot" style="background:${pieColors[i]}"></div><span class="legname" style="font-size:11px">${l}</span></div><span class="legpct">${pieData[i]}</span></div>`).join('')+(pieLabels.length>8?`<div style="font-size:10px;color:var(--muted2);margin-top:4px">+${pieLabels.length-8} mais</div>`:'');
+  }
+
+  // ── Barras horizontais ──
+  if (CHARTS['hprod-bar']) CHARTS['hprod-bar'].destroy();
+  const barWrap = document.getElementById('hprod-bar-wrap');
+  if (barWrap) barWrap.style.height = Math.max(280, prodData.length*32+40)+'px';
+  const barCanvas = document.getElementById('hprod-bar');
+  if (barCanvas) {
+    const barDatasets = isNPS
+      ? [{label:'NPS Score',data:prodData.map(p=>p.nps),backgroundColor:prodData.map(p=>p.nps>=50?'rgba(0,224,132,.8)':p.nps>=0?'rgba(255,184,32,.8)':'rgba(255,64,96,.8)'),borderRadius:4,borderSkipped:false}]
+      : [{label:'Promotores',data:prodData.map(p=>p.prom),backgroundColor:'rgba(0,224,132,.75)',borderRadius:3,borderSkipped:false,stack:'s'},{label:'Passivos',data:prodData.map(p=>p.pass),backgroundColor:'rgba(61,158,255,.75)',borderRadius:3,borderSkipped:false,stack:'s'},{label:'Detratores',data:prodData.map(p=>p.detr),backgroundColor:'rgba(255,64,96,.75)',borderRadius:3,borderSkipped:false,stack:'s'}];
+    CHARTS['hprod-bar'] = new Chart(barCanvas.getContext('2d'), {
+      type:'bar', data:{labels:prodData.map(p=>p.prod),datasets:barDatasets},
+      options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+        onClick:(evt,elements)=>{ if(elements.length) openProdModal(prodData[elements[0].index].prod, prodToggle==='NPS'?'NPS':prodToggle); },
+        plugins:{legend:isNPS?{display:false}:{labels:{color:tc(),font:{family:"'Plus Jakarta Sans',sans-serif",size:11},boxWidth:10}},tooltip:{...ttOpts()}},
+        scales:{x:{stacked:!isNPS,grid:{color:gc()},ticks:{color:tc(),font:{size:10,family:"'Plus Jakarta Sans',sans-serif"}}},y:{stacked:!isNPS,grid:{display:false},ticks:{color:tc(),font:{size:11,family:"'Plus Jakarta Sans',sans-serif"},crossAlign:'far'}}}}
+    });
+  }
 }
 
 function openProdModal(produto, mode) {
@@ -2045,6 +2090,30 @@ function openProdModal(produto, mode) {
   document.getElementById('tag-modal-bg').style.display = 'flex';
 }
 
+// ── switchGrafView: alterna canvas no painel unificado ──
+function switchGrafView(co) {
+  const p = co==='minimal'?'m':'h';
+  const val = (document.getElementById(p+'-graf-sel')||{}).value||'nps-mensal';
+  const map = {'nps-mensal':p+'c-line-m','nps-acumulado':p+'c-line-d','vol-diario':p+'c-line-vol','vol-acumulado':p+'c-line-cum'};
+  Object.values(map).forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const active=document.getElementById(map[val]);if(active)active.style.display='block';
+}
+// ── openProdModal: suporte a __ALL__ (clique na pizza NPS) ──
+const _origOpenProdModal = openProdModal;
+function openProdModal(produto, mode) {
+  if (produto==='__ALL__') {
+    const rows=STATE.hoomy.filtered.filter(r=>mode==='NPS'||r.sentimento===mode).sort((a,b)=>b.date-a.date);
+    const sentLabel=mode==='NPS'?'Todas':mode==='Detrator'?'Detratores':mode==='Promotor'?'Promotores':'Passivos';
+    document.getElementById('tm-title').textContent='📦 Todos os Produtos';
+    document.getElementById('tm-sub').textContent=rows.length+' respostas · '+sentLabel+' · Hoomy';
+    const sc=r=>r.sentimento==='Promotor'?'p':r.sentimento==='Passivo'?'n':'d';
+    const nc=r=>r.avaliacao>=9?'var(--green)':r.avaliacao>=7?'var(--blue)':'var(--red)';
+    document.getElementById('tm-list').innerHTML=rows.slice(0,150).map(r=>`<div class="tag-resp-item"><div class="tag-resp-meta"><span class="tag-resp-sent ${sc(r)}">${r.sentimento}</span><span class="tag-resp-nota" style="color:${nc(r)}">★ ${r.avaliacao}</span><span class="tag-resp-date">${fmtD(r.date)}</span>${r.produto?`<span class="tag-resp-date">${r.produto}</span>`:''}</div><div class="tag-resp-text">${r.comentario||'<em style="color:var(--muted2)">Sem comentário</em>'}</div></div>`).join('')||'<div class="tag-resp-empty">Nenhuma resposta.</div>';
+    document.getElementById('tag-modal-bg').style.display='flex';
+    return;
+  }
+  _origOpenProdModal(produto,mode);
+}
 setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
 window.addEventListener('load',()=>{showOv(false);document.getElementById('theme-btn').textContent=isDk()?'☀️':'🌙';});
 document.addEventListener('DOMContentLoaded', updateMoonSVGs);
