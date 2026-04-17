@@ -221,15 +221,15 @@ main{flex:1;overflow-y:auto;padding:18px 20px}
 .prod-card-chip.r{background:var(--rdim);color:var(--red)}
 
 /* ─── PROD PIZZA VIEW ───────────────────────────────────────────── */
-.prod-pizza-section{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%}
-.prod-pizza-col-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px}
-.prod-pizza-wrap{display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap}
-.prod-pizza-chart-wrap{position:relative;flex-shrink:0;width:180px;height:180px}
-.prod-pizza-canvas{width:180px!important;height:180px!important}
-.prod-pizza-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:100px}
-.prod-pizza-center-num{font-size:22px;font-weight:800;letter-spacing:-1px;line-height:1}
-.prod-pizza-center-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:3px}
-.prod-pizza-legend{display:flex;flex-direction:column;gap:6px;flex:1;min-width:130px;max-height:200px;overflow-y:auto}
+.prod-pizza-section{display:grid;grid-template-columns:1fr 1fr;gap:40px;width:100%}
+.prod-pizza-col-title{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:7px}
+.prod-pizza-wrap{display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center}
+.prod-pizza-chart-wrap{position:relative;flex-shrink:0;width:280px;height:280px}
+.prod-pizza-canvas{width:280px!important;height:280px!important}
+.prod-pizza-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:130px}
+.prod-pizza-center-num{font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1}
+.prod-pizza-center-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-top:4px}
+.prod-pizza-legend{display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px;max-height:280px;overflow-y:auto}
 .prod-pizza-leg-row{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 6px;border-radius:8px;transition:background .12s}
 .prod-pizza-leg-row:hover{background:var(--bg3)}
 .prod-pizza-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
@@ -798,12 +798,8 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
             <div style="font-size:14px;font-weight:800;letter-spacing:-.2px">📦 Análise por Produto</div>
             <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-weight:500">NPS por produto · compare detratores e promotores · clique no card para ver respostas</div>
           </div>
-          <!-- ★ NOVO: botão 🥧 Distribuição adicionado ao toggle -->
           <div class="prod-toggle">
-            <button class="prod-toggle-btn active-d" id="hprod-detr" onclick="switchProdToggle('Detrator')">😞 Detratores</button>
-            <button class="prod-toggle-btn" id="hprod-prom" onclick="switchProdToggle('Promotor')">😊 Promotores</button>
-            
-            <button class="prod-toggle-btn" id="hprod-pizza" onclick="switchProdToggle('Pizza')">🥧 Distribuição</button>
+            <button class="prod-toggle-btn active-pizza" id="hprod-pizza" onclick="switchProdToggle('Pizza')">🥧 Distribuição por Produto</button>
           </div>
         </div>
         <div class="prod-body">
@@ -1930,7 +1926,7 @@ function updateRedeCard(mData, hData) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ANÁLISE DE PRODUTOS — Hoomy (★ MODIFICADO)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-let prodToggle = 'Detrator';
+let prodToggle = 'Pizza';
 
 // Paleta de cores para os produtos no gráfico de pizza
 const PIZZA_COLORS = [
@@ -2100,6 +2096,7 @@ function renderProdPizza(data, products, statsEl, gridEl) {
       if (CHARTS[ck]) CHARTS[ck].destroy();
       const canvas = document.getElementById(canvasId);
       if (!canvas || !statsList.length || totalVal === 0) return;
+      canvas.width = 280; canvas.height = 280;
       CHARTS[ck] = new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
