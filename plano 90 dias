@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano 90 Dias — Bernardo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --border: #E2DED6;
+    --text: #1A1916;
+    --muted: #8C8880;
+    --accent: #2D5BE3;
+    --accent-light: #EBF0FF;
+    --green: #1A7A4A;
+    --green-light: #E6F5ED;
+    --amber: #B45309;
+    --amber-light: #FEF3E2;
+    --red: #C0392B;
+    --red-light: #FDEEEC;
+    --purple: #6B3FA0;
+    --purple-light: #F2ECFA;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--text);
+    color: white;
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: 'B90';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 7rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.05);
+    letter-spacing: -4px;
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .header-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .header-sub {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+    font-family: var(--mono);
+  }
+  .progress-bar-wrap {
+    margin-top: 1.75rem;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--mono);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* TIMELINE TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab {
+    padding: 1rem 1.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+  /* MAIN */
+  .main { padding: 2.5rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* FRENTES */
+  .frentes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .frente-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .frente-card:hover { border-color: #BBBAB6; transform: translateY(-1px); }
+  .frente-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .frente-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+  .frente-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+  .frente-card .tasks-count {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .tag-conhecimento { background: var(--accent-light); color: var(--accent); }
+  .tag-estrategica { background: var(--purple-light); color: var(--purple); }
+  .tag-desenvolvimento { background: var(--green-light); color: var(--green); }
+
+  /* TIMELINE VIEW */
+  .timeline-header {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .phase-block {
+    flex: 1;
+    padding: 1.25rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .phase-block:last-child { border-right: none; }
+  .phase-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .phase-name { font-size: 0.9rem; font-weight: 600; }
+  .phase-date { font-size: 0.72rem; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+
+  /* TASKS LIST */
+  .tasks-section-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .task-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: all 0.15s;
+  }
+  .task-item:hover { border-color: #BBBAB6; }
+  .task-check {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    transition: all 0.15s;
+  }
+  .task-check:hover { border-color: var(--accent); }
+  .task-check.done { background: var(--green); border-color: var(--green); }
+  .task-check.done::after { content: '✓'; color: white; font-size: 11px; }
+  .task-item.done-item { opacity: 0.5; }
+  .task-item.done-item .task-title { text-decoration: line-through; }
+  .task-body { flex: 1; }
+  .task-title { font-weight: 500; font-size: 0.9rem; margin-bottom: 4px; }
+  .task-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .task-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-family: var(--mono);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .badge-phase { background: #F0EEE8; color: #6B6860; }
+  .badge-priority-alta { background: var(--red-light); color: var(--red); }
+  .badge-priority-media { background: var(--amber-light); color: var(--amber); }
+  .badge-priority-baixa { background: var(--green-light); color: var(--green); }
+  .badge-frente { background: var(--accent-light); color: var(--accent); }
+  .badge-frente-est { background: var(--purple-light); color: var(--purple); }
+  .badge-frente-dev { background: var(--green-light); color: var(--green); }
+  .badge-entregavel { background: #FFF7ED; color: #92400E; border: 1px solid #FDE68A; }
+
+  /* HOW TO DO */
+  .guide-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+  }
+  .guide-header {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .guide-header:hover { background: #FAFAF8; }
+  .guide-title { font-weight: 600; font-size: 0.95rem; }
+  .guide-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .guide-arrow { font-size: 0.9rem; color: var(--muted); transition: transform 0.2s; }
+  .guide-card.open .guide-arrow { transform: rotate(180deg); }
+  .guide-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .guide-card.open .guide-body { display: block; }
+  .guide-steps { margin-top: 1rem; }
+  .guide-step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--text);
+    color: white;
+    font-size: 0.72rem;
+    font-family: var(--mono);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-text { font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+  .step-text strong { font-weight: 600; }
+  .tip-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #1A3A8F;
+    line-height: 1.5;
+  }
+  .warn-box {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #7C3D12;
+    line-height: 1.5;
+  }
+
+  /* OVERVIEW */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .metric-label { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); margin-bottom: 6px; }
+  .metric-value { font-size: 1.75rem; font-weight: 600; letter-spacing: -1px; }
+  .metric-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  @media (max-width: 768px) {
+    .header { padding: 1.5rem; }
+    .main { padding: 1.5rem; }
+    .tabs { padding: 0 1rem; overflow-x: auto; }
+    .frentes-grid { grid-template-columns: 1fr; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Plano de 90 Dias — Bernardo</div>
+      <div class="header-sub">Assistente de Business Operations · B.Ops · Dados e Visualizações</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Dia 1</span>
+      <span id="progress-pct">0%</span>
+      <span>Dia 90</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('visao')">Visão Geral</button>
+  <button class="tab" onclick="showTab('tarefas')">Tarefas & Datas</button>
+  <button class="tab" onclick="showTab('guia')">Como Fazer</button>
+</div>
+
+<div class="main">
+
+  <!-- VISÃO GERAL -->
+  <div class="section active" id="sec-visao">
+
+    <div class="overview-grid">
+      <div class="metric-card">
+        <div class="metric-label">DURAÇÃO</div>
+        <div class="metric-value">90</div>
+        <div class="metric-sub">dias no total</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">FRENTES</div>
+        <div class="metric-value">3</div>
+        <div class="metric-sub">Conhecimento · Estratégica · Desenvolvimento</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">PROJETOS PRINCIPAIS</div>
+        <div class="metric-value">2</div>
+        <div class="metric-sub">CS Dados · All Hands</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">ENTREGÁVEIS</div>
+        <div class="metric-value">8</div>
+        <div class="metric-sub">até o dia 90</div>
+      </div>
+    </div>
+
+    <div class="timeline-header">
+      <div class="phase-block">
+        <div class="phase-num">FASE 01</div>
+        <div class="phase-name">Imersão</div>
+        <div class="phase-date">Dias 1–30</div>
+      </div>
+      <div class="phase-block">
+        <div class="phase-num">FASE 02</div>
+        <div class="phase-name">Construção</div>
+        <div class="phase-date">Dias 31–60</div>
+      </div>
+      <div class="phase-block">
+        <div class="phase-num">FASE 03</div>
+        <div class="phase-name">Consolidação</div>
+        <div class="phase-date">Dias 61–90</div>
+      </div>
+    </div>
+
+    <div class="frentes-grid">
+      <div class="frente-card" onclick="showTab('tarefas')">
+        <div class="frente-tag tag-conhecimento">CONHECIMENTO</div>
+        <h3>Pessoas, Processos & Ferramentas</h3>
+        <p>Conversas 1:1 com o time, entender os entregáveis da área (WAR, All Hands, Reporte), dominar as ferramentas (ClickUp, Looker Studio, BigQuery, n8n).</p>
+        <div class="tasks-count">→ 12 atividades</div>
+      </div>
+      <div class="frente-card" onclick="showTab('tarefas')">
+        <div class="frente-tag tag-estrategica">ESTRATÉGICA</div>
+        <h3>Projetos de Impacto Real</h3>
+        <p>Automatizar e centralizar dados do CS. Evoluir o All Hands com visualizações e eliminar preenchimento manual.</p>
+        <div class="tasks-count">→ 2 projetos · múltiplas entregas</div>
+      </div>
+      <div class="frente-card" onclick="showTab('tarefas')">
+        <div class="frente-tag tag-desenvolvimento">DESENVOLVIMENTO</div>
+        <h3>Aprendizado Estruturado</h3>
+        <p>Livro Working Backwards + 3 cursos práticos: Looker Studio, BigQuery e n8n.</p>
+        <div class="tasks-count">→ 4 entregáveis de desenvolvimento</div>
+      </div>
+      <div class="frente-card" onclick="showTab('guia')" style="border-style: dashed; background: transparent;">
+        <div class="frente-tag" style="background:#F0EEE8;color:#6B6860;">GUIA</div>
+        <h3>Como fazer cada coisa</h3>
+        <p>Passo a passo para as principais atividades: 1:1s, projetos estratégicos, rituais, entregáveis finais.</p>
+        <div class="tasks-count">→ Acessar guia →</div>
+      </div>
+    </div>
+
+    <div class="tasks-section-title">RITUAIS FIXOS — TODA SEMANA</div>
+    <div class="task-item">
+      <div class="task-body">
+        <div class="task-title">All Hands — toda terça, 11h30</div>
+        <div class="task-desc">Reunião geral da empresa. Participe ativo e observe como ela é construída — você vai ser responsável por evoluí-la.</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <div class="task-body">
+        <div class="task-title">Weekly B.Ops — toda terça, 13h30</div>
+        <div class="task-desc">Ritual interno do time. Acompanhe projetos, alinhamentos e dúvidas da semana.</div>
+      </div>
+    </div>
+    <div class="task-item">
+      <div class="task-body">
+        <div class="task-title">1:1 semanal com a Laura</div>
+        <div class="task-desc">Seu checkpoint principal. Use para tirar dúvidas, apresentar progresso e validar direções antes de executar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAREFAS -->
+  <div class="section" id="sec-tarefas">
+
+    <div class="tasks-section-title">FASE 01 — IMERSÃO · Dias 1 a 30</div>
+
+    <div class="task-item" id="t1">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Montar e apresentar as pautas das 1:1s para a Laura</div>
+        <div class="task-desc">Antes de agendar qualquer conversa com o time ou outras áreas, monte a pauta de cada reunião e apresente para a Laura validar. Isso garante que as conversas sejam aproveitadas ao máximo.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 1–5</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+          <span class="badge badge-entregavel">📋 Entregável: pautas validadas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t2">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">1:1 com Guiga, Ana Zuchi, Juan e Gustavo</div>
+        <div class="task-desc">Conversas individuais com todos do time B.Ops para entender papel, entregas e estilo de trabalho de cada um.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 5–20</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t3">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">1:1 com Rafael Lacerda</div>
+        <div class="task-desc">Entender trajetória, visão sobre dados e boas práticas que ele trouxe para a operação.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 5–20</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t4">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Entender os entregáveis da área: WAR, All Hands, Reporte Executivo</div>
+        <div class="task-desc">Compreender o fluxo de produção de cada um — objetivo, formato, fontes de dados, frequência e quem faz o quê.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 1–20</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t5">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Entender a metodologia de Deep Dive</div>
+        <div class="task-desc">As etapas: entendimento → mapeamento → diagnóstico → proposta → execução → acompanhamento. Entender qual é o papel do Bernardo como apoio da Laura nesses processos.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 1–20</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t6">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Entender como o ClickUp é usado na área</div>
+        <div class="task-desc">Estrutura de projetos, organização de tarefas, responsáveis, prazos e como fazer o acompanhamento do dia a dia.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 1–15</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t7">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Entender o processo de offboarding de conhecimento do B.Ops</div>
+        <div class="task-desc">Como funciona quando um colaborador sai — o que é documentado, como é feito e qual o papel do B.Ops nesse processo.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 10–30</span>
+          <span class="badge badge-priority-baixa">⬤ Prioridade baixa</span>
+          <span class="badge badge-frente">Conhecimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t8">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Apresentar planejamento do projeto CS para a Laura</div>
+        <div class="task-desc">Antes de executar qualquer coisa do projeto de dados do CS, montar e apresentar o planejamento completo: o que vai fazer, em que ordem e em que formato.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Até o Dia 20</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica</span>
+          <span class="badge badge-entregavel">📋 Entregável: planejamento validado</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t9">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Reunião com Ana Zuchi e Maria Savassi (CS)</div>
+        <div class="task-desc">Entender as expectativas de melhoria e as principais dores do time com o processo atual de dados.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 15–25</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t10">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Participar de pelo menos 1 weekly do time de CS</div>
+        <div class="task-desc">Para entender a dinâmica, necessidades e linguagem da área antes de construir qualquer solução.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 15–30</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t11">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Definir junto com a Laura a automação de n8n a ser criada</div>
+        <div class="task-desc">Após ganhar contexto suficiente (30 dias), sentar com a Laura para definir qual automação será implementada durante o trimestre.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Até o Dia 30</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente-dev">Desenvolvimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-section-title" style="margin-top:2rem; font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">APROFUNDAMENTO EM LOGÍSTICA — Fase 01</div>
+
+    <div class="task-item" id="t12">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Elaborar resumo dos principais indicadores de Logística</div>
+        <div class="task-desc">Mapear o que cada processo impacta, quais são os indicadores de entrada e saída de cada etapa. Construir uma visão clara de causa e efeito: o que impacta o quê e como os processos se conectam aos resultados.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 15–30</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente">Conhecimento</span>
+          <span class="badge badge-entregavel">📋 Entregável: mapa de indicadores</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-section-title" style="margin-top:2rem;">FASE 02 — CONSTRUÇÃO · Dias 31 a 60</div>
+
+    <div class="task-item" id="t13">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Levantar e documentar todos os indicadores de CS</div>
+        <div class="task-desc">TMA, TME, NPS, CSAT, Retenção e outros. Para cada um: o que mede, como é calculado e qual é a fonte de dados.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 25–40</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t14">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Mapear relatórios e planilhas existentes do CS</div>
+        <div class="task-desc">Quais são, como são alimentados, quem alimenta e com qual frequência — incluindo os relatórios diários e a planilha Dados CS.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 25–40</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t15">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Entender o All Hands atual — fontes, responsáveis, formato</div>
+        <div class="task-desc">Como é feito hoje, quem alimenta o quê, onde estão os dados, quais partes são manuais e onde está a maior fricção.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 20–35</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · All Hands</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t16">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Construir estrutura centralizada de dados do CS</div>
+        <div class="task-desc">Centralizar as fontes, conectar as bases e começar a construir as visualizações. Reduzir ou eliminar o preenchimento manual.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 35–60</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t17">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Automatizar o All Hands e desenvolver visualizações de dados e NPS</div>
+        <div class="task-desc">Eliminar o preenchimento manual, criar visualizações mais claras para dados e NPS e evoluir o formato de projetos.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 35–65</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · All Hands</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t18">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Leitura integral de Working Backwards</div>
+        <div class="task-desc">Livro de Colin Bryar e Bill Carr. Ler ao longo de todo o trimestre, anotando os pontos mais relevantes e pelo menos uma sugestão de aplicação prática.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 1–85</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente-dev">Desenvolvimento</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasks-section-title" style="margin-top:2rem;">FASE 03 — CONSOLIDAÇÃO · Dias 61 a 90</div>
+
+    <div class="task-item" id="t19">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Documentar toda a estrutura de dados do CS</div>
+        <div class="task-desc">De onde vêm os dados, como se conectam, como funciona cada relatório e como alimentar e manter o sistema.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 60–80</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+          <span class="badge badge-entregavel">📋 Entregável: documentação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t20">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Documentar o processo do All Hands</div>
+        <div class="task-desc">Passo a passo completo de como manter o All Hands automatizado — para que qualquer pessoa do time consiga dar continuidade.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 65–80</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · All Hands</span>
+          <span class="badge badge-entregavel">📋 Entregável: documentação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t21">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Validação final do projeto CS com Ana Zuchi e Maria Savassi</div>
+        <div class="task-desc">Apresentar o resultado final — dados centralizados, visualizações e automações — para as responsáveis do CS validarem.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 75–85</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente-est">Estratégica · CS</span>
+          <span class="badge badge-entregavel">📋 Entregável: validação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t22">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Implementar automação em n8n</div>
+        <div class="task-desc">Criar e colocar em produção a automação definida com a Laura. Deve gerar ganho real de tempo ou qualidade para a área.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 50–80</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente-dev">Desenvolvimento</span>
+          <span class="badge badge-entregavel">📋 Entregável: automação funcionando</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t23">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Relatório de percepções — entregável final</div>
+        <div class="task-desc">Documento consolidando tudo que foi observado e aprendido: leitura por frente, o que faz sentido e o que precisa evoluir, recomendações iniciais para o próximo trimestre. Formato livre — texto, slides ou documento estruturado.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dias 80–90</span>
+          <span class="badge badge-priority-alta">⬤ Prioridade alta</span>
+          <span class="badge badge-frente">Conhecimento</span>
+          <span class="badge badge-entregavel">📋 Entregável: relatório discutido com a Laura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-item" id="t24">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-body">
+        <div class="task-title">Conversa sobre Working Backwards no 1:1 com a Laura</div>
+        <div class="task-desc">Apresentar os aprendizados mais relevantes do livro e pelo menos uma sugestão de aplicação prática que possa ser implementada na área ou na empresa.</div>
+        <div class="task-meta">
+          <span class="badge badge-phase">Dia 90</span>
+          <span class="badge badge-priority-media">⬤ Prioridade média</span>
+          <span class="badge badge-frente-dev">Desenvolvimento</span>
+          <span class="badge badge-entregavel">📋 Entregável: conversa estruturada</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GUIA -->
+  <div class="section" id="sec-guia">
+
+    <div class="tasks-section-title">COMO FAZER — PASSO A PASSO</div>
+
+    <div class="guide-card" id="g1">
+      <div class="guide-header" onclick="toggleGuide('g1')">
+        <div>
+          <div class="guide-title">1:1s com o time — como conduzir bem</div>
+          <div class="guide-sub">Guiga · Ana Zuchi · Juan · Gustavo · Rafael Lacerda</div>
+        </div>
+        <div class="guide-arrow">▼</div>
+      </div>
+      <div class="guide-body">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Monte a pauta antes de agendar.</strong> Use as pautas geradas (já estão prontas — veja o arquivo de pautas). Revise para incluir qualquer contexto específico que você já tenha sobre a pessoa.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Envie a pauta para a Laura validar.</strong> Só agende a reunião depois da aprovação dela. Isso é parte do plano — não pule essa etapa.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Na conversa, escute mais do que fale.</strong> Seu objetivo é entender, não se apresentar. Faça perguntas abertas e deixe o silêncio respirar.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Anote em tempo real.</strong> Não confie na memória. Use um doc no Google Docs, uma área por pessoa.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Após cada conversa, consolide as notas.</strong> Organize em: papel/entregas, estilo de trabalho, insights sobre a área e dúvidas que surgiram para aprofundar.</div>
+          </div>
+        </div>
+        <div class="tip-box">💡 Essas conversas vão alimentar o relatório de percepções do dia 90. Guarde bem o que você ouvir.</div>
+      </div>
+    </div>
+
+    <div class="guide-card" id="g2">
+      <div class="guide-header" onclick="toggleGuide('g2')">
+        <div>
+          <div class="guide-title">Projeto CS — como executar do zero</div>
+          <div class="guide-sub">Dados, automação e visualizações do time de Customer Success</div>
+        </div>
+        <div class="guide-arrow">▼</div>
+      </div>
+      <div class="guide-body">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Antes de qualquer coisa: monte o planejamento.</strong> Documente o que vai fazer, em que ordem e em que formato. Apresente para a Laura antes de começar. Ela precisa validar antes da execução.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Entenda as dores antes de propor soluções.</strong> Reúna-se com Ana Zuchi e Maria Savassi. Pergunte: o que é mais manual hoje? Onde vocês perdem mais tempo? O que você precisa enxergar que não enxerga?</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Mapeie o que existe.</strong> Liste todos os relatórios e planilhas: nome, quem alimenta, com qual frequência, em que ferramenta. Entenda a Planilha Dados CS — ela é a base de tudo.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Documente cada indicador.</strong> Para TMA, TME, NPS, CSAT e Retenção: o que mede, fórmula de cálculo e fonte dos dados. Isso vai orientar toda a estrutura técnica.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Construa a solução em camadas.</strong> Primeiro centralize os dados (BigQuery ou Sheets). Depois conecte ao Looker Studio. Só então automatize a origem com n8n.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">6</div>
+            <div class="step-text"><strong>Documente tudo ao longo do processo.</strong> Não deixe a documentação para o final. Registre de onde vêm os dados, como as conexões funcionam e como manter o sistema.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">7</div>
+            <div class="step-text"><strong>Valide o resultado com quem usa.</strong> A validação final é com Ana Zuchi e Maria Savassi, não só com a Laura. Elas precisam conseguir usar o que você entregou.</div>
+          </div>
+        </div>
+        <div class="warn-box">⚠️ Não comece a executar antes de apresentar o planejamento para a Laura. Isso está explícito no plano.</div>
+      </div>
+    </div>
+
+    <div class="guide-card" id="g3">
+      <div class="guide-header" onclick="toggleGuide('g3')">
+        <div>
+          <div class="guide-title">All Hands — como automatizar e evoluir</div>
+          <div class="guide-sub">Reunião geral semanal da empresa</div>
+        </div>
+        <div class="guide-arrow">▼</div>
+      </div>
+      <div class="guide-body">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Participe como observador primeiro.</strong> Nas primeiras semanas, só assista. Anote: o que aparece nessa reunião? Quem alimenta cada parte? O que é manual?</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Mapeie as fontes de dados.</strong> Cada seção do All Hands tem uma origem. Descubra qual é cada uma — planilhas, forms, sistemas — e quem é responsável.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Identifique o que dá para automatizar.</strong> Priorize o que é mais trabalhoso e mais repetitivo. NPS e dados operacionais são bons primeiros candidatos.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Construa as visualizações no Looker Studio.</strong> Conecte as fontes e crie os painéis. Foco em clareza — quem assiste ao All Hands precisa entender em segundos.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Documente o processo completo.</strong> O entregável final inclui documentação de como manter. Se você sair de férias, alguém precisa conseguir rodar o All Hands sozinho.</div>
+          </div>
+        </div>
+        <div class="tip-box">💡 Valide cada evolução com a Laura nos checkpoints do 1:1 antes de implementar de vez.</div>
+      </div>
+    </div>
+
+    <div class="guide-card" id="g4">
+      <div class="guide-header" onclick="toggleGuide('g4')">
+        <div>
+          <div class="guide-title">Relatório de percepções — como construir</div>
+          <div class="guide-sub">Entregável final dos 90 dias · discutido no 1:1 com a Laura</div>
+        </div>
+        <div class="guide-arrow">▼</div>
+      </div>
+      <div class="guide-body">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>Comece a anotar desde o dia 1.</strong> Não espere o dia 80 para começar. Cada conversa, cada reunião, cada processo que você entender gera material para este relatório.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Organize por frente.</strong> O relatório deve ter seções para: Pessoas, Processos, Ferramentas e Rituais. Em cada uma: percepções, provocações e aprendizados concretos.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>Seja honesto e construtivo.</strong> A Laura quer saber o que faz sentido e o que precisa evoluir. Não escreva só o que acha que ela quer ouvir.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Inclua recomendações concretas.</strong> Pelo menos 2 a 3 sugestões de foco ou melhoria para o próximo trimestre, baseadas no que você observou.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Escolha um formato que mostre seu raciocínio.</strong> Pode ser texto, slides ou documento estruturado — o critério é profundidade e clareza de pensamento, não o formato em si.</div>
+          </div>
+        </div>
+        <div class="tip-box">💡 Esse entregável é a sua oportunidade de mostrar como você pensa. Invista tempo nele.</div>
+      </div>
+    </div>
+
+    <div class="guide-card" id="g5">
+      <div class="guide-header" onclick="toggleGuide('g5')">
+        <div>
+          <div class="guide-title">Como aproveitar os rituais fixos</div>
+          <div class="guide-sub">All Hands · Weekly B.Ops · 1:1 com a Laura</div>
+        </div>
+        <div class="guide-arrow">▼</div>
+      </div>
+      <div class="guide-body">
+        <div class="guide-steps">
+          <div class="guide-step">
+            <div class="step-num">1</div>
+            <div class="step-text"><strong>No All Hands (terça 11h30):</strong> observe como a reunião é conduzida, quais métricas aparecem, quem fala e o que as pessoas prestam mais atenção. Você vai precisar dessas referências para evoluir o formato.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">2</div>
+            <div class="step-text"><strong>Na Weekly B.Ops (terça 13h30):</strong> entenda o que está em andamento na área, quem está tocando o quê. É uma boa hora para notar onde você pode contribuir.</div>
+          </div>
+          <div class="guide-step">
+            <div class="step-num">3</div>
+            <div class="step-text"><strong>No 1:1 com a Laura:</strong> venha preparado. Traga o que você fez, o que está travado e as decisões que precisa de validação. Use esse espaço estrategicamente — é seu canal direto com ela.</div>
+          </div>
+        </div>
+        <div class="tip-box">💡 Sempre que precisar de validação antes de agir — especialmente nos projetos estratégicos — não espere o 1:1. Manda uma mensagem antes.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const map = { 'visao': 'sec-visao', 'tarefas': 'sec-tarefas', 'guia': 'sec-guia' };
+    document.getElementById(map[tab]).classList.add('active');
+    const tabs = document.querySelectorAll('.tab');
+    const idx = ['visao','tarefas','guia'].indexOf(tab);
+    tabs[idx].classList.add('active');
+  }
+
+  function toggleTask(el) {
+    el.classList.toggle('done');
+    el.closest('.task-item').classList.toggle('done-item');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.task-check').length;
+    const done = document.querySelectorAll('.task-check.done').length;
+    const pct = Math.round((done / total) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  function toggleGuide(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
