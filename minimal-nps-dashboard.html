@@ -25,11 +25,10 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 .lbtn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
 .lsub-txt{font-size:11px;color:var(--muted2);letter-spacing:.18em;text-transform:uppercase}
 .ldesc{font-size:14px;color:var(--muted2);line-height:1.65;max-width:360px;margin:0}
-#login-moon{width:160px;height:160px;border-radius:50%;object-fit:cover;animation:moonspin 30s linear infinite;display:block;flex-shrink:0}
-#login-moon.moon-fallback{background:radial-gradient(circle at 35% 35%,#d4d4d4 0%,#9ca3af 30%,#6b7280 60%,#374151 100%)}
+#login-moon{width:160px;height:160px;flex-shrink:0}
 
 /* ─── HOME SCREEN ─── BENTO GRID ──────────────────────────────── */
-#home-screen{position:static;inset:auto;z-index:auto;display:none;flex-direction:column;overflow-y:auto}
+#home-screen{position:static;inset:auto;z-index:auto;display:none;flex-direction:column;overflow-y:auto;flex:1;min-height:0}
 .home-bg{position:absolute;inset:0;pointer-events:none}
 [data-theme="dark"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.18) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.15) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.06) 0%,transparent 60%),#080e1a}
 [data-theme="light"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.12) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.12) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.05) 0%,transparent 60%),#eef2f8}
@@ -415,7 +414,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 
 /* Main content area */
-.layout-main{grid-column:2;overflow:hidden;display:flex;flex-direction:column}
+.layout-main{grid-column:2;overflow:hidden;display:flex;flex-direction:column;min-height:0}
 
 /* Home — saudação e lua */
 .home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:32px;padding:40px 24px;position:relative}
@@ -430,10 +429,12 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .home-card-title{font-size:16px;font-weight:700;color:var(--text);display:block;margin-bottom:4px}
 .home-card-sub{font-size:11px;color:var(--muted2)}
 
-/* Lua girando */
+/* Lua 3D CSS pura */
 .home-moon-wrap{flex-shrink:0}
-#home-moon{width:140px;height:140px;border-radius:50%;object-fit:cover;animation:moonspin 30s linear infinite;display:block}
-#home-moon.moon-fallback{background:radial-gradient(circle at 35% 35%,#d4d4d4 0%,#9ca3af 30%,#6b7280 60%,#374151 100%);content:''}
+#home-moon{width:140px;height:140px}
+.moon-3d{border-radius:50%;display:block;animation:moonspin 40s linear infinite;position:relative;overflow:hidden;box-shadow:inset -20px -10px 44px rgba(0,0,0,.65),inset 8px 5px 22px rgba(255,255,255,.13),0 0 48px rgba(200,200,220,.07)}
+.moon-3d::before{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 38% 36%,#eeeee6 0%,#d0d0c8 14%,#b0b0a8 30%,#909088 50%,#707068 70%,#505048 100%)}
+.moon-3d::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 22% 28%,rgba(0,0,0,.38) 0%,transparent 16%),radial-gradient(circle at 68% 22%,rgba(0,0,0,.28) 0%,transparent 11%),radial-gradient(circle at 54% 66%,rgba(0,0,0,.32) 0%,transparent 14%),radial-gradient(circle at 32% 68%,rgba(0,0,0,.22) 0%,transparent 9%),radial-gradient(circle at 76% 54%,rgba(0,0,0,.24) 0%,transparent 8%),radial-gradient(circle at 44% 44%,rgba(255,255,255,.06) 0%,transparent 13%),radial-gradient(ellipse at 28% 28%,rgba(255,255,255,.16) 0%,transparent 38%)}
 @keyframes moonspin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* Placeholder "Em construção" */
@@ -463,7 +464,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <p class="lsub-txt">Moon Ventures</p>
       <h1 class="lbox-title">
         Bom ver você<br>por aqui 👋
-        <span>NPS &amp; Operações Hub</span>
+        <span>NPS &amp; Atendimento Hub</span>
       </h1>
       <p class="ldesc">Faça login com sua conta Google para acessar os dados de NPS e Operações das marcas do grupo.</p>
       <button class="lbtn" onclick="doAuth()">
@@ -471,9 +472,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         Entrar com Google
       </button>
     </div>
-    <img id="login-moon" src="https://www.solarsystemscope.com/textures/download/2k_moon.jpg"
-      onerror="this.onerror=null;this.classList.add('moon-fallback');this.removeAttribute('src')"
-      alt="Lua Moon Ventures">
+    <div id="login-moon" class="moon-3d"></div>
   </div>
 </div>
 
@@ -483,23 +482,21 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     <div class="home-hero">
       <div class="home-hero-text">
         <h1 class="home-greeting">Olá, <span id="home-firstname">...</span> 👋</h1>
-        <p class="home-subtitle">Moon Ventures · NPS &amp; Operações Hub</p>
+        <p class="home-subtitle">Moon Ventures · NPS &amp; Atendimento Hub</p>
         <div class="home-cards">
           <button class="home-card" onclick="enterDashboard('minimal')">
             <span class="home-card-title">📊 NPS</span>
             <span class="home-card-sub">Minimal · Hoomy · MOON</span>
           </button>
           <button class="home-card" onclick="enterDashboard('opMinimal')">
-            <span class="home-card-title">⏱ Operações</span>
-            <span class="home-card-sub">Minimal · Hoomy · MOON</span>
+            <span class="home-card-title">⏱ Atendimento</span>
+            <span class="home-card-sub">Minimal · Hoomy · MOON (holding)</span>
           </button>
         </div>
         <div class="home-updated" id="home-updated"></div>
       </div>
       <div class="home-moon-wrap">
-        <img id="home-moon" src="https://www.solarsystemscope.com/textures/download/2k_moon.jpg"
-          onerror="this.onerror=null;this.classList.add('moon-fallback');this.removeAttribute('src')"
-          alt="Lua">
+        <div id="home-moon" class="moon-3d"></div>
       </div>
     </div>
   </div>
@@ -554,7 +551,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <span class="sidebar-item-icon">⬤</span>
         <span class="sidebar-item-label">MOON</span>
       </button>
-      <div class="sidebar-section-label" style="margin-top:8px">⏱ Operações</div>
+      <div class="sidebar-section-label" style="margin-top:8px">⏱ Atendimento</div>
       <button class="sidebar-item" id="hnav-opMinimal" onclick="enterDashboard('opMinimal')">
         <span class="sidebar-item-icon">📋</span>
         <span class="sidebar-item-label">Minimal</span>
@@ -1032,7 +1029,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <div id="section-opMinimal" style="display:none;flex-direction:column;flex:1;overflow:hidden">
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
-        <div class="brand-hero-name minimal">OPERAÇÕES · MINIMAL</div>
+        <div class="brand-hero-name minimal">ATENDIMENTO · MINIMAL</div>
         <div class="brand-hero-line minimal"></div>
         <div class="brand-hero-sub">TMA · TME · Tempo de Atendimento</div>
       </div>
@@ -1123,7 +1120,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <div id="section-opHoomy" style="display:none;flex-direction:column;flex:1;overflow:hidden">
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
-        <div class="brand-hero-name" style="color:#2557aa">OPERAÇÕES · HOOMY</div>
+        <div class="brand-hero-name" style="color:#2557aa">ATENDIMENTO · HOOMY</div>
         <div class="brand-hero-line" style="background:#2557aa"></div>
         <div class="brand-hero-sub">TMA · TME · Tempo de Atendimento</div>
       </div>
@@ -1212,9 +1209,9 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <div id="section-opMoon" style="display:none;flex-direction:column;flex:1;overflow:hidden">
     <div class="brand-hero" style="background:var(--bg2);border-bottom:1px solid var(--border)">
       <div class="brand-hero-inner">
-        <div class="brand-hero-name" style="color:var(--text)">OPERAÇÕES · MOON</div>
+        <div class="brand-hero-name" style="color:var(--text)">ATENDIMENTO · MOON</div>
         <div class="brand-hero-line" style="background:var(--text)"></div>
-        <div class="brand-hero-sub">Consolidado Minimal + Hoomy · Comparativo por marca</div>
+        <div class="brand-hero-sub">Consolidado Minimal + Hoomy · TMA · TME · Comparativo por marca</div>
       </div>
     </div>
     <!-- Filtros -->
@@ -1397,9 +1394,9 @@ const TOPBAR_TITLES = {
   minimal:  'NPS — Minimal Club',
   hoomy:    'NPS — Hoomy',
   comp:     'NPS — MOON Comparativo',
-  opMinimal:'Operações — Minimal',
-  opHoomy:  'Operações — Hoomy',
-  opMoon:   'Operações — MOON · Minimal + Hoomy'
+  opMinimal:'Atendimento — Minimal',
+  opHoomy:  'Atendimento — Hoomy',
+  opMoon:   'Atendimento — MOON · Minimal + Hoomy'
 };
 
 function enterDashboard(co) {
@@ -2732,18 +2729,22 @@ function cOpts(leg){return{responsive:true,maintainAspectRatio:false,interaction
 function pct(a,b){return b>0?(a/b*100).toFixed(1):'0.0';}
 function parseTime(v) {
   if (v === null || v === undefined || v === '') return 0;
-  if (typeof v === 'number') {
-    // Fração de dia do Google Sheets (ex: 0.05 = 1h12m)
-    if (v > 0 && v < 1) return Math.round(v * 86400);
-    // Já em segundos
-    return Math.round(v);
-  }
   const s = v.toString().trim();
   if (!s || s === '-') return 0;
-  // Formato H:MM:SS ou MM:SS
-  const parts = s.split(':');
-  if (parts.length === 3) return (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]);
-  if (parts.length === 2) return (+parts[0]) * 60 + (+parts[1]);
+  // String H:MM:SS ou MM:SS
+  if (s.includes(':')) {
+    const parts = s.split(':');
+    if (parts.length === 3) return (+parts[0]) * 3600 + (+parts[1]) * 60 + Math.round(+parts[2]);
+    if (parts.length === 2) return (+parts[0]) * 60 + Math.round(+parts[1]);
+    return 0;
+  }
+  // Número: fração de dia do Sheets (sempre entre 0 e 1 — ex: 0.042 = ~1h)
+  const n = parseFloat(s);
+  if (isNaN(n) || n <= 0) return 0;
+  if (n < 1) return Math.round(n * 86400);
+  // Número > 1: provavelmente já em segundos (raro, mas protege)
+  if (n < 86400) return Math.round(n);
+  // Número enorme: timestamp unix ou serial Sheets — ignorar
   return 0;
 }
 function formatTime(totalSec) {
