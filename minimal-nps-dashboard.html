@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden;transition:backgro
 #login-moon{width:160px;height:160px;flex-shrink:0}
 
 /* ─── HOME SCREEN ─── BENTO GRID ──────────────────────────────── */
-#home-screen{position:static;inset:auto;z-index:auto;display:none;flex-direction:column;overflow-y:auto;flex:1;min-height:0}
+#home-screen{display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0}
 .home-bg{position:absolute;inset:0;pointer-events:none}
 [data-theme="dark"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.18) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.15) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.06) 0%,transparent 60%),#080e1a}
 [data-theme="light"] .home-bg{background:radial-gradient(ellipse 100% 80% at 20% 20%,rgba(37,87,170,.12) 0%,transparent 50%),radial-gradient(ellipse 80% 60% at 80% 80%,rgba(167,139,250,.12) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(0,224,132,.05) 0%,transparent 60%),#eef2f8}
@@ -417,7 +417,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .layout-main{grid-column:2;overflow:hidden;display:flex;flex-direction:column;min-height:0}
 
 /* Home — saudação e lua */
-.home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:32px;padding:40px 24px;position:relative}
+.home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;gap:32px;padding:40px 24px;position:relative}
 .home-hero{display:flex;align-items:center;gap:48px;max-width:800px;width:100%}
 .home-hero-text{flex:1}
 .home-greeting{font-size:32px;font-weight:800;color:var(--text);margin:0 0 8px}
@@ -430,11 +430,51 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .home-card-sub{font-size:11px;color:var(--muted2)}
 
 /* Lua 3D CSS pura */
-.home-moon-wrap{flex-shrink:0}
+.home-moon-wrap{flex-shrink:0;position:relative}
 #home-moon{width:140px;height:140px}
-.moon-3d{border-radius:50%;display:block;animation:moonspin 40s linear infinite;position:relative;overflow:hidden;box-shadow:inset -20px -10px 44px rgba(0,0,0,.65),inset 8px 5px 22px rgba(255,255,255,.13),0 0 48px rgba(200,200,220,.07)}
-.moon-3d::before{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at 38% 36%,#eeeee6 0%,#d0d0c8 14%,#b0b0a8 30%,#909088 50%,#707068 70%,#505048 100%)}
-.moon-3d::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 22% 28%,rgba(0,0,0,.38) 0%,transparent 16%),radial-gradient(circle at 68% 22%,rgba(0,0,0,.28) 0%,transparent 11%),radial-gradient(circle at 54% 66%,rgba(0,0,0,.32) 0%,transparent 14%),radial-gradient(circle at 32% 68%,rgba(0,0,0,.22) 0%,transparent 9%),radial-gradient(circle at 76% 54%,rgba(0,0,0,.24) 0%,transparent 8%),radial-gradient(circle at 44% 44%,rgba(255,255,255,.06) 0%,transparent 13%),radial-gradient(ellipse at 28% 28%,rgba(255,255,255,.16) 0%,transparent 38%)}
+#login-moon{width:160px;height:160px}
+
+/* Wrapper estático que aplica a ilusão de esfera por cima da textura rotativa */
+.moon-sphere{border-radius:50%;display:block;position:relative;flex-shrink:0}
+.moon-sphere::after{
+  content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  /* Sombra de borda escura (lado direito/baixo = sem luz) */
+  box-shadow:
+    inset -18px -8px 36px rgba(0,0,0,.72),
+    inset 10px 8px 28px rgba(255,255,255,.18),
+    0 0 60px rgba(160,160,200,.12);
+  /* Highlight de iluminação estático — não roda com a textura */
+  background:
+    radial-gradient(ellipse at 30% 28%, rgba(255,255,255,.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 72% 68%, rgba(0,0,0,.45) 0%, transparent 42%)
+}
+
+/* Textura da lua — roda em loop */
+.moon-3d{
+  border-radius:50%;display:block;width:100%;height:100%;
+  animation:moonspin 36s linear infinite;position:relative;overflow:hidden;
+}
+.moon-3d::before{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:
+    /* superfície da lua — tons cinza com variação de albedo */
+    radial-gradient(ellipse at 20% 30%, #c8c8c0 0%, #a8a8a0 20%, #888880 45%, #686860 68%, #484840 88%, #282820 100%);
+}
+.moon-3d::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:
+    /* crateras principais */
+    radial-gradient(circle at 18% 25%, rgba(0,0,0,.42) 0%, rgba(0,0,0,.1) 8%, transparent 13%),
+    radial-gradient(circle at 72% 18%, rgba(0,0,0,.35) 0%, rgba(0,0,0,.08) 6%, transparent 10%),
+    radial-gradient(circle at 56% 70%, rgba(0,0,0,.38) 0%, rgba(0,0,0,.09) 7%, transparent 12%),
+    radial-gradient(circle at 30% 72%, rgba(0,0,0,.28) 0%, rgba(0,0,0,.06) 5%, transparent 9%),
+    radial-gradient(circle at 80% 55%, rgba(0,0,0,.30) 0%, rgba(0,0,0,.07) 5%, transparent 8%),
+    radial-gradient(circle at 45% 42%, rgba(0,0,0,.22) 0%, transparent 6%),
+    radial-gradient(circle at 62% 35%, rgba(0,0,0,.18) 0%, transparent 5%),
+    /* albedo claro (mare highlands) */
+    radial-gradient(ellipse at 60% 25%, rgba(220,220,215,.18) 0%, transparent 35%),
+    radial-gradient(ellipse at 25% 60%, rgba(200,200,195,.12) 0%, transparent 28%)
+}
 @keyframes moonspin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* Placeholder "Em construção" */
@@ -473,32 +513,6 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       </button>
     </div>
     <div id="login-moon" class="moon-3d"></div>
-  </div>
-</div>
-
-<!-- ════════════════ HOME ════════════════ -->
-<div id="home-screen" style="display:none;flex:1;overflow-y:auto">
-  <div class="home-wrap">
-    <div class="home-hero">
-      <div class="home-hero-text">
-        <h1 class="home-greeting">Olá, <span id="home-firstname">...</span> 👋</h1>
-        <p class="home-subtitle">Moon Ventures · NPS &amp; Atendimento Hub</p>
-        <div class="home-cards">
-          <button class="home-card" onclick="enterDashboard('minimal')">
-            <span class="home-card-title">📊 NPS</span>
-            <span class="home-card-sub">Minimal · Hoomy · MOON</span>
-          </button>
-          <button class="home-card" onclick="enterDashboard('opMinimal')">
-            <span class="home-card-title">⏱ Atendimento</span>
-            <span class="home-card-sub">Minimal · Hoomy · MOON (holding)</span>
-          </button>
-        </div>
-        <div class="home-updated" id="home-updated"></div>
-      </div>
-      <div class="home-moon-wrap">
-        <div id="home-moon" class="moon-3d"></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -584,6 +598,32 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 
   <!-- MAIN -->
   <div class="layout-main">
+
+  <!-- ════════════════ HOME ════════════════ -->
+  <div id="home-screen" style="display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0">
+    <div class="home-wrap">
+      <div class="home-hero">
+        <div class="home-hero-text">
+          <h1 class="home-greeting">Olá, <span id="home-firstname">...</span> 👋</h1>
+          <p class="home-subtitle">Moon Ventures · NPS &amp; Atendimento Hub</p>
+          <div class="home-cards">
+            <button class="home-card" onclick="enterDashboard('minimal')">
+              <span class="home-card-title">📊 NPS</span>
+              <span class="home-card-sub">Minimal · Hoomy · MOON</span>
+            </button>
+            <button class="home-card" onclick="enterDashboard('opMinimal')">
+              <span class="home-card-title">⏱ Atendimento</span>
+              <span class="home-card-sub">Minimal · Hoomy · MOON (holding)</span>
+            </button>
+          </div>
+          <div class="home-updated" id="home-updated"></div>
+        </div>
+        <div class="home-moon-wrap">
+          <div id="home-moon" class="moon-3d"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ══════════════ MINIMAL SECTION ══════════════ -->
   <div id="section-minimal" style="display:none;flex-direction:column;flex:1;overflow:hidden">
@@ -2083,7 +2123,8 @@ function parseDataOpMinimal(vals) {
       atendente:    (r[16] || '').toString().trim(),
       diaSemana:    diaIdx >= 0 ? diaIdx : null,
       horaCriacao:  hCriacao,
-      horaFechamento: hFechamento
+      horaFechamento: hFechamento,
+      _raw: { tma: r[6], tme: r[7], tmaTU: r[14], tmeTU: r[15] }
     };
   }).filter(r => r.tma > 0 || r.tme > 0);
 }
@@ -2731,21 +2772,22 @@ function parseTime(v) {
   if (v === null || v === undefined || v === '') return 0;
   const s = v.toString().trim();
   if (!s || s === '-') return 0;
-  // String H:MM:SS ou MM:SS
   if (s.includes(':')) {
     const parts = s.split(':');
-    if (parts.length === 3) return (+parts[0]) * 3600 + (+parts[1]) * 60 + Math.round(+parts[2]);
+    if (parts.length === 3) {
+      const h = +parts[0], m = +parts[1], sec = Math.round(+parts[2]);
+      // Sheets retorna datetime formatado como duração (h pode ser >24 = dias×24+hora)
+      // Queremos apenas a parte de tempo do dia: h % 24
+      return (h % 24) * 3600 + m * 60 + sec;
+    }
     if (parts.length === 2) return (+parts[0]) * 60 + Math.round(+parts[1]);
     return 0;
   }
-  // Número: fração de dia do Sheets (sempre entre 0 e 1 — ex: 0.042 = ~1h)
   const n = parseFloat(s);
   if (isNaN(n) || n <= 0) return 0;
-  if (n < 1) return Math.round(n * 86400);
-  // Número > 1: provavelmente já em segundos (raro, mas protege)
-  if (n < 86400) return Math.round(n);
-  // Número enorme: timestamp unix ou serial Sheets — ignorar
-  return 0;
+  // Fração decimal do Sheets: parte fracionária × 86400 (ex: 0.042 ≈ 1h)
+  // Serial com parte inteira: parte fracionária é o horário do dia
+  return Math.round((n % 1) * 86400);
 }
 function formatTime(totalSec) {
   if (!totalSec || isNaN(totalSec)) return '0:00:00';
