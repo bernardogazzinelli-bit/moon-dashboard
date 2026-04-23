@@ -425,9 +425,15 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 /* Fundo degradê da home */
 #home-screen{
   background: var(--home-bg, var(--bg));
+  position: relative;
 }
 [data-theme="dark"]  #home-screen{ --home-bg: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(37,87,170,.18) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 80%, rgba(167,139,250,.13) 0%, transparent 55%), var(--bg) }
 [data-theme="light"] #home-screen{ --home-bg: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(37,87,170,.08) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 80%, rgba(167,139,250,.08) 0%, transparent 55%), var(--bg) }
+
+/* Canvas de estrelas — fica abaixo de todo o conteúdo */
+#stars-canvas{ position:absolute; inset:0; pointer-events:none; z-index:0; width:100%; height:100%; }
+/* Todo conteúdo da home fica acima do canvas */
+#home-screen > *:not(#stars-canvas){ position:relative; z-index:1; }
 
 /* Ações flutuantes no canto superior direito da home */
 .home-actions{position:fixed;top:16px;right:20px;display:flex;align-items:center;gap:8px;z-index:200}
@@ -665,6 +671,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 
   <!-- ════════════════ HOME ════════════════ -->
   <div id="home-screen" style="display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0;height:0">
+    <canvas id="stars-canvas"></canvas>
     <!-- Ações flutuantes (atualizar, tema, usuário) -->
     <div class="home-actions">
       <div class="ubadge" id="home-ubadge">—</div>
@@ -1493,6 +1500,101 @@ function syncHomeActions() {
   if (hav && av) hav.innerHTML = av.innerHTML || av.textContent;
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// STARS ENGINE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const Stars = (() => {
+  let raf = null, canvas = null, ctx = null;
+  let stars = [], mouse = { x: 0, y: 0 }, springX = 0, springY = 0;
+  const LAYERS = [
+    { count: 180, size: 1,   speed: 0.12, opacity: 1.0 },
+    { count: 80,  size: 1.8, speed: 0.07, opacity: 0.75 },
+    { count: 35,  size: 2.8, speed: 0.04, opacity: 0.55 }
+  ];
+  const FACTOR = 0.04, SPRING = 0.06;
+
+  function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+
+  function starColor(opacity) {
+    return isDark()
+      ? `rgba(255,255,255,${opacity})`
+      : `rgba(40,60,100,${(opacity * 0.35).toFixed(2)})`;
+  }
+
+  function seed(w, h) {
+    stars = [];
+    LAYERS.forEach(l => {
+      for (let i = 0; i < l.count; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size: l.size * (0.6 + Math.random() * 0.8),
+          speed: l.speed * (0.7 + Math.random() * 0.6),
+          opacity: l.opacity * (0.5 + Math.random() * 0.5),
+          layer: l
+        });
+      }
+    });
+  }
+
+  function resize() {
+    if (!canvas) return;
+    const el = document.getElementById('home-screen');
+    canvas.width  = el ? el.offsetWidth  : window.innerWidth;
+    canvas.height = el ? el.offsetHeight : window.innerHeight;
+    seed(canvas.width, canvas.height);
+  }
+
+  function draw() {
+    if (!canvas || !ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const targetX = -(mouse.x - canvas.width  / 2) * FACTOR;
+    const targetY = -(mouse.y - canvas.height / 2) * FACTOR;
+    springX += (targetX - springX) * SPRING;
+    springY += (targetY - springY) * SPRING;
+
+    stars.forEach(s => {
+      const px = springX * s.layer.speed * 18;
+      const py = springY * s.layer.speed * 18;
+      s.y -= s.speed;
+      if (s.y < -s.size) s.y = canvas.height + s.size;
+      ctx.beginPath();
+      ctx.arc(
+        ((s.x + px) % canvas.width  + canvas.width)  % canvas.width,
+        ((s.y + py) % canvas.height + canvas.height) % canvas.height,
+        s.size, 0, Math.PI * 2
+      );
+      ctx.fillStyle = starColor(s.opacity);
+      ctx.fill();
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  function onMouseMove(e) { mouse.x = e.clientX; mouse.y = e.clientY; }
+
+  function start() {
+    canvas = document.getElementById('stars-canvas');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+    resize();
+    if (!raf) draw();
+    window.addEventListener('resize', resize);
+    const el = document.getElementById('home-screen');
+    if (el) el.addEventListener('mousemove', onMouseMove);
+  }
+
+  function stop() {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    window.removeEventListener('resize', resize);
+    const el = document.getElementById('home-screen');
+    if (el) el.removeEventListener('mousemove', onMouseMove);
+  }
+
+  return { start, stop };
+})();
+
 function showHome() {
   currentCompany = null;
   // Popula nome
@@ -1513,6 +1615,7 @@ function showHome() {
   });
   syncHomeActions();
   updateNavButtons(null);
+  Stars.start();
 }
 
 function goHome() { showHome(); }
@@ -1529,6 +1632,7 @@ const TOPBAR_TITLES = {
 };
 
 function enterDashboard(co) {
+  Stars.stop();
   currentCompany = co;
   document.getElementById('home-screen').style.display = 'none';
   document.getElementById('app').style.display = 'grid';
