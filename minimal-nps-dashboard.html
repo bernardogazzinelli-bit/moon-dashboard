@@ -617,28 +617,28 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
     </div>
     <nav class="sidebar-nav">
       <div class="sidebar-section-label">📊 NPS</div>
-      <button class="sidebar-item" id="hnav-minimal" onclick="enterDashboard('minimal')">
+      <button class="sidebar-item" id="hnav-minimal" title="NPS — Minimal" onclick="enterDashboard('minimal')">
         <span class="sidebar-item-icon">⬤</span>
         <span class="sidebar-item-label">Minimal</span>
       </button>
-      <button class="sidebar-item" id="hnav-hoomy" onclick="enterDashboard('hoomy')">
+      <button class="sidebar-item" id="hnav-hoomy" title="NPS — Hoomy" onclick="enterDashboard('hoomy')">
         <span class="sidebar-item-icon">⬤</span>
         <span class="sidebar-item-label">Hoomy</span>
       </button>
-      <button class="sidebar-item" id="hnav-comp" onclick="enterDashboard('comp')">
+      <button class="sidebar-item" id="hnav-comp" title="NPS — MOON" onclick="enterDashboard('comp')">
         <span class="sidebar-item-icon">⬤</span>
         <span class="sidebar-item-label">MOON</span>
       </button>
       <div class="sidebar-section-label" style="margin-top:8px">⏱ Atendimento</div>
-      <button class="sidebar-item" id="hnav-opMinimal" onclick="enterDashboard('opMinimal')">
+      <button class="sidebar-item" id="hnav-opMinimal" title="Atendimento — Minimal" onclick="enterDashboard('opMinimal')">
         <span class="sidebar-item-icon">📋</span>
         <span class="sidebar-item-label">Minimal</span>
       </button>
-      <button class="sidebar-item" id="hnav-opHoomy" onclick="enterDashboard('opHoomy')">
+      <button class="sidebar-item" id="hnav-opHoomy" title="Atendimento — Hoomy" onclick="enterDashboard('opHoomy')">
         <span class="sidebar-item-icon">📋</span>
         <span class="sidebar-item-label">Hoomy</span>
       </button>
-      <button class="sidebar-item" id="hnav-opMoon" onclick="enterDashboard('opMoon')">
+      <button class="sidebar-item" id="hnav-opMoon" title="Atendimento — MOON" onclick="enterDashboard('opMoon')">
         <span class="sidebar-item-icon">📋</span>
         <span class="sidebar-item-label">MOON</span>
       </button>
@@ -1220,7 +1220,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <div style="overflow-x:auto;margin-top:12px">
           <table class="resp-table" style="width:100%">
             <thead><tr>
-              <th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Atendimentos</th>
+              <th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Tickets</th>
             </tr></thead>
             <tbody id="op-t-body"></tbody>
           </table>
@@ -1308,7 +1308,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
         <div style="overflow-x:auto;margin-top:12px">
           <table class="resp-table" style="width:100%">
             <thead><tr>
-              <th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Atendimentos</th>
+              <th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Tickets</th>
             </tr></thead>
             <tbody id="oph-t-body"></tbody>
           </table>
@@ -1400,7 +1400,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
           </div>
           <div style="overflow-x:auto;margin-top:10px">
             <table class="resp-table" style="width:100%">
-              <thead><tr><th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>N</th></tr></thead>
+              <thead><tr><th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Tickets</th></tr></thead>
               <tbody id="opm-t-minimal"></tbody>
             </table>
           </div>
@@ -1412,7 +1412,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
           </div>
           <div style="overflow-x:auto;margin-top:10px">
             <table class="resp-table" style="width:100%">
-              <thead><tr><th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>N</th></tr></thead>
+              <thead><tr><th>Atendente</th><th>TMA</th><th>TME</th><th>TMA DU</th><th>TME DU</th><th>Tickets</th></tr></thead>
               <tbody id="opm-t-hoomy"></tbody>
             </table>
           </div>
@@ -1505,6 +1505,7 @@ function showHome() {
   // Modo home: oculta sidebar e topbar via classe
   document.getElementById('app').style.display = 'grid';
   document.getElementById('app').classList.add('home-mode');
+  document.title = 'Moon Ventures · NPS & Atendimento Hub';
   document.getElementById('home-screen').style.display = 'flex';
   SECTIONS.forEach(c => {
     const s = document.getElementById('section-' + c);
@@ -1540,6 +1541,7 @@ function enterDashboard(co) {
   if (sec) sec.style.display = 'flex';
   const tt = document.getElementById('topbar-title');
   if (tt) tt.textContent = TOPBAR_TITLES[co] || 'Moon Ventures';
+  document.title = (TOPBAR_TITLES[co] || 'Moon Ventures') + ' · Moon Ventures';
   updateNavButtons(co);
   // Aguarda o browser fazer o layout (seção visível com dimensões reais) antes de renderizar
   requestAnimationFrame(() => {
@@ -1698,12 +1700,17 @@ function applyOpMinimalFilters() {
 function renderOpMinimal() {
   const data = STATE.opMinimal.filtered;
   if (!data.length) return;
+  // avg inclui zeros no denominador — igual ao cálculo da planilha
   const avg = arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0;
   const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  setText('op-k-tma',    formatTime(avg(data.map(r => r.tma))));
-  setText('op-k-tme',    formatTime(avg(data.map(r => r.tme))));
-  setText('op-k-tma-tu', formatTime(avg(data.map(r => r.tmaTU).filter(v => v > 0))));
-  setText('op-k-tme-tu', formatTime(avg(data.map(r => r.tmeTU).filter(v => v > 0))));
+  const avgTma = avg(data.map(r => r.tma));
+  const avgTme = avg(data.map(r => r.tme));
+  setText('op-k-tma',    formatTime(avgTma));
+  setText('op-k-tme',    formatTime(avgTme));
+  colorKpi('op-k-tma', avgTma);
+  colorKpi('op-k-tme', avgTme);
+  setText('op-k-tma-tu', formatTime(avg(data.map(r => r.tmaTU))));
+  setText('op-k-tme-tu', formatTime(avg(data.map(r => r.tmeTU))));
   renderOpDiaSemana(data);
   renderOpHoraAbertura(data);
   renderOpHoraFechamento(data);
@@ -1771,15 +1778,20 @@ function renderOpHoraFechamento(data) {
   });
 }
 
+function _isIdNumerico(nome) {
+  // Atendentes sem nome cadastrado chegam como ID numérico puro ou "Desconhecido (ID: XXXXX)"
+  return /^\d+$/.test(nome) || /desconhecido/i.test(nome);
+}
 function renderOpTabelaAtendentes(data) {
   const map = {};
   data.forEach(r => {
     if (!r.atendente) return;
+    if (_isIdNumerico(r.atendente)) return; // entra nos KPIs, sai da tabela
     if (!map[r.atendente]) map[r.atendente] = { tma:[], tme:[], tmaTU:[], tmeTU:[], n:0 };
     const m = map[r.atendente];
     m.tma.push(r.tma); m.tme.push(r.tme);
-    if (r.tmaTU > 0) m.tmaTU.push(r.tmaTU);
-    if (r.tmeTU > 0) m.tmeTU.push(r.tmeTU);
+    m.tmaTU.push(r.tmaTU);
+    m.tmeTU.push(r.tmeTU);
     m.n++;
   });
   const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
@@ -1922,12 +1934,17 @@ function applyOpHoomyFilters() {
 function renderOpHoomy() {
   const data = STATE.opHoomy.filtered;
   if (!data.length) return;
+  // avg inclui zeros no denominador — igual ao cálculo da planilha
   const avg = arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0;
   const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  setText('oph-k-tma',    formatTime(avg(data.map(r => r.tma))));
-  setText('oph-k-tme',    formatTime(avg(data.map(r => r.tme))));
-  setText('oph-k-tma-tu', formatTime(avg(data.map(r => r.tmaTU).filter(v => v > 0))));
-  setText('oph-k-tme-tu', formatTime(avg(data.map(r => r.tmeTU).filter(v => v > 0))));
+  const avgTma = avg(data.map(r => r.tma));
+  const avgTme = avg(data.map(r => r.tme));
+  setText('oph-k-tma',    formatTime(avgTma));
+  setText('oph-k-tme',    formatTime(avgTme));
+  colorKpi('oph-k-tma', avgTma);
+  colorKpi('oph-k-tme', avgTme);
+  setText('oph-k-tma-tu', formatTime(avg(data.map(r => r.tmaTU))));
+  setText('oph-k-tme-tu', formatTime(avg(data.map(r => r.tmeTU))));
   renderOpHoomyDiaSemana(data);
   renderOpHoomyHoraAbertura(data);
   renderOpHoomyHoraFechamento(data);
@@ -1998,11 +2015,12 @@ function renderOpHoomyTabelaAtendentes(data) {
   const map = {};
   data.forEach(r => {
     if (!r.atendente) return;
+    if (_isIdNumerico(r.atendente)) return; // entra nos KPIs, sai da tabela
     if (!map[r.atendente]) map[r.atendente] = { tma:[], tme:[], tmaTU:[], tmeTU:[], n:0 };
     const m = map[r.atendente];
     m.tma.push(r.tma); m.tme.push(r.tme);
-    if (r.tmaTU > 0) m.tmaTU.push(r.tmaTU);
-    if (r.tmeTU > 0) m.tmeTU.push(r.tmeTU);
+    m.tmaTU.push(r.tmaTU);
+    m.tmeTU.push(r.tmeTU);
     m.n++;
   });
   const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
@@ -2097,10 +2115,14 @@ function renderOpMoon() {
   const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
   // KPIs consolidados
-  setText('opm-k-tma',    formatTime(avg(all.map(r => r.tma))));
-  setText('opm-k-tme',    formatTime(avg(all.map(r => r.tme))));
-  setText('opm-k-tma-tu', formatTime(avg(all.map(r => r.tmaTU).filter(v => v > 0))));
-  setText('opm-k-tme-tu', formatTime(avg(all.map(r => r.tmeTU).filter(v => v > 0))));
+  const avgTma = avg(all.map(r => r.tma));
+  const avgTme = avg(all.map(r => r.tme));
+  setText('opm-k-tma',    formatTime(avgTma));
+  setText('opm-k-tme',    formatTime(avgTme));
+  colorKpi('opm-k-tma', avgTma);
+  colorKpi('opm-k-tme', avgTme);
+  setText('opm-k-tma-tu', formatTime(avg(all.map(r => r.tmaTU))));
+  setText('opm-k-tme-tu', formatTime(avg(all.map(r => r.tmeTU))));
 
   renderOpMoonDiaSemana(dm, dh);
   renderOpMoonHoraAbertura(dm, dh);
@@ -2187,11 +2209,12 @@ function renderOpMoonTabelaAtendentes(data, tbodyId) {
   const map = {};
   data.forEach(r => {
     if (!r.atendente) return;
+    if (_isIdNumerico(r.atendente)) return; // entra nos KPIs, sai da tabela
     if (!map[r.atendente]) map[r.atendente] = { tma:[], tme:[], tmaTU:[], tmeTU:[], n:0 };
     const m = map[r.atendente];
     m.tma.push(r.tma); m.tme.push(r.tme);
-    if (r.tmaTU > 0) m.tmaTU.push(r.tmaTU);
-    if (r.tmeTU > 0) m.tmeTU.push(r.tmeTU);
+    m.tmaTU.push(r.tmaTU);
+    m.tmeTU.push(r.tmeTU);
     m.n++;
   });
   const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
@@ -2916,6 +2939,16 @@ function formatTime(totalSec) {
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
   return h + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+// Coloriza KPI de TMA ou TME com base em meta:
+// < 1h → verde | 1h–2h → amarelo | > 2h → vermelho
+function colorKpi(id, segundos) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const s = segundos || 0;
+  if (s < 3600)       el.style.color = 'var(--green)';
+  else if (s < 7200)  el.style.color = 'var(--warn)';
+  else                el.style.color = 'var(--red)';
 }
 function parseDateTimePT(s) {
   if (!s) return null;
