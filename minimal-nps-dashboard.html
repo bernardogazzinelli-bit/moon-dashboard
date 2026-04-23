@@ -2377,7 +2377,12 @@ function parseDataOpMinimal(vals) {
     // Hora fechamento: coluna M (r[12]) já é número
     const hFechamento = (r[12] !== undefined && r[12] !== '') ? +r[12] : null;
     const diaBruto = (r[20] || '').toString().trim();
-    const diaIdx = DIAS.findIndex(d => diaBruto.toLowerCase().startsWith(d.toLowerCase().slice(0,3)));
+    let diaIdx = DIAS.findIndex(d => diaBruto.toLowerCase().startsWith(d.toLowerCase().slice(0,3)));
+    // Fallback: derivar da data de criação (getDay() → 0=Dom,1=Seg...6=Sáb → remapear para 0=Seg...6=Dom)
+    if (diaIdx < 0 && criacao) {
+      const dow = criacao.getDay(); // 0=Dom
+      diaIdx = dow === 0 ? 6 : dow - 1; // converte para 0=Seg...6=Dom
+    }
     return {
       canal:          r[0]  || '',
       atendente:      (r[1]  || '').toString().trim(),  // B = Proprietario do ticket
