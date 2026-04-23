@@ -1229,7 +1229,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
         <div class="panel" style="grid-column:1/-1">
           <div class="ptitle">TMA e TME por Dia da Semana</div>
-          <div class="psub">Média em minutos · Seg–Dom</div>
+          <div class="psub">Média em minutos · semana atual (ignora filtros)</div>
           <div class="cwrap" style="height:260px"><canvas id="op-c-dia"></canvas></div>
         </div>
         <div class="panel">
@@ -1328,7 +1328,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
         <div class="panel" style="grid-column:1/-1">
           <div class="ptitle">TMA e TME por Dia da Semana</div>
-          <div class="psub">Média em minutos · Seg–Dom</div>
+          <div class="psub">Média em minutos · semana atual (ignora filtros)</div>
           <div class="cwrap" style="height:260px"><canvas id="oph-c-dia"></canvas></div>
         </div>
         <div class="panel">
@@ -1426,7 +1426,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
         <div class="panel" style="grid-column:1/-1">
           <div class="ptitle">TMA e TME por Dia da Semana</div>
-          <div class="psub">Média em minutos · Minimal vs Hoomy</div>
+          <div class="psub">Média em minutos · semana atual · Minimal vs Hoomy</div>
           <div class="cwrap" style="height:280px"><canvas id="opm-c-dia"></canvas></div>
         </div>
         <div class="panel">
@@ -1866,10 +1866,23 @@ function renderOpMinimal() {
   const fora = data.filter(r => r.horaCriacao !== null && (r.horaCriacao < 9 || r.horaCriacao > 18));
   setText('op-k-fora-n',   fora.length + ' tickets');
   setText('op-k-fora-tma', fora.length ? formatTime(avg(fora.map(r => r.tma))) : '—');
-  renderOpDiaSemana(data);
+  renderOpDiaSemana(_semanaAtual(STATE.opMinimal.raw));
   renderOpHoraAbertura(data);
   renderOpHoraFechamento(data);
   renderOpTabelaAtendentes(data);
+}
+
+// Retorna apenas os registros da semana corrente (seg–dom da semana atual)
+function _semanaAtual(raw) {
+  const hoje = new Date();
+  const dow = hoje.getDay(); // 0=Dom
+  const seg = new Date(hoje);
+  seg.setDate(hoje.getDate() - (dow === 0 ? 6 : dow - 1));
+  seg.setHours(0, 0, 0, 0);
+  const dom = new Date(seg);
+  dom.setDate(seg.getDate() + 6);
+  dom.setHours(23, 59, 59, 999);
+  return raw.filter(r => r.criacao && r.criacao >= seg && r.criacao <= dom);
 }
 
 function renderOpDiaSemana(data) {
@@ -2104,7 +2117,7 @@ function renderOpHoomy() {
   const fora = data.filter(r => r.horaCriacao !== null && (r.horaCriacao < 9 || r.horaCriacao > 18));
   setText('oph-k-fora-n',   fora.length + ' tickets');
   setText('oph-k-fora-tma', fora.length ? formatTime(avg(fora.map(r => r.tma))) : '—');
-  renderOpHoomyDiaSemana(data);
+  renderOpHoomyDiaSemana(_semanaAtual(STATE.opHoomy.raw));
   renderOpHoomyHoraAbertura(data);
   renderOpHoomyHoraFechamento(data);
   renderOpHoomyTabelaAtendentes(data);
@@ -2288,7 +2301,7 @@ function renderOpMoon() {
   setText('opm-k-fora-n',   fora.length + ' tickets');
   setText('opm-k-fora-tma', fora.length ? formatTime(avg(fora.map(r => r.tma))) : '—');
 
-  renderOpMoonDiaSemana(dm, dh);
+  renderOpMoonDiaSemana(_semanaAtual(STATE.opMinimal.raw), _semanaAtual(STATE.opHoomy.raw));
   renderOpMoonHoraAbertura(dm, dh);
   renderOpMoonHoraFechamento(dm, dh);
   renderOpMoonTabelaAtendentes(dm, 'opm-t-minimal');
