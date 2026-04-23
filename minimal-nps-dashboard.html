@@ -1759,7 +1759,8 @@ function renderOpHoraAbertura(data) {
   STATE.opMinimal.charts[key] = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets: [{ label: 'Atendimentos', data: counts, backgroundColor: 'rgba(96,165,250,.7)', borderRadius: 4 }] },
-    options: cOpts(true)
+    options: cOpts(true),
+    plugins: [barLabelsPlugin()]
   });
 }
 
@@ -1774,7 +1775,8 @@ function renderOpHoraFechamento(data) {
   STATE.opMinimal.charts[key] = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets: [{ label: 'Atendimentos', data: counts, backgroundColor: 'rgba(52,211,153,.7)', borderRadius: 4 }] },
-    options: cOpts(true)
+    options: cOpts(true),
+    plugins: [barLabelsPlugin()]
   });
 }
 
@@ -1992,7 +1994,8 @@ function renderOpHoomyHoraAbertura(data) {
   STATE.opHoomy.charts[key] = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets: [{ label: 'Atendimentos', data: counts, backgroundColor: 'rgba(37,87,170,.7)', borderRadius: 4 }] },
-    options: cOpts(true)
+    options: cOpts(true),
+    plugins: [barLabelsPlugin()]
   });
 }
 
@@ -2007,7 +2010,8 @@ function renderOpHoomyHoraFechamento(data) {
   STATE.opHoomy.charts[key] = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets: [{ label: 'Atendimentos', data: counts, backgroundColor: 'rgba(52,211,153,.7)', borderRadius: 4 }] },
-    options: cOpts(true)
+    options: cOpts(true),
+    plugins: [barLabelsPlugin()]
   });
 }
 
@@ -2136,6 +2140,7 @@ function _opMoonChart(key, canvasId, datasets, labels) {
   if (STATE._moonCharts[key]) STATE._moonCharts[key].destroy();
   const ctx = document.getElementById(canvasId)?.getContext('2d');
   if (!ctx) return;
+  const extraPlugins = (key === 'horaAb' || key === 'horaFe') ? [barLabelsPlugin()] : [];
   STATE._moonCharts[key] = new Chart(ctx, {
     type: 'bar',
     data: { labels, datasets },
@@ -2145,12 +2150,12 @@ function _opMoonChart(key, canvasId, datasets, labels) {
         ...cOpts(true).plugins,
         tooltip: { callbacks: { label: c => {
           const v = c.parsed.y;
-          // se for gráfico de tempo (dia da semana), converter min→H:MM:SS
           if (key === 'dia') return c.dataset.label + ': ' + formatTime(v * 60);
           return c.dataset.label + ': ' + v;
         }}}
       }
-    }
+    },
+    plugins: extraPlugins
   });
 }
 
@@ -2907,6 +2912,7 @@ function gc(){return isDk()?'rgba(26,45,69,.5)':'rgba(0,0,0,.07)';}
 function tc(){return isDk()?'#3a4f6e':'#8aa4bf';}
 function ttOpts(){return{backgroundColor:isDk()?'#0f1826':'#fff',borderColor:isDk()?'#1a2d45':'#d0dbe8',borderWidth:1,titleColor:isDk()?'#eef2ff':'#0f1826',bodyColor:isDk()?'#eef2ff':'#0f1826',padding:10,bodyFont:{family:"'Plus Jakarta Sans',sans-serif"},titleFont:{family:"'Plus Jakarta Sans',sans-serif",weight:'700'}};}
 function cOpts(leg){return{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:leg?{labels:{color:tc(),font:{family:"'Plus Jakarta Sans',sans-serif",size:11},boxWidth:10,padding:12}}:{display:false},tooltip:ttOpts()}};}
+function barLabelsPlugin(){return{id:'barLabels',afterDatasetsDraw(chart){const ctx=chart.ctx;chart.data.datasets.forEach((_,di)=>{const meta=chart.getDatasetMeta(di);if(meta.hidden)return;meta.data.forEach((bar,i)=>{const v=chart.data.datasets[di].data[i];if(!v)return;ctx.save();ctx.font="bold 11px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(v,bar.x,bar.y+10);ctx.restore();});});}};}
 function pct(a,b){return b>0?(a/b*100).toFixed(1):'0.0';}
 function parseTime(v) {
   if (v === null || v === undefined || v === '') return 0;
