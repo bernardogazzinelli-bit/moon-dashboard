@@ -414,7 +414,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 
 /* Main content area */
-.layout-main{grid-column:2;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.layout-main{grid-column:2;grid-row:2;overflow:hidden;display:flex;flex-direction:column;min-height:0;height:100%}
 
 /* Home — saudação e lua */
 .home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;gap:32px;padding:40px 24px;position:relative}
@@ -430,56 +430,62 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 .home-card-sub{font-size:11px;color:var(--muted2)}
 
 /* ── LUA 3D ─────────────────────────────────────────────── */
-.home-moon-wrap{flex-shrink:0}
-
 /*
- * Técnica de esfera CSS:
- * - O wrapper (.moon-3d) é estático e aplica box-shadow (iluminação lateral)
- * - O inner (.moon-texture) gira com a textura + crateras
- * Assim o highlight e a sombra de borda ficam FIXOS, criando a ilusão 3D real.
+ * Estrutura de 2 camadas para efeito de esfera real:
+ * .moon-3d            = wrapper ESTÁTICO com border-radius + box-shadow (iluminação fixa)
+ * .moon-3d::before    = textura que GIRA dentro do overflow:hidden do wrapper
+ * .moon-shine         = overlay de highlight ESTÁTICO por cima (z-index maior, pointer-events:none)
+ *
+ * O box-shadow inset cria sombra de borda na direita (lado não iluminado).
+ * O ::before gira mostrando diferentes partes da textura/crateras.
+ * O .moon-shine fixa o brilho no topo-esquerdo independente da rotação.
  */
+
+/* Wrapper do sistema de lua */
+.home-moon-wrap{ flex-shrink:0; position:relative; }
+
+/* Elemento que representa a lua */
 .moon-3d{
   border-radius:50%;
   display:block;
   position:relative;
   overflow:hidden;
   flex-shrink:0;
-  /* Sombra de esfera: borda escura à direita/baixo, brilho difuso à esq/cima */
-  box-shadow:
-    inset -22px -12px 48px rgba(0,0,0,.80),
-    inset  12px  8px 32px rgba(255,255,255,.20),
-    inset   4px  3px 12px rgba(255,255,255,.10),
-    0 0 40px rgba(180,190,220,.10);
 }
 #home-moon{ width:140px; height:140px; }
 #login-moon{ width:160px; height:160px; }
 
-/* Pseudo-elemento que gira carregando a textura + crateras */
+/* Textura base + crateras — GIRA */
 .moon-3d::before{
-  content:'';
-  position:absolute; inset:0; border-radius:50%;
-  animation: moonspin 36s linear infinite;
-  /* Textura: gradiente de albedo simulando maria e highlands */
+  content:''; position:absolute; inset:0; border-radius:50%;
+  animation: moonspin 40s linear infinite;
   background:
-    radial-gradient(circle at 22% 32%, rgba(0,0,0,.44) 0%, rgba(0,0,0,.12) 7%, transparent 12%),
-    radial-gradient(circle at 74% 20%, rgba(0,0,0,.36) 0%, rgba(0,0,0,.10) 6%, transparent 10%),
-    radial-gradient(circle at 58% 68%, rgba(0,0,0,.40) 0%, rgba(0,0,0,.10) 7%, transparent 12%),
-    radial-gradient(circle at 34% 70%, rgba(0,0,0,.28) 0%, rgba(0,0,0,.07) 5%, transparent 9%),
-    radial-gradient(circle at 82% 55%, rgba(0,0,0,.30) 0%, rgba(0,0,0,.08) 5%, transparent 9%),
-    radial-gradient(circle at 46% 44%, rgba(0,0,0,.20) 0%, transparent 6%),
-    radial-gradient(circle at 65% 36%, rgba(0,0,0,.16) 0%, transparent 5%),
-    radial-gradient(ellipse at 55% 22%, rgba(230,230,225,.14) 0%, transparent 30%),
-    radial-gradient(ellipse at 25% 58%, rgba(210,210,200,.10) 0%, transparent 26%),
-    radial-gradient(ellipse at 40% 50%, #909088 0%, #a0a098 18%, #b8b8b0 35%, #c8c8c0 50%, #d4d4cc 65%, #c0c0b8 80%, #989890 100%);
+    /* Crateras escuras */
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 8%, transparent 14%),
+    radial-gradient(circle at 70% 18%, rgba(0,0,0,.45) 0%, rgba(0,0,0,.14) 7%, transparent 12%),
+    radial-gradient(circle at 55% 65%, rgba(0,0,0,.50) 0%, rgba(0,0,0,.16) 8%, transparent 13%),
+    radial-gradient(circle at 32% 68%, rgba(0,0,0,.38) 0%, rgba(0,0,0,.10) 6%, transparent 10%),
+    radial-gradient(circle at 80% 52%, rgba(0,0,0,.40) 0%, rgba(0,0,0,.12) 6%, transparent 10%),
+    radial-gradient(circle at 44% 42%, rgba(0,0,0,.28) 0%, transparent 7%),
+    radial-gradient(circle at 63% 33%, rgba(0,0,0,.22) 0%, transparent 6%),
+    radial-gradient(circle at 14% 55%, rgba(0,0,0,.30) 0%, transparent 5%),
+    radial-gradient(circle at 88% 72%, rgba(0,0,0,.25) 0%, transparent 5%),
+    /* Superfície da lua — albedo lunar realista */
+    radial-gradient(ellipse at 50% 50%, #b0b0a8 0%, #a0a098 25%, #888880 50%, #707068 75%, #585850 100%);
 }
 
-/* Overlay de highlight — também gira, mas a ilusão vem do box-shadow estático acima */
+/* Sombra de esfera fixa + brilho lateral — NÃO GIRA */
 .moon-3d::after{
-  content:'';
-  position:absolute; inset:0; border-radius:50%;
-  animation: moonspin 36s linear infinite;
+  content:''; position:absolute; inset:0; border-radius:50%;
+  pointer-events:none;
+  /* Highlight de iluminação (topo-esquerdo = fonte de luz) */
   background:
-    radial-gradient(ellipse at 38% 35%, rgba(255,255,255,.12) 0%, transparent 45%);
+    radial-gradient(ellipse at 32% 28%, rgba(255,255,255,.30) 0%, rgba(255,255,255,.08) 40%, transparent 65%),
+    radial-gradient(ellipse at 75% 72%, rgba(0,0,0,.50) 0%, transparent 50%);
+  /* Sombra de borda para ilusão de esfera */
+  box-shadow:
+    inset -20px -10px 40px rgba(0,0,0,.75),
+    inset  10px  6px 24px rgba(255,255,255,.15);
 }
 
 @keyframes moonspin{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
@@ -607,7 +613,7 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   <div class="layout-main">
 
   <!-- ════════════════ HOME ════════════════ -->
-  <div id="home-screen" style="display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0">
+  <div id="home-screen" style="display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0;height:0">
     <div class="home-wrap">
       <div class="home-hero">
         <div class="home-hero-text">
@@ -1533,6 +1539,12 @@ function _opPopulateAnos(raw, selId) {
   sel.innerHTML = '<option value="">Ano</option>' + anos.map(a => `<option value="${a}"${a===CUR_YEAR?' selected':''}>${a}</option>`).join('');
 }
 
+function _isoLocal(d) {
+  // Retorna "YYYY-MM-DD" no fuso local (não UTC)
+  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+  return y + '-' + m + '-' + dd;
+}
+
 function _opFilterData(raw, anoId, mesId, deId, ateId, atId) {
   const ano = document.getElementById(anoId)?.value || '';
   const mes = document.getElementById(mesId)?.value || '';
@@ -1542,7 +1554,7 @@ function _opFilterData(raw, anoId, mesId, deId, ateId, atId) {
   return raw.filter(r => {
     if (!r.criacao) return false;
     if (de || ate) {
-      const iso = r.criacao.toISOString().slice(0,10);
+      const iso = _isoLocal(r.criacao);
       if (de  && iso < de)  return false;
       if (ate && iso > ate) return false;
     } else {
@@ -1554,20 +1566,27 @@ function _opFilterData(raw, anoId, mesId, deId, ateId, atId) {
   });
 }
 
+function _opHojeISO() {
+  return _isoLocal(NOW); // "YYYY-MM-DD" de hoje no fuso local
+}
+
+function _opSetHoje(deId, ateId, anoId, mesId) {
+  const hoje = _opHojeISO();
+  const de  = document.getElementById(deId);  if (de)  { de.value  = hoje; de.classList.add('active'); }
+  const ate = document.getElementById(ateId); if (ate) { ate.value = hoje; ate.classList.add('active'); }
+  // Limpa ano/mês para que o range tenha prioridade
+  const ano = document.getElementById(anoId); if (ano) ano.value = '';
+  const mes = document.getElementById(mesId); if (mes) mes.value = '';
+}
+
 function resetOpFilters(marca) {
   if (marca === 'minimal') {
-    const sel = document.getElementById('op-f-ano'); if (sel) sel.value = CUR_YEAR;
-    const mes = document.getElementById('op-f-mes'); if (mes) mes.value = CUR_MONTH;
-    const de  = document.getElementById('op-f-de');  if (de)  de.value  = '';
-    const ate = document.getElementById('op-f-ate'); if (ate) ate.value = '';
-    const at  = document.getElementById('op-f-atendente'); if (at) at.value = '';
+    _opSetHoje('op-f-de', 'op-f-ate', 'op-f-ano', 'op-f-mes');
+    const at = document.getElementById('op-f-atendente'); if (at) at.value = '';
     applyOpMinimalFilters();
   } else {
-    const sel = document.getElementById('oph-f-ano'); if (sel) sel.value = CUR_YEAR;
-    const mes = document.getElementById('oph-f-mes'); if (mes) mes.value = CUR_MONTH;
-    const de  = document.getElementById('oph-f-de');  if (de)  de.value  = '';
-    const ate = document.getElementById('oph-f-ate'); if (ate) ate.value = '';
-    const at  = document.getElementById('oph-f-atendente'); if (at) at.value = '';
+    _opSetHoje('oph-f-de', 'oph-f-ate', 'oph-f-ano', 'oph-f-mes');
+    const at = document.getElementById('oph-f-atendente'); if (at) at.value = '';
     applyOpHoomyFilters();
   }
 }
@@ -1576,7 +1595,9 @@ function populateOpMinimalFilters() {
   const raw = STATE.opMinimal.raw;
   if (!raw.length) return;
   _opPopulateAnos(raw, 'op-f-ano');
-  const mes = document.getElementById('op-f-mes'); if (mes && !mes.value) mes.value = CUR_MONTH;
+  // Filtro padrão = hoje
+  const deEl = document.getElementById('op-f-de');
+  if (!deEl || !deEl.value) _opSetHoje('op-f-de', 'op-f-ate', 'op-f-ano', 'op-f-mes');
   const sel = document.getElementById('op-f-atendente');
   if (sel) {
     const atendentes = [...new Set(raw.map(r => r.atendente).filter(Boolean))].sort();
@@ -1798,7 +1819,8 @@ function populateOpHoomyFilters() {
   const raw = STATE.opHoomy.raw;
   if (!raw.length) return;
   _opPopulateAnos(raw, 'oph-f-ano');
-  const mes = document.getElementById('oph-f-mes'); if (mes && !mes.value) mes.value = CUR_MONTH;
+  const deEl = document.getElementById('oph-f-de');
+  if (!deEl || !deEl.value) _opSetHoje('oph-f-de', 'oph-f-ate', 'oph-f-ano', 'oph-f-mes');
   const sel = document.getElementById('oph-f-atendente');
   if (sel) {
     const atendentes = [...new Set(raw.map(r => r.atendente).filter(Boolean))].sort();
@@ -1946,18 +1968,15 @@ function populateOpMoonFilters() {
     ...rawM.map(r => r.criacao), ...rawH.map(r => r.criacao)
   ].filter(Boolean).map(d => d.toISOString().slice(0,10)).sort();
 
-  // preenche anos únicos
   const anos = [...new Set(allDatas.map(d => d.slice(0,4)))].sort().reverse();
   const selAno = document.getElementById('opm-f-ano');
   if (selAno) {
-    const cur = selAno.value || CUR_YEAR;
     selAno.innerHTML = '<option value="">Ano</option>' +
-      anos.map(a => `<option value="${a}"${a===cur?' selected':''}>${a}</option>`).join('');
-    if (!selAno.value) selAno.value = CUR_YEAR;
+      anos.map(a => `<option value="${a}">${a}</option>`).join('');
   }
-  // seta mês atual se ainda não setado
-  const selMes = document.getElementById('opm-f-mes');
-  if (selMes && !selMes.value) selMes.value = CUR_MONTH;
+  // Filtro padrão = hoje
+  const deEl = document.getElementById('opm-f-de');
+  if (!deEl || !deEl.value) _opSetHoje('opm-f-de', 'opm-f-ate', 'opm-f-ano', 'opm-f-mes');
 
   applyOpMoonFilters();
 }
@@ -1970,8 +1989,7 @@ function applyOpMoonFilters() {
 
   const filtra = (raw) => raw.filter(r => {
     if (!r.criacao) return false;
-    const iso = r.criacao.toISOString().slice(0,10);
-    // range tem prioridade se preenchido
+    const iso = _isoLocal(r.criacao);
     if (de || ate) {
       if (de  && iso < de)  return false;
       if (ate && iso > ate) return false;
@@ -2117,30 +2135,35 @@ function renderOpMoonTabelaAtendentes(data, tbodyId) {
   ).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted2)">Sem dados</td></tr>';
 }
 
-// ── OPERAÇÕES MINIMAL ────────────────────────────────────
+// ── OPERAÇÕES MINIMAL / HOOMY ────────────────────────────
+// Colunas da aba Calculos (índice 0-based):
+// A=0 canal  B=1 proprietario(atendente)  C=2 dt_criacao  D=3 dt_ini_espera
+// E=4 dt_1msg  F=5 dt_fechamento  G=6 TMA  H=7 TME  I=8 mes
+// J=9 hora_criacao  K=10 hora_ini_espera  L=11 hora_atrib  M=12 hora_fechamento
+// N=13 dt_criacao_TU  O=14 dt_ini_espera_TU  P=15 dt_1msg_TU  Q=16 dt_fech_TU
+// R=17 TMA_TU  S=18 TME_TU  T=19 atendente_nome  U=20 dia_semana
 function parseDataOpMinimal(vals) {
   if (!vals || vals.length < 2) return [];
   const DIAS = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
   return vals.slice(1).map(r => {
     const criacao = parseDateTimePT(r[2]);
-    const hCriacao = criacao ? criacao.getHours() : null;
-    const fechamento = parseDateTimePT(r[5]);
-    const hFechamento = fechamento ? fechamento.getHours() : null;
-    const diaBruto = (r[17] || '').toString().trim();
+    // Hora criação: coluna J (r[9]) já é número; fallback para getHours() da data
+    const hCriacao = (r[9] !== undefined && r[9] !== '') ? +r[9] : (criacao ? criacao.getHours() : null);
+    // Hora fechamento: coluna M (r[12]) já é número
+    const hFechamento = (r[12] !== undefined && r[12] !== '') ? +r[12] : null;
+    const diaBruto = (r[20] || '').toString().trim();
     const diaIdx = DIAS.findIndex(d => diaBruto.toLowerCase().startsWith(d.toLowerCase().slice(0,3)));
     return {
-      canal:        r[0]  || '',
-      owner:        r[1]  || '',
+      canal:          r[0]  || '',
+      atendente:      (r[1]  || '').toString().trim(),  // B = Proprietario do ticket
       criacao,
-      fechamento,
-      tma:          parseTime(r[6]),
-      tme:          parseTime(r[7]),
-      tmaTU:        parseTime(r[14]),
-      tmeTU:        parseTime(r[15]),
-      atendente:    (r[16] || '').toString().trim(),
-      diaSemana:    diaIdx >= 0 ? diaIdx : null,
-      horaCriacao:  hCriacao,
-      horaFechamento: hFechamento
+      tma:            parseTime(r[6]),   // G
+      tme:            parseTime(r[7]),   // H
+      tmaTU:          parseTime(r[17]),  // R
+      tmeTU:          parseTime(r[18]),  // S
+      diaSemana:      diaIdx >= 0 ? diaIdx : null,
+      horaCriacao:    (hCriacao >= 0 && hCriacao <= 23) ? hCriacao : null,
+      horaFechamento: (hFechamento >= 0 && hFechamento <= 23) ? hFechamento : null
     };
   }).filter(r => r.tma > 0 || r.tme > 0);
 }
