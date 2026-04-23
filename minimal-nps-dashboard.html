@@ -1550,10 +1550,10 @@ const Stars = (() => {
 
   function resize(screenId) {
     if (!canvas) return;
-    const id = screenId || 'home-screen';
-    const el = document.getElementById(id);
-    canvas.width  = el ? el.offsetWidth  : window.innerWidth;
-    canvas.height = el ? el.offsetHeight : window.innerHeight;
+    // position:fixed e position:absolute retornam offsetWidth=0 antes do paint
+    // usar window.innerWidth/Height é mais confiável para telas full-viewport
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
     seed(canvas.width, canvas.height);
   }
 
@@ -1586,19 +1586,25 @@ const Stars = (() => {
 
   function onMouseMove(e) { mouse.x = e.clientX; mouse.y = e.clientY; }
 
+  let _resizeFn = null;
+
   function start(screenId, canvasId) {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
     canvas = document.getElementById(canvasId || 'stars-canvas');
     if (!canvas) return;
     ctx = canvas.getContext('2d');
     resize(screenId);
-    if (!raf) draw();
-    window.addEventListener('resize', () => resize(screenId));
-    const el = document.getElementById(screenId || 'home-screen');
-    if (el) el.addEventListener('mousemove', onMouseMove);
+    draw();
+    if (_resizeFn) window.removeEventListener('resize', _resizeFn);
+    _resizeFn = () => resize(screenId);
+    window.addEventListener('resize', _resizeFn);
+    window.addEventListener('mousemove', onMouseMove);
   }
 
   function stop() {
     if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (_resizeFn) { window.removeEventListener('resize', _resizeFn); _resizeFn = null; }
+    window.removeEventListener('mousemove', onMouseMove);
   }
 
   return { start, stop };
