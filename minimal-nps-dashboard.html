@@ -416,18 +416,63 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 /* Main content area */
 .layout-main{grid-column:2;grid-row:2;overflow:hidden;display:flex;flex-direction:column;min-height:0;height:100%}
 
-/* Home — saudação e lua */
-.home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;gap:32px;padding:40px 24px;position:relative}
-.home-hero{display:flex;align-items:center;gap:48px;max-width:800px;width:100%}
+/* ── HOME FULLSCREEN ────────────────────────────────────── */
+/* Na home, sidebar e topbar ficam ocultas */
+.layout.home-mode .sidebar{ display:none }
+.layout.home-mode .topbar{ display:none }
+.layout.home-mode .layout-main{ grid-column:1/-1; grid-row:1/-1 }
+
+/* Fundo degradê da home */
+#home-screen{
+  background: var(--home-bg, var(--bg));
+}
+[data-theme="dark"]  #home-screen{ --home-bg: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(37,87,170,.18) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 80%, rgba(167,139,250,.13) 0%, transparent 55%), var(--bg) }
+[data-theme="light"] #home-screen{ --home-bg: radial-gradient(ellipse 80% 60% at 15% 20%, rgba(37,87,170,.08) 0%, transparent 55%), radial-gradient(ellipse 70% 50% at 85% 80%, rgba(167,139,250,.08) 0%, transparent 55%), var(--bg) }
+
+/* Ações flutuantes no canto superior direito da home */
+.home-actions{position:fixed;top:16px;right:20px;display:flex;align-items:center;gap:8px;z-index:200}
+.home-actions .ibtn{background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .18s;backdrop-filter:blur(8px)}
+.home-actions .ibtn:hover{background:var(--border);transform:translateY(-1px)}
+.home-actions .upill{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 14px 5px 5px;cursor:pointer;font-size:12px;font-weight:600;backdrop-filter:blur(8px)}
+.home-actions .av{width:28px;height:28px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;overflow:hidden;flex-shrink:0}
+.home-actions .av img{width:100%;height:100%;object-fit:cover}
+
+.home-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:0;padding:60px 24px 40px;position:relative}
+.home-hero{display:flex;align-items:center;gap:64px;max-width:900px;width:100%}
 .home-hero-text{flex:1}
-.home-greeting{font-size:32px;font-weight:800;color:var(--text);margin:0 0 8px}
-.home-subtitle{font-size:14px;color:var(--muted2);margin:0 0 24px}
-.home-updated{font-size:12px;color:var(--muted2);margin-top:4px}
-.home-cards{display:flex;gap:16px;flex-wrap:wrap}
-.home-card{all:unset;cursor:pointer;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px 24px;min-width:180px;transition:border-color .2s,transform .15s}
-.home-card:hover{border-color:var(--accent,#60a5fa);transform:translateY(-2px)}
-.home-card-title{font-size:16px;font-weight:700;color:var(--text);display:block;margin-bottom:4px}
-.home-card-sub{font-size:11px;color:var(--muted2)}
+.home-greeting{font-size:38px;font-weight:800;color:var(--text);margin:0 0 6px;letter-spacing:-.5px}
+.home-subtitle{font-size:13px;color:var(--muted2);margin:0 0 32px;letter-spacing:.02em}
+.home-updated{font-size:11px;color:var(--muted2);margin-top:16px;opacity:.7}
+
+/* Cards da home — design premium */
+.home-cards{display:flex;gap:14px;flex-wrap:wrap}
+.home-card{
+  all:unset;cursor:pointer;
+  display:flex;flex-direction:column;gap:10px;
+  padding:22px 26px;border-radius:16px;min-width:200px;
+  position:relative;overflow:hidden;
+  transition:transform .22s cubic-bezier(.4,0,.2,1), box-shadow .22s;
+}
+[data-theme="dark"] .home-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 2px 12px rgba(0,0,0,.3);
+}
+[data-theme="light"] .home-card{
+  background:rgba(255,255,255,.85);
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 2px 16px rgba(0,0,0,.07);
+}
+.home-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;opacity:.12;transition:opacity .22s}
+.home-card.hc-nps::before{background:radial-gradient(circle,#60a5fa,transparent 70%)}
+.home-card.hc-atend::before{background:radial-gradient(circle,#fb923c,transparent 70%)}
+.home-card:hover{transform:translateY(-4px)}
+[data-theme="dark"] .home-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.45)}
+[data-theme="light"] .home-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.13)}
+.home-card:hover::before{opacity:.22}
+.home-card-icon{font-size:22px;line-height:1}
+.home-card-title{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.2px}
+.home-card-sub{font-size:11px;color:var(--muted2);line-height:1.5}
 
 /* ── LUA 3D ─────────────────────────────────────────────── */
 /*
@@ -452,40 +497,46 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
   overflow:hidden;
   flex-shrink:0;
 }
-#home-moon{ width:140px; height:140px; }
-#login-moon{ width:160px; height:160px; }
+#home-moon{ width:180px; height:180px; }
+#login-moon{ width:180px; height:180px; }
 
 /* Textura base + crateras — GIRA */
 .moon-3d::before{
   content:''; position:absolute; inset:0; border-radius:50%;
   animation: moonspin 40s linear infinite;
   background:
-    /* Crateras escuras */
-    radial-gradient(circle at 20% 30%, rgba(0,0,0,.55) 0%, rgba(0,0,0,.18) 8%, transparent 14%),
-    radial-gradient(circle at 70% 18%, rgba(0,0,0,.45) 0%, rgba(0,0,0,.14) 7%, transparent 12%),
-    radial-gradient(circle at 55% 65%, rgba(0,0,0,.50) 0%, rgba(0,0,0,.16) 8%, transparent 13%),
-    radial-gradient(circle at 32% 68%, rgba(0,0,0,.38) 0%, rgba(0,0,0,.10) 6%, transparent 10%),
-    radial-gradient(circle at 80% 52%, rgba(0,0,0,.40) 0%, rgba(0,0,0,.12) 6%, transparent 10%),
-    radial-gradient(circle at 44% 42%, rgba(0,0,0,.28) 0%, transparent 7%),
-    radial-gradient(circle at 63% 33%, rgba(0,0,0,.22) 0%, transparent 6%),
-    radial-gradient(circle at 14% 55%, rgba(0,0,0,.30) 0%, transparent 5%),
-    radial-gradient(circle at 88% 72%, rgba(0,0,0,.25) 0%, transparent 5%),
-    /* Superfície da lua — albedo lunar realista */
-    radial-gradient(ellipse at 50% 50%, #b0b0a8 0%, #a0a098 25%, #888880 50%, #707068 75%, #585850 100%);
+    /* Grandes crateras — anel escuro + borda clara */
+    radial-gradient(circle at 22% 28%, #2a2a24 0%, #4a4a42 7%, #8a8a82 12%, transparent 17%),
+    radial-gradient(circle at 68% 20%, #2e2e28 0%, #4e4e46 6%, #909088 11%, transparent 15%),
+    radial-gradient(circle at 55% 64%, #282820 0%, #484840 7%, #888880 12%, transparent 16%),
+    radial-gradient(circle at 34% 70%, #323228 0%, #525248 5%, #8a8a82 9%, transparent 13%),
+    radial-gradient(circle at 78% 52%, #2c2c24 0%, #4c4c44 5%, #8c8c84 9%, transparent 13%),
+    /* Crateras menores */
+    radial-gradient(circle at 45% 43%, rgba(30,30,24,.9) 0%, transparent 5%),
+    radial-gradient(circle at 62% 35%, rgba(28,28,22,.8) 0%, transparent 4%),
+    radial-gradient(circle at 14% 58%, rgba(32,32,26,.7) 0%, transparent 4%),
+    radial-gradient(circle at 87% 70%, rgba(26,26,20,.7) 0%, transparent 3%),
+    radial-gradient(circle at 76% 38%, rgba(30,30,24,.6) 0%, transparent 3%),
+    /* Maria (regiões escuras) */
+    radial-gradient(ellipse at 35% 45%, rgba(60,60,52,.6) 0%, transparent 30%),
+    radial-gradient(ellipse at 68% 55%, rgba(55,55,47,.5) 0%, transparent 25%),
+    /* Superfície base — cinza lunar com variação de albedo */
+    radial-gradient(ellipse at 42% 38%, #d8d8d0 0%, #c0c0b8 20%, #a0a098 40%, #828278 60%, #646460 80%, #484844 100%);
 }
 
-/* Sombra de esfera fixa + brilho lateral — NÃO GIRA */
+/* Iluminação de esfera — NÃO GIRA — fica sobre a textura */
 .moon-3d::after{
   content:''; position:absolute; inset:0; border-radius:50%;
   pointer-events:none;
-  /* Highlight de iluminação (topo-esquerdo = fonte de luz) */
   background:
-    radial-gradient(ellipse at 32% 28%, rgba(255,255,255,.30) 0%, rgba(255,255,255,.08) 40%, transparent 65%),
-    radial-gradient(ellipse at 75% 72%, rgba(0,0,0,.50) 0%, transparent 50%);
-  /* Sombra de borda para ilusão de esfera */
+    /* Brilho especular topo-esquerda (fonte de luz) */
+    radial-gradient(ellipse at 30% 25%, rgba(255,255,255,.55) 0%, rgba(255,255,255,.20) 25%, transparent 55%),
+    /* Sombra difusa lado oposto */
+    radial-gradient(ellipse at 78% 75%, rgba(0,0,0,.65) 0%, rgba(0,0,0,.20) 35%, transparent 60%);
+  /* Sombra de borda — terminator lunar */
   box-shadow:
-    inset -20px -10px 40px rgba(0,0,0,.75),
-    inset  10px  6px 24px rgba(255,255,255,.15);
+    inset -22px -12px 44px rgba(0,0,0,.85),
+    inset   8px   5px 20px rgba(255,255,255,.12);
 }
 
 @keyframes moonspin{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
@@ -614,18 +665,27 @@ tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
 
   <!-- ════════════════ HOME ════════════════ -->
   <div id="home-screen" style="display:none;flex-direction:column;flex:1;overflow-y:auto;min-height:0;height:0">
+    <!-- Ações flutuantes (atualizar, tema, usuário) -->
+    <div class="home-actions">
+      <div class="ubadge" id="home-ubadge">—</div>
+      <button class="ibtn" onclick="refreshAll()">↻ Atualizar</button>
+      <button class="ibtn" id="home-theme-btn" onclick="toggleTheme()"></button>
+      <div class="upill" onclick="logout()"><div class="av" id="home-av">?</div><span id="home-uname">Usuário</span></div>
+    </div>
     <div class="home-wrap">
       <div class="home-hero">
         <div class="home-hero-text">
           <h1 class="home-greeting">Olá, <span id="home-firstname">...</span> 👋</h1>
           <p class="home-subtitle">Moon Ventures · NPS &amp; Atendimento Hub</p>
           <div class="home-cards">
-            <button class="home-card" onclick="enterDashboard('minimal')">
-              <span class="home-card-title">📊 NPS</span>
+            <button class="home-card hc-nps" onclick="enterDashboard('minimal')">
+              <span class="home-card-icon">📊</span>
+              <span class="home-card-title">NPS</span>
               <span class="home-card-sub">Minimal · Hoomy · MOON</span>
             </button>
-            <button class="home-card" onclick="enterDashboard('opMinimal')">
-              <span class="home-card-title">⏱ Atendimento</span>
+            <button class="home-card hc-atend" onclick="enterDashboard('opMinimal')">
+              <span class="home-card-icon">⏱</span>
+              <span class="home-card-title">Atendimento</span>
               <span class="home-card-sub">Minimal · Hoomy · MOON (holding)</span>
             </button>
           </div>
@@ -1419,23 +1479,38 @@ function doAuth() {
   }).requestAccessToken();
 }
 
+function syncHomeActions() {
+  // Espelha estado do topbar nos controles flutuantes da home
+  const uname = document.getElementById('uname')?.textContent || '';
+  const av    = document.getElementById('av');
+  const badge = document.getElementById('ubadge')?.textContent || '—';
+  const theme = document.getElementById('theme-btn')?.textContent || '';
+  const hn = document.getElementById('home-uname'); if (hn) hn.textContent = uname;
+  const hb = document.getElementById('home-ubadge'); if (hb) hb.textContent = badge;
+  const ht = document.getElementById('home-theme-btn'); if (ht) ht.textContent = theme;
+  // Copia avatar
+  const hav = document.getElementById('home-av');
+  if (hav && av) hav.innerHTML = av.innerHTML || av.textContent;
+}
+
 function showHome() {
   currentCompany = null;
-  const firstName = document.getElementById('home-firstname')?.textContent || '...';
+  // Popula nome
   const fnEl = document.getElementById('home-firstname');
   if (fnEl && (fnEl.textContent === '...' || !fnEl.textContent)) {
     fnEl.textContent = document.getElementById('uname')?.textContent || '...';
   }
   const upd = document.getElementById('home-updated');
   if (upd) upd.textContent = 'Última atualização: ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  // Modo home: oculta sidebar e topbar via classe
   document.getElementById('app').style.display = 'grid';
+  document.getElementById('app').classList.add('home-mode');
   document.getElementById('home-screen').style.display = 'flex';
   SECTIONS.forEach(c => {
     const s = document.getElementById('section-' + c);
     if (s) s.style.display = 'none';
   });
-  const tt = document.getElementById('topbar-title');
-  if (tt) tt.textContent = 'Moon Ventures';
+  syncHomeActions();
   updateNavButtons(null);
 }
 
@@ -1456,6 +1531,7 @@ function enterDashboard(co) {
   currentCompany = co;
   document.getElementById('home-screen').style.display = 'none';
   document.getElementById('app').style.display = 'grid';
+  document.getElementById('app').classList.remove('home-mode');
   SECTIONS.forEach(c => {
     const s = document.getElementById('section-' + c);
     if (s) s.style.display = 'none';
@@ -1503,6 +1579,7 @@ function toggleTheme() {
   h.setAttribute('data-theme', nt);
   localStorage.setItem('theme', nt);
   document.getElementById('theme-btn').textContent = d ? '☀️' : '🌙';
+  syncHomeActions();
   updateMoonSVGs();
   renderAll('minimal'); renderAll('hoomy');
   if (currentCompany === 'comp') renderComp();
@@ -1803,6 +1880,7 @@ async function refreshAll() {
   } else { toast('Erro Op. Hoomy: ' + rOpH.reason?.message, 'err'); console.error(rOpH.reason); }
   const hora = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
   document.getElementById('ubadge').textContent = 'Atualizado: ' + hora;
+  syncHomeActions();
   const upd = document.getElementById('home-updated');
   if (upd) upd.textContent = 'Última atualização: ' + hora;
   const msgs = [];
@@ -3384,7 +3462,12 @@ function renderGraficoSingle(co, type) {
 }
 
 setInterval(()=>{if(TOKEN)refreshAll();},5*60*1000);
-window.addEventListener('load',()=>{showOv(false);document.getElementById('theme-btn').textContent=isDk()?'☀️':'🌙';});
+window.addEventListener('load',()=>{
+  showOv(false);
+  const t = isDk()?'☀️':'🌙';
+  document.getElementById('theme-btn').textContent = t;
+  const ht = document.getElementById('home-theme-btn'); if(ht) ht.textContent = t;
+});
 document.addEventListener('DOMContentLoaded', updateMoonSVGs);
 </script>
 </body>
